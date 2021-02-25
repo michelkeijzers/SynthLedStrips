@@ -1,3 +1,10 @@
 #pragma once
+class SynthLedStrips
+{
+public:
+	SynthLedStrips();
+	~SynthLedStrips();
 
-#include "resource.h"
+	static void Setup();
+	static void Loop();
+};

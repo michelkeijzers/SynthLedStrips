@@ -13,8 +13,8 @@
 #include "math.h"
 #include "framework.h"
 
-#include "ArduinoSynthLedStrips.h"
-#include "Types.h"
+#include "SynthLedStrips.h"
+#include "SynthLedStripsTypes.h"
 
 #include "FastLedStub.h"
 
@@ -299,14 +299,14 @@ void CalcCenter(int degrees, int centerX, int centerY, int distance, int* output
 
 void ArduinoAppSetup()
 {
-	ArduinoSynthLedStrips::Setup();
+	SynthLedStrips::Setup();
 }
 
 
 
 void ArduinoAppLoop(MSG& msg)
 {
-	ArduinoSynthLedStrips::Loop();
+	SynthLedStrips::Loop();
 	_refreshCounter++;
 
 	// Handle

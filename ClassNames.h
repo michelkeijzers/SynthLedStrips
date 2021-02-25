@@ -26,7 +26,7 @@
 
 #define ARDUINO_CLASS			Arduino
 #define DMX_SIMPLE_CLASS		DmxSimple
-#define FAST_LED_CLASS          FastLed
+#define FAST_LED_CLASS          FastLED
 #define SPI_RAM_CLASS			SpiRAM
 #define SERIAL_CLASS			Arduino
 #define MIDI_CLASS				MIDI

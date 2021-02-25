@@ -14,10 +14,12 @@
 
 // Interrupt
 
+#ifdef _WINDOWS
 #include <windows.h>
+#endif
 
-#include "ArduinoSynthLedStrips.h"
-
+#include "SynthLedStrips.h"
+#include "SynthLedStripsTypes.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 //#include HEADER_FILE(DMX_SIMPLE_CLASS)
@@ -50,6 +52,7 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, midiA);
 
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, midiB);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiC);
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiD);
 
 // LED Strips
 
@@ -67,17 +70,17 @@ int _parameter3 = 0;
 
 // Application
 
-ArduinoSynthLedStrips::ArduinoSynthLedStrips()
+SynthLedStrips::SynthLedStrips()
 {
 }
 
 
-ArduinoSynthLedStrips::~ArduinoSynthLedStrips()
+SynthLedStrips::~SynthLedStrips()
 {
 }
 
 
-/* static */ void ArduinoSynthLedStrips::Setup()
+/* static */ void SynthLedStrips::Setup()
 {
 	// Generic GPIO.
 	pinMode(LED_BUILTIN, OUTPUT);
@@ -131,7 +134,7 @@ ArduinoSynthLedStrips::~ArduinoSynthLedStrips()
 }
 
 
-/* static */ void ArduinoSynthLedStrips::Loop()
+/* static */ void SynthLedStrips::Loop()
 {
 	//TODO IF MIDI COMMAND RECEIVED
 
@@ -188,7 +191,7 @@ ArduinoSynthLedStrips::~ArduinoSynthLedStrips()
 		//rgb->blue = 0; //(led + _currentLed) % (_currentLed / 10 + 1) == 0 ? 255 : 0;
 	}
 	
-	Sleep(1);
+	delay(1);
 	FastLED.show();
 }
 

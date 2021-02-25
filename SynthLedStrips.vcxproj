@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ArduinoSynthLedStrips.h" />
+    <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="ArduinoStub.h" />
     <ClInclude Include="AssertUtils.h" />
     <ClInclude Include="BitsUtils.h" />
@@ -148,17 +148,16 @@
     <ClInclude Include="FastLedStub.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MathUtils.h" />
-    <ClInclude Include="Types.h" />
+    <ClInclude Include="SynthLedStripsTypes.h" />
     <ClInclude Include="MidiStub.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SerialPrint.h" />
     <ClInclude Include="SerialStub.h" />
     <ClInclude Include="StringUtils.h" />
-    <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ArduinoSynthLedStrips.cpp" />
+    <ClCompile Include="SynthLedStrips.cpp" />
     <ClCompile Include="ArduinoStub.cpp" />
     <ClCompile Include="AssertUtils.cpp" />
     <ClCompile Include="BitsUtils.cpp" />
@@ -178,7 +177,7 @@
     <Image Include="SynthLedStrips.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LedStripSynth.ino" />
+    <None Include="SynthLedStrips.ino" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

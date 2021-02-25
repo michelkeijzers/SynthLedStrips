@@ -4,7 +4,7 @@
 #pragma once
 
 
-#include "Types.h"
+#include "SynthLedStripsTypes.h"
 
 
 class BitsUtils

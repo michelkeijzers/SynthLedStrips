@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SynthLedStrips.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AssertUtils.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
@@ -72,13 +69,13 @@
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Types.h">
-      <Filter>Header Files\Stubs</Filter>
-    </ClInclude>
-    <ClInclude Include="ArduinoSynthLedStrips.h">
+    <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="SynthLedStripsTypes.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="SynthLedStrips.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,7 +110,7 @@
     <ClCompile Include="StringUtils.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
-    <ClCompile Include="ArduinoSynthLedStrips.cpp">
+    <ClCompile Include="SynthLedStrips.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,6 +128,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LedStripSynth.ino" />
+    <None Include="SynthLedStrips.ino" />
   </ItemGroup>
 </Project>

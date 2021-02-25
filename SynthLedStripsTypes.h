@@ -1,11 +1,14 @@
-// DmxTypes.h
-
 #pragma once
 
-#include "Types.h"
+#include "SynthLedStripsTypes.h"
+
+#include "ClassNames.h"
 
 #ifndef _WINDOWS
 #include HEADER_FILE(ARDUINO_CLASS)
+
+#define FastLedCRGB CRGB
+
 #endif
 
 #include "stdint.h"
@@ -26,10 +29,10 @@ typedef uint16_t dmx_channel_t;
 typedef uint8_t  dmx_value_t;
 typedef uint8_t  program_t;
 typedef uint8_t  preset_t;
-typedef  int16_t step_t; // Can be negative (for rainbow program)
+typedef int16_t step_t; // Can be negative (for rainbow program)
 typedef uint8_t  step_duration_t;
 typedef uint32_t step_time_t;
-typedef  int16_t parameter_t;
+typedef int16_t parameter_t;
 typedef uint8_t  intensity_t;
 typedef uint8_t  fixture_number_t;
 typedef uint8_t  led_bar_segment_number_t;

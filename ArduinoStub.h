@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Types.h"
+#include "SynthLedStripsTypes.h"
 
 #define F
 #define PROGMEM
@@ -12,6 +12,8 @@
 #define LED_BUILTIN 10
 //#define INPUT        0 // Existing type in Windows
 #define OUTPUT       1
+
+extern void delay(uint32_t milliSeconds);
 
 extern uint32_t millis();
 
