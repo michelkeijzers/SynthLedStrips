@@ -139,13 +139,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArduinoSynthLedStrips.h" />
+    <ClInclude Include="ArduinoStub.h" />
+    <ClInclude Include="AssertUtils.h" />
+    <ClInclude Include="BitsUtils.h" />
+    <ClInclude Include="CharUtils.h" />
+    <ClInclude Include="ClassNames.h" />
+    <ClInclude Include="FastLedStub.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="MidiStub.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SerialPrint.h" />
+    <ClInclude Include="SerialStub.h" />
+    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SynthLedStrips.cpp" />
+    <ClCompile Include="ArduinoSynthLedStrips.cpp" />
+    <ClCompile Include="ArduinoStub.cpp" />
+    <ClCompile Include="AssertUtils.cpp" />
+    <ClCompile Include="BitsUtils.cpp" />
+    <ClCompile Include="CharUtils.cpp" />
+    <ClCompile Include="FastLedStub.cpp" />
+    <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="MidiStub.cpp" />
+    <ClCompile Include="SerialStub.cpp" />
+    <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SynthLedStrips.rc" />
@@ -153,6 +176,9 @@
   <ItemGroup>
     <Image Include="small.ico" />
     <Image Include="SynthLedStrips.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LedStripSynth.ino" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
