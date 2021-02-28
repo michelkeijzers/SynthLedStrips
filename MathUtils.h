@@ -5,6 +5,12 @@
 class MathUtils
 {
 public:
+	static int Abs(int a)
+	{
+		return a >= 0 ? a : -a;
+	}
+
+
 	static int Min(int a, int b) 
 	{ 
 		return a < b ? a : b; 

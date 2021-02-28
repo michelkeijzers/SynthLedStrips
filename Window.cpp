@@ -229,20 +229,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			//HBRUSH blackBrush  = CreateSolidBrush(RGB(0, 0, 0));
 			SetDCBrushColor(hdc, 0);
+			int ledHeight = 50;
 
 			for (int ledStrip = 0; ledStrip < nrOfLedStrips; ledStrip++)
 			{
 				int nrOfUsedLeds = CFastLED::GetNrOfUsedLeds(ledStrip);
-				int ledSize = 1100 / nrOfUsedLeds;
+				int ledWidth = 1100 / nrOfUsedLeds;
 				for (int led = 0; led < nrOfUsedLeds; led++)
 				{
 					struct FastLedCRGB rgb = CFastLED::GetData(ledStrip)[led];
 					DWORD color = (rgb.blue << 16) + (rgb.green << 8) + rgb.red;
 					COLORREF oldcr = SetBkColor(hdc, color);
-					int x1 = 50 +  led      * ledSize;
-					int y1 = 50 +  ledStrip      * ledSize;
-					int x2 = 50 + (led + 1) * ledSize;
-					int y2 = 50 + (ledStrip + 1) * ledSize;
+					int x1 = 50 +  led      * ledWidth;
+					int y1 = 50 +  ledStrip * ledHeight;
+					int x2 = 50 + (led + 1) * ledWidth;
+					int y2 = 50 + (ledStrip + 1) * ledHeight;
 
 					RECT rect = { x1, y1, x2, y2 };
 					ExtTextOut(hdc, 0, 0, ETO_OPAQUE, &rect, LPCWSTR(NULL), 0, 0);

@@ -26,18 +26,20 @@
 #include HEADER_FILE(SERIAL_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
 
-// MIDI
+#include "LedStrip.h"
+
 #include HEADER_FILE(MIDI_CLASS)
 
 // LED STRIPS
-const uint8_t NR_OF_LEDS       = 60;
-const uint8_t NR_OF_LED_STRIPS =  3;
+const uint8_t NR_OF_LEDS       = 144;
+const uint8_t NR_OF_LED_STRIPS =   4;
 
-const uint8_t DATA_PIN_1 = 3;
-const uint8_t DATA_PIN_2 = 4;
-const uint8_t DATA_PIN_3 = 5;
+const uint8_t DATA_PINS[] = { 2, 3, 4, 5 };
 
 FastLedCRGB _leds[NR_OF_LED_STRIPS][NR_OF_LEDS];
+
+LedStrip _ledStrips[NR_OF_LED_STRIPS];
+
 
 // Application
 #include "SerialPrint.h"
@@ -54,19 +56,7 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, midiB);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiC);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiD);
 
-// LED Strips
-
-int _currentLed = 0;
-enum class EDirection { Up, Down };
-EDirection _direction = EDirection::Up;
-
-enum class EPattern { Off, KnightRider, KnightRiderSpread, Strobo };
-EPattern _pattern = EPattern::KnightRiderSpread;
-
-
-int _parameter1 = 0;
-int _parameter2 = 0;
-int _parameter3 = 0;
+uint32_t _counter;
 
 // Application
 
@@ -97,102 +87,36 @@ SynthLedStrips::~SynthLedStrips()
 	midiC.begin();
 	midiD.begin();
 
-	// LEDs
 	// LED STRIPS
-	FastLED.addLeds<WS2813, DATA_PIN_1, RGB>(_leds[0], NR_OF_LEDS);
-	FastLED.addLeds<WS2813, DATA_PIN_2, RGB>(_leds[1], NR_OF_LEDS);
-	FastLED.addLeds<WS2813, DATA_PIN_3, RGB>(_leds[2], NR_OF_LEDS);
+	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
+	_ledStrips[0].Set(DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::Off, 10);
+	FastLED.addLeds<WS2813, 4, RGB>(_leds[1], NR_OF_LEDS);
+	_ledStrips[1].Set(DATA_PINS[1], NR_OF_LEDS, _leds[1], LedStrip::EPattern::KnightRiderSpread, 255, 0, 0, 10, 1);
+	FastLED.addLeds<WS2813, 5, RGB>(_leds[2], NR_OF_LEDS);
+	_ledStrips[2].Set(DATA_PINS[2], NR_OF_LEDS, _leds[2], LedStrip::EPattern::KnightRider, 255, 0, 0, 10);
+	FastLED.addLeds<WS2813, 6, RGB>(_leds[3], NR_OF_LEDS);
+	_ledStrips[3].Set(DATA_PINS[3], NR_OF_LEDS, _leds[3], LedStrip::EPattern::KnightRiderSpread, 255, 255, 255, 20, 10);
+
 	FastLED.setBrightness(84);
 
-	// Program
-
-	switch (_pattern)
-	{
-	case EPattern::Off:
-		break;
-
-	case EPattern::KnightRider:
-		_parameter1 = 10; // Speed
-		break;
-
-	case EPattern::KnightRiderSpread:
-		_parameter1 = 10; // Speed
-		_parameter2 = 15; // Spread
-		break;
-
-	case EPattern::Strobo:
-		_parameter1 = 500; // Speed
-		
-		break;
-
-	default:
-		exit(0);
-
-		
-
-	}
+	_counter = 0;
 }
 
 
 /* static */ void SynthLedStrips::Loop()
 {
-	//TODO IF MIDI COMMAND RECEIVED
+		//TODO IF MIDI COMMAND RECEIVED
+	
 
-	// LEDs
-	if (_direction == EDirection::Up)
+	for (int ledStrip = 0; ledStrip < NR_OF_LED_STRIPS; ledStrip++)
 	{
-		_currentLed++;
-		if (_currentLed == NR_OF_LEDS - 1)
-		{
-			_direction = EDirection::Down;
-		}
-	}
-	else
-	{
-		_currentLed--;
-		if (_currentLed == 0)
-		{
-			_direction = EDirection::Up;
-		}
-	}
-
-
-	for (int led = 0; led < NR_OF_LEDS; led++)
-	{
-		FastLedCRGB *rgb = &(_leds[0][led]);
-		switch (_pattern)
-		{
-		case EPattern::Off:
-			rgb->red = 0;
-			rgb->green = 0;
-			rgb->blue = 0;
-			break;
-
-		case EPattern::KnightRider:
-			rgb->red = _currentLed == led ? 255 : 0;
-			rgb->blue = 0;
-			rgb->green = 0;
-			break;
-
-		case EPattern::KnightRiderSpread:
-			
-			rgb->red = max(0, _parameter2 - abs(led - _currentLed)) * (255 / _parameter2);
-			rgb->blue = 0;
-			rgb->green = 0;
-			break;
-
-		default:
-			exit(0);
-		}
-		
-		//int width = 15;
-		//rgb->red = max(0, width - abs(led - _currentLed)) * (255/width);
-		//rgb->green = _currentLed * 3 + led % 20 * 2; // 0; ((NR_OF_LEDS - led - 1) == _currentLed) ? 255 : 0;
-		//rgb->blue = 0; //(led + _currentLed) % (_currentLed / 10 + 1) == 0 ? 255 : 0;
+		_ledStrips[ledStrip].Process(_counter);
 	}
 	
-	delay(1);
 	FastLED.show();
+
+	_counter++;
+	delay(1);
 }
 
 

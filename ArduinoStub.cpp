@@ -14,7 +14,7 @@ void delay(uint32_t delayInMilliSeconds)
 	timeb startTime;
 	ftime(&startTime);
 
-	uint32_t endTime = startTime.time * 1000 + startTime.millitm + delayInMilliSeconds;
+	uint64_t endTime = startTime.time * 1000 + startTime.millitm + delayInMilliSeconds;
 	timeb runningTime;
 
 	do

@@ -60,9 +60,6 @@
     <ClInclude Include="framework.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="FastLedStub.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
@@ -76,6 +73,12 @@
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
     <ClInclude Include="SynthLedStrips.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FastLedStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="LedStrip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -111,6 +114,9 @@
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="SynthLedStrips.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LedStrip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

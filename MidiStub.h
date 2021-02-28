@@ -3,8 +3,13 @@
 #include "ClassNames.h"
 #include HEADER_FILE(SERIAL_CLASS)
 
+#include "SynthLedStripsTypes.h"
+
 
 #define MIDI_CREATE_INSTANCE(serialPort, serialType, name);
+
+
+typedef uint8_t DataByte;
 
 
 class Midi
@@ -15,7 +20,6 @@ public:
 
 	void begin();
 };
-
 
 
 extern Midi midiA;

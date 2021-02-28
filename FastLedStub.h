@@ -3,14 +3,16 @@
 
 #include <stdint.h>
 
+#include "LedStrip.h"
+
 const uint8_t MAX_NR_OF_LED_STRIPS = 16;
 
-const uint8_t MAX_NR_OF_LEDS = 256;
+const uint8_t MAX_NR_OF_LEDS = 255;
 
 enum ESPIChipsets {	WS2813 };
 enum EOrder { RGB };
 
-typedef struct FastLedCRGB
+struct FastLedCRGB
 {
 	uint8_t red; 
 	uint8_t green; 

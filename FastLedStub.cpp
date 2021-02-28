@@ -14,6 +14,7 @@ CFastLED FastLED;
 
 /* static */ bool CFastLED::_showEnabled = false;
 
+
 CFastLED::CFastLED()
 {
 }
