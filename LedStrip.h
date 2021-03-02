@@ -4,12 +4,13 @@
 
 #include "ClassNames.h"
 #include HEADER_FILE(FAST_LED_CLASS)
+#include HEADER_FILE(MIDI_CLASS)
 
 class LedStrip
 {
 public:
 
-	enum class EPattern { Off, KnightRider, KnightRiderSpread, Strobo };
+	enum class EPattern { Off, KnightRider, KnightRiderSpread, Strobo, MidiNoteOnOff };
 	
 	LedStrip();
 
@@ -20,6 +21,9 @@ public:
 		uint8_t parameter4 = 0, uint8_t parameter5 = 0, uint8_t parameter6 = 0, uint8_t parameter7 = 0);
 
 	void Process(uint32_t counter);
+
+	void ProcessMidiNoteOn(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2);
+	void ProcessMidiNoteOff(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2);
 
 private:
 

@@ -41,6 +41,9 @@ FastLedCRGB _leds[NR_OF_LED_STRIPS][NR_OF_LEDS];
 LedStrip _ledStrips[NR_OF_LED_STRIPS];
 
 
+void ProcessMidi();
+
+
 // Application
 #include "SerialPrint.h"
 
@@ -89,7 +92,7 @@ SynthLedStrips::~SynthLedStrips()
 
 	// LED STRIPS
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
-	_ledStrips[0].Set(DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::Off, 10);
+	_ledStrips[0].Set(DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::MidiNoteOnOff);
 	FastLED.addLeds<WS2813, 4, RGB>(_leds[1], NR_OF_LEDS);
 	_ledStrips[1].Set(DATA_PINS[1], NR_OF_LEDS, _leds[1], LedStrip::EPattern::KnightRiderSpread, 255, 0, 0, 10, 1);
 	FastLED.addLeds<WS2813, 5, RGB>(_leds[2], NR_OF_LEDS);
@@ -105,7 +108,10 @@ SynthLedStrips::~SynthLedStrips()
 
 /* static */ void SynthLedStrips::Loop()
 {
-		//TODO IF MIDI COMMAND RECEIVED
+	if (midiA.read())
+	{
+		ProcessMidi();
+	}
 	
 
 	for (int ledStrip = 0; ledStrip < NR_OF_LED_STRIPS; ledStrip++)
@@ -117,6 +123,31 @@ SynthLedStrips::~SynthLedStrips()
 
 	_counter++;
 	delay(1);
+}
+
+
+void ProcessMidi()
+{
+	MidiType type = midiA.getType();
+	uint8_t dataByte1 = midiA.getData1();
+	uint8_t dataByte2 = midiA.getData2();
+
+	for (int ledStrip = 0; ledStrip < NR_OF_LED_STRIPS; ledStrip++)
+	{
+		switch (type)
+		{
+		case MidiType::NoteOn:
+			_ledStrips[ledStrip].ProcessMidiNoteOn(type & 0x0F, dataByte1, dataByte2);
+			break;
+
+		case MidiType::NoteOff:
+			_ledStrips[ledStrip].ProcessMidiNoteOff(type & 0x0F, dataByte1, dataByte2);
+			break;
+
+		default:
+			exit(0);
+		}
+	}
 }
 
 

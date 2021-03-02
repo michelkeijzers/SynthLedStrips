@@ -20,14 +20,11 @@ LedStrip::LedStrip()
 	_parameter_6(0),
 	_parameter_7(0)
 {
-
 }
-
 
 
 LedStrip::~LedStrip()
 {
-
 }
 
 
@@ -77,6 +74,9 @@ void LedStrip::ProcessStart(uint32_t counter)
 		}
 		break;
 
+	case  EPattern::MidiNoteOnOff:
+		break;
+
 	default:
 		exit(0);
 	}
@@ -116,13 +116,23 @@ void LedStrip::ProcessLeds(uint32_t counter)
 			}
 			break;
 
+		case EPattern::MidiNoteOnOff:
+			break;
+
 		default:
 			exit(0);
 		}
-
-		//int width = 15;
-		//rgb->red = max(0, width - abs(led - _currentLed)) * (255/width);
-		//rgb->green = _currentLed * 3 + led % 20 * 2; // 0; ((NR_OF_LEDS - led - 1) == _currentLed) ? 255 : 0;
-		//rgb->blue = 0; //(led + _currentLed) % (_currentLed / 10 + 1) == 0 ? 255 : 0;
 	}
+}
+
+void LedStrip::ProcessMidiNoteOn(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2)
+{
+	_data[dataByte1].red = 255;
+}
+
+
+void LedStrip::ProcessMidiNoteOff(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2)
+{
+	_data[dataByte1].red = 0;
+
 }

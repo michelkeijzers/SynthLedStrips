@@ -13,6 +13,10 @@
 #include "math.h"
 #include "framework.h"
 
+#include "ClassNames.h"
+#include HEADER_FILE(MIDI_CLASS)
+
+#include "MidiInjection.h"
 #include "SynthLedStrips.h"
 #include "SynthLedStripsTypes.h"
 
@@ -298,20 +302,29 @@ void CalcCenter(int degrees, int centerX, int centerY, int distance, int* output
 }
 
 
+MidiInjection _midiInjection;
+
+
 void ArduinoAppSetup()
 {
 	SynthLedStrips::Setup();
-}
 
+	_midiInjection.Add(1000, midiA, MidiType::NoteOn, 50, 127);
+	_midiInjection.Add(1000, midiA, MidiType::NoteOn, 55, 127);
+	_midiInjection.Add(5000, midiA, MidiType::NoteOff, 50, 127);
+	_midiInjection.Add(5000, midiA, MidiType::NoteOff, 55, 127);
+}
 
 
 void ArduinoAppLoop(MSG& msg)
 {
+	_midiInjection.Inject(_refreshCounter);
 	SynthLedStrips::Loop();
 	_refreshCounter++;
 
 	// Handle
 	InvalidateRect(msg.hwnd, nullptr, FALSE);
 }
+
 
 #endif // _WINDOWS
