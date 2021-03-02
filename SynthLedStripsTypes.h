@@ -1,7 +1,5 @@
 #pragma once
 
-#include "SynthLedStripsTypes.h"
-
 #include "ClassNames.h"
 
 #ifndef _WINDOWS

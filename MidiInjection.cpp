@@ -1,3 +1,6 @@
+
+#ifdef _WINDOWS
+
 #include "MidiInjection.h"
 
 MidiInjection::MidiInjection()
@@ -11,7 +14,7 @@ MidiInjection::~MidiInjection()
 }
 
 
-void MidiInjection::Add(uint32_t time, Midi& midi, MidiType type, DataByte dataByte1)
+void MidiInjection::Add(uint32_t time, Midi& midi, midi::MidiType type, midi::DataByte dataByte1)
 {
 	_data.push_back(time);
 	_data.push_back((int) &midi);
@@ -20,7 +23,7 @@ void MidiInjection::Add(uint32_t time, Midi& midi, MidiType type, DataByte dataB
 }
 
 
-void MidiInjection::Add(uint32_t time, Midi& midi, MidiType type, DataByte dataByte1, DataByte dataByte2)
+void MidiInjection::Add(uint32_t time, Midi& midi, midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	Add(time, midi, type, dataByte1);
 	_data.push_back(dataByte2);
@@ -32,7 +35,7 @@ void MidiInjection::Inject(uint32_t counter)
 	while ((_dataBytesSent < _data.size()) && (_data[_dataBytesSent] <= counter))
 	{
 		Midi*& midi = (Midi*&) _data[_dataBytesSent + 1];
-		MidiType type = (MidiType) (_data[_dataBytesSent + 2] & 0xF0);
+		midi::MidiType type = (midi::MidiType) (_data[_dataBytesSent + 2] & 0xF0);
 		uint8_t nrOfDataBytes = Midi::GetNrOfDataBytes(type);
 		switch(nrOfDataBytes)
 		{
@@ -51,3 +54,5 @@ void MidiInjection::Inject(uint32_t counter)
 		_dataBytesSent += 3 + nrOfDataBytes;
 	}
 }
+
+#endif // _WINDOWS

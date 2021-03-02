@@ -22,9 +22,6 @@ public:
 
 	void Process(uint32_t counter);
 
-	void ProcessMidiNoteOn(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2);
-	void ProcessMidiNoteOff(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2);
-
 private:
 
 	void ProcessStart(uint32_t counter);

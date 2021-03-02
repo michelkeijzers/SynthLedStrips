@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="LedStrip.h" />
     <ClInclude Include="MidiInjection.h" />
+    <ClInclude Include="MidiKeyboard.h" />
     <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="ArduinoStub.h" />
     <ClInclude Include="AssertUtils.h" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="LedStrip.cpp" />
     <ClCompile Include="MidiInjection.cpp" />
+    <ClCompile Include="MidiKeyboard.cpp" />
     <ClCompile Include="SynthLedStrips.cpp" />
     <ClCompile Include="ArduinoStub.cpp" />
     <ClCompile Include="AssertUtils.cpp" />

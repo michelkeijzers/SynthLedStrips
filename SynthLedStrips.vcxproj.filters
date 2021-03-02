@@ -28,6 +28,12 @@
     <Filter Include="Header Files\Framework">
       <UniqueIdentifier>{4ef28132-e5f6-41b3-8851-f32ea742029c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\App">
+      <UniqueIdentifier>{1457dec8-4881-4797-9011-3e9b626a5bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\App">
+      <UniqueIdentifier>{4de9de93-331a-44cf-80c2-be04ae5e237f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssertUtils.h">
@@ -72,23 +78,23 @@
     <ClInclude Include="SynthLedStripsTypes.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
-    <ClInclude Include="SynthLedStrips.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FastLedStub.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
+    <ClInclude Include="SynthLedStrips.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
     <ClInclude Include="LedStrip.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\App</Filter>
     </ClInclude>
     <ClInclude Include="MidiInjection.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="MidiKeyboard.h">
+      <Filter>Header Files\App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssertUtils.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
@@ -117,13 +123,19 @@
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="SynthLedStrips.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\App</Filter>
     </ClCompile>
     <ClCompile Include="LedStrip.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\App</Filter>
     </ClCompile>
     <ClCompile Include="MidiInjection.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiKeyboard.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

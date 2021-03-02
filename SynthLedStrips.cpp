@@ -22,7 +22,7 @@
 #include "SynthLedStripsTypes.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
-//#include HEADER_FILE(DMX_SIMPLE_CLASS)
+#include HEADER_FILE(MIDI_CLASS)
 #include HEADER_FILE(SERIAL_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
 
@@ -47,6 +47,8 @@ void ProcessMidi();
 // Application
 #include "SerialPrint.h"
 
+#include "MidiKeyboard.h"
+
 // DEBUGGING
 #define USE_SERIAL
 
@@ -58,6 +60,11 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, midiA);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, midiB);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiC);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiD);
+
+#define NR_OF_KEYBOARDS 2
+
+MidiKeyboard* _keyboards[NR_OF_KEYBOARDS];
+
 
 uint32_t _counter;
 
@@ -90,6 +97,10 @@ SynthLedStrips::~SynthLedStrips()
 	midiC.begin();
 	midiD.begin();
 
+
+	_keyboards[0] = new MidiKeyboard(1, 61);
+	_keyboards[1] = new MidiKeyboard(2, 88);
+
 	// LED STRIPS
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
 	_ledStrips[0].Set(DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::MidiNoteOnOff);
@@ -108,7 +119,7 @@ SynthLedStrips::~SynthLedStrips()
 
 /* static */ void SynthLedStrips::Loop()
 {
-	if (midiA.read())
+	if (midiB.read())
 	{
 		ProcessMidi();
 	}
@@ -128,20 +139,22 @@ SynthLedStrips::~SynthLedStrips()
 
 void ProcessMidi()
 {
-	MidiType type = midiA.getType();
-	uint8_t dataByte1 = midiA.getData1();
-	uint8_t dataByte2 = midiA.getData2();
+	midi::MidiType midiType = midiB.getType();
+	uint8_t midiChannel = midiType & 0x0F;
+	MidiKeyboard* keyboard = _keyboards[midiChannel];
+	midi::DataByte dataByte1 = midiB.getData1();
+	midi::DataByte dataByte2 = midiB.getData2();
 
 	for (int ledStrip = 0; ledStrip < NR_OF_LED_STRIPS; ledStrip++)
 	{
-		switch (type)
+		switch (midiType)
 		{
-		case MidiType::NoteOn:
-			_ledStrips[ledStrip].ProcessMidiNoteOn(type & 0x0F, dataByte1, dataByte2);
+		case midi::MidiType::NoteOn:
+			keyboard->ProcessMidiNoteOn(midiType & 0x0F, dataByte1, dataByte2);
 			break;
 
-		case MidiType::NoteOff:
-			_ledStrips[ledStrip].ProcessMidiNoteOff(type & 0x0F, dataByte1, dataByte2);
+		case midi::MidiType::NoteOff:
+			keyboard->ProcessMidiNoteOff(midiType & 0x0F, dataByte1, dataByte2);
 			break;
 
 		default:

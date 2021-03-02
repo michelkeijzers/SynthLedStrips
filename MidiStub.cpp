@@ -18,7 +18,7 @@ Midi midiD;
 
 Midi::Midi()
 :
-	_midiType(InvalidType),
+	_midiType(midi::MidiType::InvalidType),
 	_midiChannel(0),
 	_data1(0),
 	_data2(0)
@@ -43,7 +43,7 @@ bool Midi::read()
 		return false;
 	}
 	
-	_midiType = (MidiType) (_queue.front() & 0xF0);
+	_midiType = (midi::MidiType) (_queue.front() & 0xF0);
 	_midiChannel = _queue.front() & 0x0F;
 	_queue.pop();
 	_data1 = _queue.front();
@@ -53,75 +53,75 @@ bool Midi::read()
 }
 
 
-MidiType Midi::getType()
+midi::MidiType Midi::getType()
 {
 	return _midiType;;
 }
 
 
-DataByte Midi::getData1()
+midi::DataByte Midi::getData1()
 {
 	return _data1;
 }
 
 
-DataByte Midi::getData2()
+midi::DataByte Midi::getData2()
 {
 	return _data2;
 }
 
 
-void Midi::AddToQueue(MidiType type, DataByte dataByte1)
+void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1)
 {
 	_queue.push(type);
 	_queue.push(dataByte1);
 }
 
 
-void Midi::AddToQueue(MidiType type, DataByte dataByte1, DataByte dataByte2)
+void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	AddToQueue(type, dataByte1);
 	_queue.push(dataByte2);
 }
 
 
-/* static */ uint8_t Midi::GetNrOfDataBytes(MidiType midiType)
+/* static */ uint8_t Midi::GetNrOfDataBytes(midi::MidiType midiType)
 {
 	switch (midiType & 0xF0)
 	{
-	case NoteOff:				// Fall Through
-	case NoteOn:				// Fall Through
-	case AfterTouchPoly:		// Fall Through
-	case ControlChange:			// Fall Through
-	case PitchBend:
+	case midi::MidiType::NoteOff:				// Fall Through
+	case midi::MidiType::NoteOn:				// Fall Through
+	case midi::MidiType::AfterTouchPoly:		// Fall Through
+	case midi::MidiType::ControlChange:			// Fall Through
+	case midi::MidiType::PitchBend:
 		return 2;
 
-	case ProgramChange:			// Fall Through
-	case AfterTouchChannel:
+	case midi::MidiType::ProgramChange:			// Fall Through
+	case midi::MidiType::AfterTouchChannel:
 		return 1;
 
-	case InvalidType:			// Fall Through
+	case midi::MidiType::InvalidType:			// Fall Through
 		exit(0);
 	}
 
 	switch (midiType)
 	{
-	case SystemExclusive:		// Fall Through
-	case TimeCodeQuarterFrame: 	// Fall Through
-	case SongPosition:         	// Fall Through
-	case SongSelect:           	// Fall Through
-	case Undefined_F4:         	// Fall Through
-	case Undefined_F5:         	// Fall Through
-	case TuneRequest:          	// Fall Through
-	case SystemExclusiveEnd:   	// Fall Through  
-	case Clock:                	// Fall Through 
-	case Tick:                 	// Fall Through
-	case Start:                	// Fall Through
-	case Continue:             	// Fall Through
-	case Stop:                	// Fall Through
-	case Undefined_FD:         	// Fall Through
-	case ActiveSensing:        	// Fall Through
-	case SystemReset:
+	case midi::MidiType::SystemExclusive:		// Fall Through
+	case midi::MidiType::TimeCodeQuarterFrame: 	// Fall Through
+	case midi::MidiType::SongPosition:         	// Fall Through
+	case midi::MidiType::SongSelect:           	// Fall Through
+	case midi::MidiType::Undefined_F4:         	// Fall Through
+	case midi::MidiType::Undefined_F5:         	// Fall Through
+	case midi::MidiType::TuneRequest:          	// Fall Through
+	case midi::MidiType::SystemExclusiveEnd:   	// Fall Through  
+	case midi::MidiType::Clock:                	// Fall Through 
+	case midi::MidiType::Tick:                 	// Fall Through
+	case midi::MidiType::Start:                	// Fall Through
+	case midi::MidiType::Continue:             	// Fall Through
+	case midi::MidiType::Stop:                	// Fall Through
+	case midi::MidiType::Undefined_FD:         	// Fall Through
+	case midi::MidiType::ActiveSensing:        	// Fall Through
+	case midi::MidiType::SystemReset:
 	default:
 		// Not supported
 		exit(0);

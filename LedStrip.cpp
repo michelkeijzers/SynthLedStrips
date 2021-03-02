@@ -125,14 +125,3 @@ void LedStrip::ProcessLeds(uint32_t counter)
 	}
 }
 
-void LedStrip::ProcessMidiNoteOn(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2)
-{
-	_data[dataByte1].red = 255;
-}
-
-
-void LedStrip::ProcessMidiNoteOff(uint8_t midiChannel, DataByte dataByte1, DataByte dataByte2)
-{
-	_data[dataByte1].red = 0;
-
-}
