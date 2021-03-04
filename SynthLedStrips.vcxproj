@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Color.h" />
+    <ClInclude Include="LedColor.h" />
     <ClInclude Include="LedStrip.h" />
     <ClInclude Include="MidiInjection.h" />
     <ClInclude Include="MidiKeyboard.h" />
@@ -163,7 +163,7 @@
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="LedColor.cpp" />
     <ClCompile Include="LedStrip.cpp" />
     <ClCompile Include="MidiInjection.cpp" />
     <ClCompile Include="MidiKeyboard.cpp" />

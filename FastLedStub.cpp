@@ -44,8 +44,7 @@ CFastLED::~CFastLED()
 	_nrOfUsedLeds[_nrOfLedStrips] = nLedsOrOffset;
 	_nrOfLedStrips++;
 
-	CLEDController c;
-	return c;
+	return *new CLEDController();
 }
 
 /* static */ void CFastLED::show()

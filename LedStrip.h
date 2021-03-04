@@ -6,6 +6,7 @@
 #include HEADER_FILE(FAST_LED_CLASS)
 #include HEADER_FILE(MIDI_CLASS)
 
+#include "LedColor.h"
 #include "MidiKeyboard.h"
 
 
@@ -27,16 +28,26 @@ public:
 
     ~LedStrip();
 
-    void Set(MidiKeyboard*& keyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data, EPattern pattern,
+    void Initialize(MidiKeyboard*& keyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data);
+	
+	void SetPattern(EPattern pattern,
 		uint8_t parameter_0 = 0, uint8_t parameter_1 = 0, uint8_t parameter_2 = 0, uint8_t parameter_3 = 0, uint8_t parameter_4 = 0, 
 		uint8_t parameter_5 = 0, uint8_t parameter_6 = 0, uint8_t parameter_7 = 0, uint8_t parameter_8 = 0, uint8_t parameter_9 = 0);
 
 	void Process(uint32_t counter);
 
 private:
-
+	void StartPattern();
 	void ProcessStart(uint32_t counter);
 	void ProcessLeds(uint32_t counter);
+
+	void SetAllLeds(LedColor::EColor color, uint8_t step);
+	void SetAllLeds(uint32_t color);
+	void SetAllLeds(uint8_t red, uint8_t green, uint8_t blue);
+
+	void SetLed(struct FastLedCRGB* led, LedColor::EColor color, uint8_t step);
+	void SetLed(struct FastLedCRGB* led, uint32_t color);
+	void SetLed(struct FastLedCRGB* led, uint8_t red, uint8_t green, uint8_t blue);
 
 	MidiKeyboard* _midiKeyboard;
 

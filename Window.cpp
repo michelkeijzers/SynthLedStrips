@@ -264,8 +264,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 		// Abbr
-		wchar_t wtext[20];
-		size_t sizet;
+		//wchar_t wtext[20];
+		//size_t sizet;
 
 		//mbstowcs_s(&sizet, wtext, "Text",
 		//strlen("Text") + 1); //Plus null

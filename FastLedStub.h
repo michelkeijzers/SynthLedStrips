@@ -55,9 +55,7 @@ public:
 		_pinNumbers[_nrOfLedStrips] = DATA_PIN;
 		addLeds(NULL, data, nLedsOrOffset);
 
-		// Unused return variable.
-		CLEDController c;
-		return c;
+		return *new CLEDController();
 	}
 	
 	void setBrightness(uint8_t scale) { }

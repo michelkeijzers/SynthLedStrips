@@ -26,7 +26,7 @@
 #include HEADER_FILE(SERIAL_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
 
-#include "Color.h"
+#include "LedColor.h"
 #include "Speed.h"
 #include "Time.h"
 #include "LedStrip.h"
@@ -52,7 +52,7 @@ void ClearKeyboardFlags();
 #include "SerialPrint.h"
 
 #include "MidiKeyboard.h"
-#include "Color.h"
+#include "LedColor.h"
 
 // DEBUGGING
 #define USE_SERIAL
@@ -102,21 +102,27 @@ SynthLedStrips::~SynthLedStrips()
 	midiC.begin();
 	midiD.begin();
 
-
 	_keyboards[0] = new MidiKeyboard(61);
 	_keyboards[1] = new MidiKeyboard(88);
 
 	// LED STRIPS
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
-	_ledStrips[0].Set(_keyboards[0], DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::MidiNoteOnOff, 
-		(uint8_t) Color::EColor::White, (uint8_t) Speed::ESpeed::NA, (uint8_t) Color::EColor::Black, (uint8_t) Speed::ESpeed::NA, 
+	_ledStrips[0].Initialize(_keyboards[0], DATA_PINS[0], NR_OF_LEDS, _leds[0]);
+	_ledStrips[0].SetPattern(LedStrip::EPattern::MidiNoteOnOff, 
+		(uint8_t) LedColor::EColor::Black, (uint8_t) Speed::ESpeed::NA, (uint8_t) LedColor::EColor::White, (uint8_t) Speed::ESpeed::NA, 
 		(uint8_t) Time::ETime::_1s, (uint8_t) Time::ETime::_100ms, 255, (uint8_t) Speed::ESpeed::_10ms, (uint8_t) Speed::ESpeed::_10ms, 0);
+
 	FastLED.addLeds<WS2813, 4, RGB>(_leds[1], NR_OF_LEDS);
-	_ledStrips[1].Set(_keyboards[0], DATA_PINS[1], NR_OF_LEDS, _leds[1], LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
+	_ledStrips[1].Initialize(_keyboards[0], DATA_PINS[1], NR_OF_LEDS, _leds[1]);
+	_ledStrips[1].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
+
 	FastLED.addLeds<WS2813, 5, RGB>(_leds[2], NR_OF_LEDS);
-	_ledStrips[2].Set(_keyboards[1], DATA_PINS[2], NR_OF_LEDS, _leds[2], LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 5);
+	_ledStrips[2].Initialize(_keyboards[1], DATA_PINS[2], NR_OF_LEDS, _leds[2]);
+	_ledStrips[2].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 5);
+
 	FastLED.addLeds<WS2813, 6, RGB>(_leds[3], NR_OF_LEDS);
-	_ledStrips[3].Set(_keyboards[1], DATA_PINS[3], NR_OF_LEDS, _leds[3], LedStrip::EPattern::KnightRider, 255, 255, 255, 20, 10);
+	_ledStrips[3].Initialize(_keyboards[1], DATA_PINS[3], NR_OF_LEDS, _leds[3]);
+	_ledStrips[3].SetPattern(LedStrip::EPattern::KnightRider, 255, 255, 255, 20, 10);
 
 	FastLED.setBrightness(84);
 

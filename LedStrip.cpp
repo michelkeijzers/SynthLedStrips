@@ -1,7 +1,9 @@
 #include "MathUtils.h"
-#include "LedStrip.h"
 #include <stdlib.h>
-#include "Color.h"
+
+#include "LedStrip.h"
+#include "LedColor.h"
+
 
 LedStrip::LedStrip()
 :
@@ -28,14 +30,18 @@ LedStrip::~LedStrip()
 }
 
 
-void LedStrip::Set(MidiKeyboard*& midiKeyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data, EPattern pattern,
-	uint8_t parameter_0 /* = 0 */, uint8_t parameter_1 /* = 0 */, uint8_t parameter_2 /* = 0 */, uint8_t parameter_3 /* = 0 */, uint8_t parameter_4 /* = 0 */, 
-	uint8_t parameter_5 /* = 0 */, uint8_t parameter_6 /* = 0 */, uint8_t parameter_7 /* = 0 */, uint8_t parameter_8 /* = 0 */, uint8_t parameter_9 /* = 0 */)
+void LedStrip::Initialize(MidiKeyboard*& midiKeyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data)
 {
 	_midiKeyboard = midiKeyboard;
 	_dataPin = dataPin;
 	_nrOfLeds = nrOfLeds;
 	_data = data;
+}
+
+void LedStrip::SetPattern(EPattern pattern,
+	uint8_t parameter_0 /* = 0 */, uint8_t parameter_1 /* = 0 */, uint8_t parameter_2 /* = 0 */, uint8_t parameter_3 /* = 0 */, uint8_t parameter_4 /* = 0 */, 
+	uint8_t parameter_5 /* = 0 */, uint8_t parameter_6 /* = 0 */, uint8_t parameter_7 /* = 0 */, uint8_t parameter_8 /* = 0 */, uint8_t parameter_9 /* = 0 */)
+{
 	_pattern = pattern;
 	_parameter_0 = parameter_0;
 	_parameter_1 = parameter_1;
@@ -50,6 +56,8 @@ void LedStrip::Set(MidiKeyboard*& midiKeyboard, uint8_t dataPin, uint8_t nrOfLed
 
 	_value_0 = 0; // Down/Up
 	_value_1 = 1; // Current LED
+
+	StartPattern();
 }
 
 
@@ -57,6 +65,26 @@ void LedStrip::Process(uint32_t counter)
 {
 	ProcessStart(counter);
 	ProcessLeds(counter);
+}
+
+
+void LedStrip::StartPattern()
+{
+	switch (_pattern)
+	{
+	case EPattern::Off:					// Fall Through
+		break;
+
+	case EPattern::KnightRider:			// Fall Through
+		break;
+
+	case EPattern::MidiNoteOnOff:
+		SetAllLeds((LedColor::EColor) _parameter_0, 0); // P0: Background color
+		break;
+
+	default:
+		exit(0);
+	}
 }
 
 
@@ -79,13 +107,11 @@ void LedStrip::ProcessStart(uint32_t counter)
 	case  EPattern::MidiNoteOnOff:
 		for (uint8_t key = 0; key < _midiKeyboard->GetNrOfKeys(); key++)
 		{
-			FastLedCRGB rgb = _data[key]; // TODO: Key should be in range 0..59 (led strips)
-			Color::SetRgb(&rgb, _parameter_0, 0); // P0: Background color
-
 			if (_midiKeyboard->GetKey(key) & 0x80)
 			{
-				Color::SetRgb(&rgb, _parameter_2, 0); // P2: Foreground color
-				Color::SetBrightness(&rgb, _parameter_6, ((_midiKeyboard->GetKey(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
+				struct FastLedCRGB* rgb = &_data[key]; // TODO: Key should be in range 0..59 (led strips)
+				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, (LedColor::EColor) _parameter_2, 0); // P2: Foreground color
+				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _parameter_6, ((_midiKeyboard->GetKey(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
 			}
 		}
 		break;
@@ -124,7 +150,7 @@ void LedStrip::ProcessLeds(uint32_t counter)
 		case EPattern::MidiNoteOnOff:
 			if (counter % _parameter_4 == 0)
 			{
-			    rgb->red = MathUtils::Max(0, rgb->red - 10);
+			    rgb->red = MathUtils::Max(0, rgb->red - 0);
 			}
 			break;
 
@@ -134,3 +160,49 @@ void LedStrip::ProcessLeds(uint32_t counter)
 	}
 }
 
+void LedStrip::SetAllLeds(LedColor::EColor color, uint8_t step)
+{
+	for (uint8_t ledIndex = 0; ledIndex < _nrOfLeds; ledIndex++)
+	{
+		FastLedCRGB& led = _data[ledIndex];
+		LedColor::SetRgb(&led.red, &led.green, &led.blue, color, step);
+	}
+}
+
+
+void LedStrip::SetAllLeds(uint32_t color)
+{
+	for (uint8_t ledIndex = 0; ledIndex < _nrOfLeds; ledIndex++)
+	{
+		FastLedCRGB& led = _data[ledIndex];
+		LedColor::SetRgb(&led.red, &led.green, &led.blue, color);
+	}
+}
+
+
+void LedStrip::SetAllLeds(uint8_t red, uint8_t green, uint8_t blue)
+{
+	for (uint8_t ledIndex = 0; ledIndex < _nrOfLeds; ledIndex++)
+	{
+		FastLedCRGB& led = _data[ledIndex];
+		LedColor::SetRgb(&led.red, &led.green, &led.blue, red, green, blue);
+	}
+}
+
+
+void LedStrip::SetLed(struct FastLedCRGB* led, LedColor::EColor color, uint8_t step)
+{
+	LedColor::SetRgb(&led->red, &led->green, &led->blue, color, step);
+}
+
+
+void LedStrip::SetLed(struct FastLedCRGB* led, uint32_t color)
+{
+	LedColor::SetRgb(&led->red, &led->green, &led->blue, color);
+}
+
+
+void LedStrip::SetLed(struct FastLedCRGB* led, uint8_t red, uint8_t green, uint8_t blue)
+{
+	LedColor::SetRgb(&led->red, &led->green, &led->blue, red, green, blue);
+}
