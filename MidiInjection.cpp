@@ -18,7 +18,7 @@ void MidiInjection::Add(uint32_t time, Midi& midi, midi::MidiType type, midi::Da
 {
 	_data.push_back(time);
 	_data.push_back((int) &midi);
-	_data.push_back(type);
+	_data.push_back((uint8_t) type);
 	_data.push_back(dataByte1);
 }
 

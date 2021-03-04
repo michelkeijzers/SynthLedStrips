@@ -16,7 +16,7 @@ class midi
 public:
     typedef uint8_t DataByte;
 
-    enum MidiType 
+    enum class MidiType 
     {
         InvalidType           = 0x00,    
         NoteOff               = 0x80,    

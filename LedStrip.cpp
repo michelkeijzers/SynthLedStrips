@@ -1,7 +1,7 @@
 #include "MathUtils.h"
 #include "LedStrip.h"
 #include <stdlib.h>
-
+#include "Color.h"
 
 LedStrip::LedStrip()
 :
@@ -28,10 +28,11 @@ LedStrip::~LedStrip()
 }
 
 
-void LedStrip::Set(uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data, EPattern pattern,
-	uint8_t parameter_0 /* = 0 */, uint8_t parameter_1 /* = 0 */, uint8_t parameter_2 /* = 0 */, uint8_t parameter_3 /* = 0 */,
-	uint8_t parameter_4 /* = 0 */, uint8_t parameter_5 /* = 0 */, uint8_t parameter_6 /* = 0 */, uint8_t parameter_7 /* = 0 */)
+void LedStrip::Set(MidiKeyboard*& midiKeyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data, EPattern pattern,
+	uint8_t parameter_0 /* = 0 */, uint8_t parameter_1 /* = 0 */, uint8_t parameter_2 /* = 0 */, uint8_t parameter_3 /* = 0 */, uint8_t parameter_4 /* = 0 */, 
+	uint8_t parameter_5 /* = 0 */, uint8_t parameter_6 /* = 0 */, uint8_t parameter_7 /* = 0 */, uint8_t parameter_8 /* = 0 */, uint8_t parameter_9 /* = 0 */)
 {
+	_midiKeyboard = midiKeyboard;
 	_dataPin = dataPin;
 	_nrOfLeds = nrOfLeds;
 	_data = data;
@@ -44,6 +45,8 @@ void LedStrip::Set(uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data, 
 	_parameter_5 = parameter_5;
 	_parameter_6 = parameter_6;
 	_parameter_7 = parameter_7;
+	_parameter_8 = parameter_8;
+	_parameter_9 = parameter_9;
 
 	_value_0 = 0; // Down/Up
 	_value_1 = 1; // Current LED
@@ -66,7 +69,6 @@ void LedStrip::ProcessStart(uint32_t counter)
 		break;
 
 	case EPattern::KnightRider:
-	case EPattern::KnightRiderSpread:
 	    if (counter % _parameter_3 == 0)
 		{
 			_value_1 = (_value_0 == 0) ? _value_1 - 1 : _value_1 + 1;
@@ -75,6 +77,17 @@ void LedStrip::ProcessStart(uint32_t counter)
 		break;
 
 	case  EPattern::MidiNoteOnOff:
+		for (uint8_t key = 0; key < _midiKeyboard->GetNrOfKeys(); key++)
+		{
+			FastLedCRGB rgb = _data[key]; // TODO: Key should be in range 0..59 (led strips)
+			Color::SetRgb(&rgb, _parameter_0, 0); // P0: Background color
+
+			if (_midiKeyboard->GetKey(key) & 0x80)
+			{
+				Color::SetRgb(&rgb, _parameter_2, 0); // P2: Foreground color
+				Color::SetBrightness(&rgb, _parameter_6, ((_midiKeyboard->GetKey(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
+			}
+		}
 		break;
 
 	default:
@@ -97,14 +110,6 @@ void LedStrip::ProcessLeds(uint32_t counter)
 			break;
 
 		case EPattern::KnightRider:
-			// P0: RGB, P3: Speed
-			// V0: Direction V1: Current led
-			rgb->red = _value_1 == led ? _parameter_0 : 0;
-			rgb->blue = _value_1 == led ? _parameter_1 : 0;
-			rgb->green = _value_1 == led ? _parameter_2 : 0;
-			break;
-
-		case EPattern::KnightRiderSpread:
 			// P0: RGB, P3: Speed, P4: Width
 			// V0: Direction V1: Current led
 			{
@@ -117,6 +122,10 @@ void LedStrip::ProcessLeds(uint32_t counter)
 			break;
 
 		case EPattern::MidiNoteOnOff:
+			if (counter % _parameter_4 == 0)
+			{
+			    rgb->red = MathUtils::Max(0, rgb->red - 10);
+			}
 			break;
 
 		default:

@@ -26,6 +26,9 @@
 #include HEADER_FILE(SERIAL_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
 
+#include "Color.h"
+#include "Speed.h"
+#include "Time.h"
 #include "LedStrip.h"
 
 #include HEADER_FILE(MIDI_CLASS)
@@ -42,12 +45,14 @@ LedStrip _ledStrips[NR_OF_LED_STRIPS];
 
 
 void ProcessMidi();
+void ClearKeyboardFlags();
 
 
 // Application
 #include "SerialPrint.h"
 
 #include "MidiKeyboard.h"
+#include "Color.h"
 
 // DEBUGGING
 #define USE_SERIAL
@@ -98,18 +103,20 @@ SynthLedStrips::~SynthLedStrips()
 	midiD.begin();
 
 
-	_keyboards[0] = new MidiKeyboard(1, 61);
-	_keyboards[1] = new MidiKeyboard(2, 88);
+	_keyboards[0] = new MidiKeyboard(61);
+	_keyboards[1] = new MidiKeyboard(88);
 
 	// LED STRIPS
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
-	_ledStrips[0].Set(DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::MidiNoteOnOff);
+	_ledStrips[0].Set(_keyboards[0], DATA_PINS[0], NR_OF_LEDS, _leds[0], LedStrip::EPattern::MidiNoteOnOff, 
+		(uint8_t) Color::EColor::White, (uint8_t) Speed::ESpeed::NA, (uint8_t) Color::EColor::Black, (uint8_t) Speed::ESpeed::NA, 
+		(uint8_t) Time::ETime::_1s, (uint8_t) Time::ETime::_100ms, 255, (uint8_t) Speed::ESpeed::_10ms, (uint8_t) Speed::ESpeed::_10ms, 0);
 	FastLED.addLeds<WS2813, 4, RGB>(_leds[1], NR_OF_LEDS);
-	_ledStrips[1].Set(DATA_PINS[1], NR_OF_LEDS, _leds[1], LedStrip::EPattern::KnightRiderSpread, 255, 0, 0, 10, 1);
+	_ledStrips[1].Set(_keyboards[0], DATA_PINS[1], NR_OF_LEDS, _leds[1], LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
 	FastLED.addLeds<WS2813, 5, RGB>(_leds[2], NR_OF_LEDS);
-	_ledStrips[2].Set(DATA_PINS[2], NR_OF_LEDS, _leds[2], LedStrip::EPattern::KnightRider, 255, 0, 0, 10);
+	_ledStrips[2].Set(_keyboards[1], DATA_PINS[2], NR_OF_LEDS, _leds[2], LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 5);
 	FastLED.addLeds<WS2813, 6, RGB>(_leds[3], NR_OF_LEDS);
-	_ledStrips[3].Set(DATA_PINS[3], NR_OF_LEDS, _leds[3], LedStrip::EPattern::KnightRiderSpread, 255, 255, 255, 20, 10);
+	_ledStrips[3].Set(_keyboards[1], DATA_PINS[3], NR_OF_LEDS, _leds[3], LedStrip::EPattern::KnightRider, 255, 255, 255, 20, 10);
 
 	FastLED.setBrightness(84);
 
@@ -130,6 +137,8 @@ SynthLedStrips::~SynthLedStrips()
 		_ledStrips[ledStrip].Process(_counter);
 	}
 	
+	ClearKeyboardFlags();
+
 	FastLED.show();
 
 	_counter++;
@@ -140,8 +149,8 @@ SynthLedStrips::~SynthLedStrips()
 void ProcessMidi()
 {
 	midi::MidiType midiType = midiB.getType();
-	uint8_t midiChannel = midiType & 0x0F;
-	MidiKeyboard* keyboard = _keyboards[midiChannel];
+	uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
+	MidiKeyboard*& keyboard = _keyboards[midiChannel];
 	midi::DataByte dataByte1 = midiB.getData1();
 	midi::DataByte dataByte2 = midiB.getData2();
 
@@ -150,11 +159,11 @@ void ProcessMidi()
 		switch (midiType)
 		{
 		case midi::MidiType::NoteOn:
-			keyboard->ProcessMidiNoteOn(midiType & 0x0F, dataByte1, dataByte2);
+			keyboard->ProcessMidiNoteOn(dataByte1, dataByte2);
 			break;
 
 		case midi::MidiType::NoteOff:
-			keyboard->ProcessMidiNoteOff(midiType & 0x0F, dataByte1, dataByte2);
+			keyboard->ProcessMidiNoteOff(dataByte1);
 			break;
 
 		default:
@@ -163,6 +172,14 @@ void ProcessMidi()
 	}
 }
 
+
+void ClearKeyboardFlags()
+{
+	for (uint8_t keyboard = 0; keyboard < NR_OF_KEYBOARDS; keyboard++)
+	{
+		_keyboards[keyboard]->ClearNewFlags();
+	}
+}
 
 /*
 1.5 seconds for 120 (60 inc, 60 dec) loops with sleep 10

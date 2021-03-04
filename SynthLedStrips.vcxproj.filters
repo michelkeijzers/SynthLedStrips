@@ -93,6 +93,15 @@
     <ClInclude Include="MidiKeyboard.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Speed.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -135,6 +144,15 @@
       <Filter>Source Files\App</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Speed.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
       <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>

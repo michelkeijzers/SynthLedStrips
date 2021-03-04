@@ -73,7 +73,7 @@ midi::DataByte Midi::getData2()
 
 void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1)
 {
-	_queue.push(type);
+	_queue.push((uint8_t) type);
 	_queue.push(dataByte1);
 }
 
@@ -87,7 +87,7 @@ void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataB
 
 /* static */ uint8_t Midi::GetNrOfDataBytes(midi::MidiType midiType)
 {
-	switch (midiType & 0xF0)
+	switch ((midi::MidiType) ((uint8_t) midiType & 0xF0))
 	{
 	case midi::MidiType::NoteOff:				// Fall Through
 	case midi::MidiType::NoteOn:				// Fall Through

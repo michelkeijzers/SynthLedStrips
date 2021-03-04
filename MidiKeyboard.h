@@ -10,18 +10,23 @@
 class MidiKeyboard
 {
 public:
-	MidiKeyboard(uint8_t midiChannel, uint8_t nrOfKeys);
+	MidiKeyboard(uint8_t nrOfKeys);
 	~MidiKeyboard();
 	
-	void ProcessMidiNoteOn(uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2);
-	void ProcessMidiNoteOff(uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2);
+	void ProcessMidiNoteOn(midi::DataByte noteNumber, midi::DataByte velocity);
+	void ProcessMidiNoteOff(midi::DataByte noteNumber);
+
+	void ClearNewFlags();
+
+	uint8_t GetNrOfKeys();
+	uint8_t GetKeyOffset();
+	uint8_t GetKey(uint8_t keyNumber);
 
 private:
-	uint8_t* _notes;
-
-	uint8_t _midiChannel;
+	uint8_t* _keys;
 
 	uint8_t _nrOfKeys;
+	uint8_t _keyOffset;
 
 	uint8_t _ccGroup[NR_OF_CCS];
 };
