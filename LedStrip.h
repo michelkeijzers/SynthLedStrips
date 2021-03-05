@@ -28,7 +28,7 @@ public:
 
     ~LedStrip();
 
-    void Initialize(MidiKeyboard*& keyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data);
+    void Initialize(MidiKeyboard* midiKeyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data);
 	
 	void SetPattern(EPattern pattern,
 		uint8_t parameter_0 = 0, uint8_t parameter_1 = 0, uint8_t parameter_2 = 0, uint8_t parameter_3 = 0, uint8_t parameter_4 = 0, 
@@ -38,8 +38,9 @@ public:
 
 private:
 	void StartPattern();
-	void ProcessStart(uint32_t counter);
-	void ProcessLeds(uint32_t counter);
+
+	void ProcessKnightRider(uint32_t counter);
+	void ProcessMidiNoteOnOff(uint32_t counter);
 
 	void SetAllLeds(LedColor::EColor color, uint8_t step);
 	void SetAllLeds(uint32_t color);
