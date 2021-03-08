@@ -120,6 +120,9 @@
     <ClInclude Include="MemoryUtils.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="PatternMidiNoteOnOff.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="MemoryUtils.cpp">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternMidiNoteOnOff.cpp">
+      <Filter>Source Files\Patterns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

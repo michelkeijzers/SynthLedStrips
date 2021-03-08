@@ -36,7 +36,7 @@
 #include "LedColor.h"
 #include "PatternOff.h"
 #include "PatternKnightRider.h"
-
+#include "PatternMidiNoteOnOff.h"
 
 /*
 void* operator new(size_t size, void* ptr)
@@ -96,38 +96,39 @@ SynthLedStrips::~SynthLedStrips()
 	byte* patternData = new byte[maxSize * 4];
 
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
-	_ledStrips[0].Initialize(&_midiKeyboards[0], DATA_PINS[0], NR_OF_LEDS, _leds[0]);
-	PatternOff* pattern_0 = new (patternData + 0)  PatternOff(_ledStrips[0]);
+	_ledStrips[0].Initialize(DATA_PINS[0], NR_OF_LEDS, _leds[0]);
+#pragma warning( disable: 6386 )
+	PatternMidiNoteOnOff* pattern_0 = new (patternData) PatternMidiNoteOnOff(_ledStrips[0], _midiKeyboards[0]);
+#pragma warning(pop)
+	pattern_0->SetBackgroundColor(LedColor::EColor::Black);
+	pattern_0->SetForegroundColor(LedColor::EColor::White);
+	pattern_0->SetFadeTimeNoteOn(Time::ETime::_1s);
+	pattern_0->SetFadeTimeNoteOff(Time::ETime::_400ms);
+	pattern_0->SetNoteOnVelocityIntensity(255);
 	_ledStrips[0].SetPattern(pattern_0);
-	//_ledStrips[0].SetPattern(LedStrip::EPattern::MidiNoteOnOff, 
-	//		(uint8_t) LedColor::EColor::Black, (uint8_t) Speed::ESpeed::NA, (uint8_t) LedColor::EColor::Random, (uint8_t) Speed::ESpeed::NA, 
-	//		(uint8_t) Time::ETime::_40ms, (uint8_t) Time::ETime::_10ms, 255, (uint8_t) Speed::ESpeed::_10ms, (uint8_t) Speed::ESpeed::_10ms, 0);
 
 	FastLED.addLeds<WS2813, 4, RGB>(_leds[1], NR_OF_LEDS);
-	_ledStrips[1].Initialize(&_midiKeyboards[0], DATA_PINS[1], NR_OF_LEDS, _leds[1]);
+	_ledStrips[1].Initialize(DATA_PINS[1], NR_OF_LEDS, _leds[1]);
 	PatternOff* pattern_1 = new (patternData + maxSize) PatternOff(_ledStrips[1]);
 	_ledStrips[1].SetPattern(pattern_1);
 	//_ledStrips[1].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
 
 	FastLED.addLeds<WS2813, 5, RGB>(_leds[2], NR_OF_LEDS);
-	_ledStrips[2].Initialize(&_midiKeyboards[1], DATA_PINS[2], NR_OF_LEDS, _leds[2]);
+	_ledStrips[2].Initialize(DATA_PINS[2], NR_OF_LEDS, _leds[2]);
 	//_ledStrips[2].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 5);
 	PatternOff* pattern_2 = new (patternData + 2 * maxSize) PatternOff(_ledStrips[2]);
 	_ledStrips[2].SetPattern(pattern_2);
 
 	FastLED.addLeds<WS2813, 6, RGB>(_leds[3], NR_OF_LEDS);
-	_ledStrips[3].Initialize(&_midiKeyboards[1], DATA_PINS[3], NR_OF_LEDS, _leds[3]);
+	_ledStrips[3].Initialize(DATA_PINS[3], NR_OF_LEDS, _leds[3]);
 	PatternKnightRider* pattern_3 = new (patternData + 3 * maxSize) PatternKnightRider(_ledStrips[3]);
-	pattern_3->SetForegroundColor(LedColor::EColor::White);
 	pattern_3->SetBackgroundColor(LedColor::EColor::Black);
+	pattern_3->SetForegroundColor(LedColor::EColor::White);
 	pattern_3->SetDirection(true);
 	pattern_3->SetLedSpeed(Speed::ESpeed::_1s);
 	pattern_3->SetLedWidth(10);
 	_ledStrips[3].SetPattern(pattern_3);
 	//_ledStrips[3].SetPattern(LedStrip::EPattern::KnightRider, 255, 255, 255, 20, 10);
-
-	pattern_3 = new (patternData + 3 * maxSize) PatternKnightRider(_ledStrips[3]);
-	_ledStrips[2].SetPattern(pattern_3);
 }
 
 

@@ -13,8 +13,7 @@ LedStrip::LedStrip()
 	_dataPin(0),
 	_nrOfLeds(0),
 	_data(NULL),
-	_pattern(NULL),
-	_midiKeyboard(NULL)
+	_pattern(NULL)
 {
 }
 
@@ -24,9 +23,8 @@ LedStrip::~LedStrip()
 }
 
 
-void LedStrip::Initialize(MidiKeyboard* midiKeyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data)
+void LedStrip::Initialize(uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data)
 {
-	_midiKeyboard = midiKeyboard;
 	_dataPin = dataPin;
 	_nrOfLeds = nrOfLeds;
 	_data = data;
@@ -52,46 +50,6 @@ struct FastLedCRGB* LedStrip::GetLed(uint8_t ledIndex)
 void LedStrip::Process(uint32_t counter)
 {
 	_pattern->Process(counter);
-}
-
-
-void LedStrip::ProcessMidiNoteOnOff(uint32_t counter)
-{
-	/*
-	for (uint8_t key = 0; key < _midiKeyboard->GetNrOfKeys(); key++)
-	{
-		struct FastLedCRGB* rgb = &_data[key]; // TODO: Key should be in range 0..59 (led strips)
-
-		if (_midiKeyboard->IsNew(key))
-		{
-			if (_midiKeyboard->IsPressed(key))
-			{
-				Serial.println("Key pressed");
-				Serial.println(key);
-				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, (LedColor::EColor) _parameter_2, 0); // P2: Foreground color
-				_value_0 = rgb->red;
-				_value_1 = rgb->green;
-				_value_2 = rgb->blue;
-				_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _parameter_6, ((_midiKeyboard->GetVelocity(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
-			}
-			else
-			{
-				// Do nothing
-			}
-		} 
-		else if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4) == 0) && _midiKeyboard->IsPressed(key))
-		{
-			//LedColor::Decrease(&rgb->red, &rgb->green, &rgb->blue);
-			uint16_t timeAgo = _midiKeyboard->TimeAgo(key);
-			//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _value_3, MathUtils::Max(256, 256 * timeAgo / Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4)));
-		}
-		else if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _parameter_5) == 0) && !_midiKeyboard->IsPressed(key))
-		{
-			uint16_t timeAgo = _midiKeyboard->TimeAgo(key);
-			//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _value_3, MathUtils::Max(256, 256 * timeAgo / Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4)));
-		}
-	}
-	*/
 }
 
 

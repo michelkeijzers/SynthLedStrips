@@ -146,6 +146,7 @@
     <ClInclude Include="MidiKeyboard.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="PatternKnightRider.h" />
+    <ClInclude Include="PatternMidiNoteOnOff.h" />
     <ClInclude Include="PatternOff.h" />
     <ClInclude Include="Speed.h" />
     <ClInclude Include="SynthLedStrips.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="MidiKeyboard.cpp" />
     <ClCompile Include="Pattern.cpp" />
     <ClCompile Include="PatternKnightRider.cpp" />
+    <ClCompile Include="PatternMidiNoteOnOff.cpp" />
     <ClCompile Include="PatternOff.cpp" />
     <ClCompile Include="Speed.cpp" />
     <ClCompile Include="SynthLedStrips.cpp" />

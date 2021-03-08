@@ -13,22 +13,11 @@
 class LedStrip
 {
 public:
-
-	enum class EPattern 
-	{
-		Off = 0, 
-		SolidColor = 1, 
-		FadeStrobe = 2, 
-		Rainbow = 3, 
-		KnightRider = 50, 
-		MidiNoteOnOff 
-	};
-	
 	LedStrip();
 
     ~LedStrip();
 
-    void Initialize(MidiKeyboard* midiKeyboard, uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data);
+    void Initialize(uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data);
 	
 	uint8_t GetNrOfLeds();
 
@@ -39,11 +28,6 @@ public:
 	struct FastLedCRGB* GetLed(uint8_t ledIndex);
 
 public:
-	void StartPattern();
-
-	void ProcessKnightRider(uint32_t counter);
-	void ProcessMidiNoteOnOff(uint32_t counter);
-
 	void SetAllLeds(LedColor::EColor color, uint8_t step);
 	void SetAllLeds(uint32_t color);
 	void SetAllLeds(uint8_t red, uint8_t green, uint8_t blue);
@@ -51,8 +35,6 @@ public:
 	void SetLed(struct FastLedCRGB* led, LedColor::EColor color, uint8_t step);
 	void SetLed(struct FastLedCRGB* led, uint32_t color);
 	void SetLed(struct FastLedCRGB* led, uint8_t red, uint8_t green, uint8_t blue);
-
-	MidiKeyboard* _midiKeyboard;
 
 	uint8_t _dataPin;
 

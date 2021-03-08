@@ -13,6 +13,5 @@ public:
 	/* override */ void Start();
 
 	/* override */ void Process(uint32_t counter);
-
 };
 
