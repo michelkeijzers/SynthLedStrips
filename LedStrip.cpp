@@ -3,6 +3,7 @@
 
 #include "LedStrip.h"
 #include "LedColor.h"
+#include "Time.h"
 
 #include "ClassNames.h"
 #include HEADER_FILE(MIDI_CLASS)
@@ -141,28 +142,26 @@ void LedStrip::ProcessMidiNoteOnOff(uint32_t counter)
 				Serial.println("Key pressed");
 				Serial.println(key);
 				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, (LedColor::EColor) _parameter_2, 0); // P2: Foreground color
-				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _parameter_6, ((_midiKeyboard->GetVelocity(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
+				_value_0 = rgb->red;
+				_value_1 = rgb->green;
+				_value_2 = rgb->blue;
+				_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _parameter_6, ((_midiKeyboard->GetVelocity(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
 			}
 			else
 			{
 				// Do nothing
 			}
 		} 
-		else
+		else if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4) == 0) && _midiKeyboard->IsPressed(key))
 		{
-			if (counter % (_parameter_4 * 20 )== 0)
-			{
-				if (_midiKeyboard->IsPressed(key))
-				{
-					LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, MathUtils::Max(0, rgb->red - 10), MathUtils::Max(0, rgb->green - 0), MathUtils::Max(0, rgb->blue - 10));
-					//Serial.print("RGB: key "); Serial.print(key); Serial.print(" ");Serial.print(rgb->red); Serial.print(", "); Serial.print(rgb->green);  Serial.print(",");
-					//Serial.print(rgb->blue);
-				}
-				else
-				{
-					LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, MathUtils::Max(0, rgb->red - 0), MathUtils::Max(0, rgb->green - 10), MathUtils::Max(0, rgb->blue - 0));
-				}
-			}
+			//LedColor::Decrease(&rgb->red, &rgb->green, &rgb->blue);
+			uint16_t timeAgo = _midiKeyboard->TimeAgo(key);
+			//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _value_3, MathUtils::Max(256, 256 * timeAgo / Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4)));
+		}
+		else if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _parameter_5) == 0) && !_midiKeyboard->IsPressed(key))
+		{
+			uint16_t timeAgo = _midiKeyboard->TimeAgo(key);
+			//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _value_3, MathUtils::Max(256, 256 * timeAgo / Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4)));
 		}
 	}
 }

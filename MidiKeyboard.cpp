@@ -22,7 +22,7 @@ void MidiKeyboard::SetNrOfKeys(uint8_t nrOfKeys)
 {
 	_nrOfKeys = nrOfKeys;
 	_keys = new uint8_t[nrOfKeys];
-	_times = new uint8_t[nrOfKeys];
+	_times = new uint16_t[nrOfKeys];
 	_keyOffset = nrOfKeys == 61 ? 36 : 21; // 36 = C2, 21 = A0
 
 	for (uint8_t key = 0; key < nrOfKeys; key++)
@@ -38,7 +38,7 @@ void MidiKeyboard::Process(uint32_t counter)
 	{
 		if (counter % NOTE_ON_OFF_PERIOD == 0)
 		{
-			_times[key] = (_times[key] & 0x80) + MathUtils::Min(127, (_times[key] & 0x7F) + 1);
+			_times[key] = (_times[key] & NEW_FLAG) + MathUtils::Min(TIME_AGO_BITS, (_times[key] & TIME_AGO_BITS) + 1);
 		}
 	}
 }
@@ -48,15 +48,15 @@ void MidiKeyboard::ProcessMidiNoteOn(midi::DataByte noteNumber, midi::DataByte v
 { 
 	Serial.println("MIDI Note on");
 	Serial.println(noteNumber - _keyOffset);
-	_keys[noteNumber - _keyOffset] = 0x80 | velocity;  // 0x80 means pressed
-	_times[noteNumber - _keyOffset] = 0x80; // 0x80 means New, LSB 7 bits is time (0 = now)
+	_keys[noteNumber - _keyOffset] = PRESSED_FLAG | velocity;
+	_times[noteNumber - _keyOffset] = NEW_FLAG;
 }
 
 
 void MidiKeyboard::ProcessMidiNoteOff(midi::DataByte noteNumber, midi::DataByte releaseVelocity)
 {
-	_keys[noteNumber - _keyOffset] = releaseVelocity; // MSB means released
-	_times[noteNumber - _keyOffset] = 0x80; // 0x80 means New, LSB 7 bits is time (0 = now)
+	_keys[noteNumber - _keyOffset] = releaseVelocity;
+	_times[noteNumber - _keyOffset] = NEW_FLAG;
 }
 
 
@@ -65,7 +65,7 @@ void MidiKeyboard::ClearNewFlags()
 	//Serial.println("Clear New Flags");
 	for (int key = 0; key < _nrOfKeys; key++)
 	{
-		_times[key] = _times[key] & 0x7F;
+		_times[key] = _times[key] & TIME_AGO_BITS;
 	}
 }
 
@@ -84,24 +84,24 @@ uint8_t MidiKeyboard::GetKeyOffset()
 
 bool MidiKeyboard::IsPressed(uint8_t keyNumber)
 {
-	return (bool)(_keys[keyNumber] & 0x80);
+	return (bool)(_keys[keyNumber] & PRESSED_FLAG);
 }
 
 
 uint8_t MidiKeyboard::GetVelocity(uint8_t keyNumber)
 {
-	return _keys[keyNumber] & 0x7F;
+	return _keys[keyNumber] & VELOCITY_BITS;
 }
 
 
 
 bool MidiKeyboard::IsNew(uint8_t keyNumber)
 {
-	return (bool)(_times[keyNumber] & 0x80);
+	return (bool)(_times[keyNumber] & NEW_FLAG);
 }
 
 
 uint16_t MidiKeyboard::TimeAgo(uint8_t keyNumber)
 {
-	return (_times[keyNumber] & 0x7F) * 50;
+	return (_times[keyNumber] & TIME_AGO_BITS) * NOTE_ON_OFF_PERIOD;
 }

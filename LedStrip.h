@@ -64,7 +64,9 @@ private:
 	// LED Strips
 
 	uint8_t _value_0 = 0;
-	uint8_t _value_1 = 1;
+	uint8_t _value_1 = 0;
+	uint8_t _value_2 = 0;
+	uint8_t _value_3 = 0;
 
 	uint8_t _parameter_0 = 0;
 	uint8_t _parameter_1 = 0;

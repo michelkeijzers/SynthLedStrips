@@ -62,6 +62,8 @@ SynthLedStrips::~SynthLedStrips()
 
 /* static */ void SynthLedStrips::Setup()
 {
+	randomSeed(analogRead(0));
+
 	// Generic GPIO.
 	pinMode(LED_BUILTIN, OUTPUT);
 
@@ -80,8 +82,8 @@ SynthLedStrips::~SynthLedStrips()
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
 	_ledStrips[0].Initialize(&_midiKeyboards[0], DATA_PINS[0], NR_OF_LEDS, _leds[0]);
 	_ledStrips[0].SetPattern(LedStrip::EPattern::MidiNoteOnOff, 
-		(uint8_t) LedColor::EColor::Black, (uint8_t) Speed::ESpeed::NA, (uint8_t) LedColor::EColor::White, (uint8_t) Speed::ESpeed::NA, 
-		(uint8_t) Time::ETime::_1s, (uint8_t) Time::ETime::_100ms, 255, (uint8_t) Speed::ESpeed::_10ms, (uint8_t) Speed::ESpeed::_10ms, 0);
+		(uint8_t) LedColor::EColor::Black, (uint8_t) Speed::ESpeed::NA, (uint8_t) LedColor::EColor::Random, (uint8_t) Speed::ESpeed::NA, 
+		(uint8_t) Time::ETime::_40ms, (uint8_t) Time::ETime::_10ms, 255, (uint8_t) Speed::ESpeed::_10ms, (uint8_t) Speed::ESpeed::_10ms, 0);
 
 	FastLED.addLeds<WS2813, 4, RGB>(_leds[1], NR_OF_LEDS);
 	_ledStrips[1].Initialize(&_midiKeyboards[0], DATA_PINS[1], NR_OF_LEDS, _leds[1]);

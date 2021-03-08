@@ -1,10 +1,10 @@
 #include "Time.h"
 
-uint32_t Time::GetTimeInMilliSeconds(ETime time)
+/* static */ uint32_t Time::GetTimeInMilliSeconds(ETime time)
 {
 	switch (time)
 	{
-	case ETime::NA		: return     0;
+	case ETime::NA		: return 0xFFFFFFFF;
 	case ETime::_1ms	: return     1;
 	case ETime::_2ms	: return     2;
 	case ETime::_4ms	: return     4;

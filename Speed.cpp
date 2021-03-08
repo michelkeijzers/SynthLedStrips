@@ -1,6 +1,6 @@
 #include "Speed.h"
 
-int32_t Speed::GetSpeedInMilliSeconds(ESpeed speed)
+/* static */ int32_t Speed::GetSpeedInMilliSeconds(ESpeed speed)
 {
 	switch (speed)
 	{

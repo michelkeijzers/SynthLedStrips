@@ -1,11 +1,14 @@
 #include <stdlib.h>
 
+#include "ClassNames.h"
+#include HEADER_FILE(ARDUINO_CLASS)
+
 #include "SynthLedStripsTypes.h"
-
 #include "LedColor.h"
+#include "MathUtils.h"
 
 
-
+// https://www.rapidtables.com/web/color/RGB_Color.html
 /* static */ void LedColor::SetRgb(uint8_t* red, uint8_t* green, uint8_t* blue, LedColor::EColor color, uint8_t step)
 {
 	switch (color)
@@ -20,11 +23,19 @@
 	case LedColor::EColor::Magenta		: SetRgb(red, green, blue, 0xFF00FF); break;
 	case LedColor::EColor::Silver		: SetRgb(red, green, blue, 0xC0C0C0); break;
 	case LedColor::EColor::Gray			: SetRgb(red, green, blue, 0x808080); break;
-		// TODO
+	case LedColor::EColor::Random		: SetRandom(red, green, blue); break;
 
 	default:
 		exit(0);
 	}
+}
+
+
+/* static */ void LedColor::SetRandom(uint8_t* red, uint8_t* green, uint8_t* blue)
+{
+	*red = random(256);
+	*green = random(256);
+	*blue = random(256);
 }
 
 
@@ -44,9 +55,10 @@
 }
 
 
-/* static */ void LedColor::SetBrightness(uint8_t* red, uint8_t* green, uint8_t* blue, uint8_t percentage_0, uint8_t percentage_1)
+/* static */ uint8_t LedColor::SetBrightness(uint8_t* red, uint8_t* green, uint8_t* blue, uint8_t percentage_0, uint8_t percentage_1)
 {
 	*red   *= percentage_0 * percentage_1 / 255 / 255;
 	*green *= percentage_0 * percentage_1 / 255 / 255;
 	*blue  *= percentage_0 * percentage_1 / 255 / 255;
+	return 255 * percentage_0 * percentage_1 / 255 / 255;
 }
