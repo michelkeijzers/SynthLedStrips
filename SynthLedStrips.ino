@@ -1,8 +1,8 @@
 
 /*
-        03Mar 
-Sketch: 15800
-Global:  3269
+        03Mar  08Mar
+Sketch: 14852  15996
+Global:  3245   3217
 */
 
 #include "SynthLedStrips.h"

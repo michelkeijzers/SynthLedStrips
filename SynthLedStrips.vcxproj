@@ -141,8 +141,12 @@
   <ItemGroup>
     <ClInclude Include="LedColor.h" />
     <ClInclude Include="LedStrip.h" />
+    <ClInclude Include="MemoryUtils.h" />
     <ClInclude Include="MidiInjection.h" />
     <ClInclude Include="MidiKeyboard.h" />
+    <ClInclude Include="Pattern.h" />
+    <ClInclude Include="PatternKnightRider.h" />
+    <ClInclude Include="PatternOff.h" />
     <ClInclude Include="Speed.h" />
     <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="ArduinoStub.h" />
@@ -165,8 +169,12 @@
   <ItemGroup>
     <ClCompile Include="LedColor.cpp" />
     <ClCompile Include="LedStrip.cpp" />
+    <ClCompile Include="MemoryUtils.cpp" />
     <ClCompile Include="MidiInjection.cpp" />
     <ClCompile Include="MidiKeyboard.cpp" />
+    <ClCompile Include="Pattern.cpp" />
+    <ClCompile Include="PatternKnightRider.cpp" />
+    <ClCompile Include="PatternOff.cpp" />
     <ClCompile Include="Speed.cpp" />
     <ClCompile Include="SynthLedStrips.cpp" />
     <ClCompile Include="ArduinoStub.cpp" />

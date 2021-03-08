@@ -34,6 +34,12 @@
     <Filter Include="Source Files\App">
       <UniqueIdentifier>{4de9de93-331a-44cf-80c2-be04ae5e237f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Patterns">
+      <UniqueIdentifier>{10b41346-0171-4d9f-9afd-a116b906920c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Patterns">
+      <UniqueIdentifier>{5533cbdb-dfc8-40c3-bd8d-c3eb71df3d7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssertUtils.h">
@@ -102,6 +108,18 @@
     <ClInclude Include="LedColor.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="PatternKnightRider.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternOff.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryUtils.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -154,6 +172,18 @@
     </ClCompile>
     <ClCompile Include="LedColor.cpp">
       <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternKnightRider.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Pattern.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternOff.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryUtils.cpp">
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
