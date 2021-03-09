@@ -102,8 +102,8 @@ SynthLedStrips::~SynthLedStrips()
 #pragma warning(pop)
 	pattern_0->SetBackgroundColor(LedColor::EColor::Black);
 	pattern_0->SetForegroundColor(LedColor::EColor::White);
-	pattern_0->SetFadeTimeNoteOn(Time::ETime::_1s);
-	pattern_0->SetFadeTimeNoteOff(Time::ETime::_400ms);
+	pattern_0->SetFadeTimeNoteOn(Time::ETime::_10s);
+	pattern_0->SetFadeTimeNoteOff(Time::ETime::_4s);
 	pattern_0->SetNoteOnVelocityIntensity(255);
 	_ledStrips[0].SetPattern(pattern_0);
 

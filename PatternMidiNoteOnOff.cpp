@@ -1,6 +1,7 @@
 #include "PatternMidiNoteOnOff.h"
 #include "MidiKeyboard.h"
 #include "Time.h"
+#include "MathUtils.h"
 
 
 PatternMidiNoteOnOff::PatternMidiNoteOnOff(LedStrip& ledStrip, MidiKeyboard& midiKeyboard)
@@ -49,7 +50,7 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 
 /* override */ void PatternMidiNoteOnOff::Start()
 {
-	_ledStrip.SetAllLeds(_foregroundColor, 0);
+	_ledStrip.SetAllLeds(_backgroundColor, 0);
 }
 
 
@@ -57,32 +58,42 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 {
 	for (uint8_t key = 0; key < _midiKeyboard.GetNrOfKeys(); key++)
 	{
-	struct FastLedCRGB* rgb = _ledStrip.GetLed(key); // TODO: Key should be in range 0..59 (led strips)
+		struct FastLedCRGB* rgb = _ledStrip.GetLed(key); // TODO: Key should be in range 0..59 (led strips)
 
-	if (_midiKeyboard.IsNew(key))
-	{
-	if (_midiKeyboard.IsPressed(key))
-	{
-	Serial.println("Key pressed");
-	Serial.println(key);
-	LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, 0); // P2: Foreground color
-	//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _parameter_6, ((_midiKeyboard.GetVelocity(key) & 0x7F) * 2 + 1)); // P6 = Note On Velocity)
-	}
-	else
-	{
-	// Do nothing
-	}
+		if (_midiKeyboard.IsNew(key))
+		{
+			if (_midiKeyboard.IsPressed(key))
+			{
+				Serial.print("Key pressed: ");
+				Serial.println(key);
+				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, 0); // P2: Foreground color
+				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _noteOnVelocityIntensity, _midiKeyboard.GetVelocity(key) * 2 + 1);
+			}
+			else
+			{
+				// Do nothing
+			}
 		} 
-		else if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _fadeTimeNoteOn) == 0) && _midiKeyboard.IsPressed(key))
+		else if (_midiKeyboard.IsPressed(key)) // if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _fadeTimeNoteOn) == 0)
 		{
-			//LedColor::Decrease(&rgb->red, &rgb->green, &rgb->blue);
+			struct FastLedCRGB foregroundColor{};
 			uint16_t timeAgo = _midiKeyboard.TimeAgo(key);
-			//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _value_3, MathUtils::Max(256, 256 * timeAgo / Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4)));
+			Serial.println("Time ago: ");
+			Serial.println(timeAgo);
+			uint32_t fadeTimeNoteOn = Time::GetTimeInMilliSeconds(_fadeTimeNoteOn);
+			LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor, 0);
+			uint8_t red = MathUtils::Max(0, foregroundColor.red * (fadeTimeNoteOn - timeAgo)) / fadeTimeNoteOn;
+			uint8_t green = MathUtils::Max(0, foregroundColor.green * (fadeTimeNoteOn - timeAgo)) / fadeTimeNoteOn;
+			uint8_t blue = MathUtils::Max(0, foregroundColor.blue * (fadeTimeNoteOn - timeAgo)) / fadeTimeNoteOn;
+			rgb->red = red;
+			rgb->green = green;
+			rgb->blue = blue;
 		}
-		else if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _fadeTimeNoteOff) == 0) && !_midiKeyboard.IsPressed(key))
+		else if (!_midiKeyboard.IsPressed(key)) // ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _fadeTimeNoteOff) == 0)
 		{
 			uint16_t timeAgo = _midiKeyboard.TimeAgo(key);
 			//_value_3 = LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _value_3, MathUtils::Max(256, 256 * timeAgo / Time::GetTimeInMilliSeconds((Time::ETime) _parameter_4)));
+			// (((foregroundColor.green - rgb->green) * _midiKeyboard.TimeAgo(key) *Time::GetTimeInMilliSeconds(_fadeTimeNoteOn)) / foregroundColor.green);
 		}
 	}
 }

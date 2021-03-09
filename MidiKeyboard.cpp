@@ -38,6 +38,12 @@ void MidiKeyboard::Process(uint32_t counter)
 	{
 		if (counter % NOTE_ON_OFF_PERIOD == 0)
 		{
+			if ((key == 14) && (_nrOfKeys == 61))
+			{
+				Serial.println("Process key 14, 61 keys");
+				Serial.println(TimeAgo(key));
+				Serial.println((_times[key] & TIME_AGO_BITS));
+			}
 			_times[key] = (_times[key] & NEW_FLAG) + MathUtils::Min(TIME_AGO_BITS, (_times[key] & TIME_AGO_BITS) + 1);
 		}
 	}
@@ -50,6 +56,7 @@ void MidiKeyboard::ProcessMidiNoteOn(midi::DataByte noteNumber, midi::DataByte v
 	Serial.println(noteNumber - _keyOffset);
 	_keys[noteNumber - _keyOffset] = PRESSED_FLAG | velocity;
 	_times[noteNumber - _keyOffset] = NEW_FLAG;
+	Serial.println(TimeAgo(noteNumber - _keyOffset));
 }
 
 
