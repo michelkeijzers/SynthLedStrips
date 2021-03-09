@@ -22,6 +22,7 @@
 	case ETime::_4s		: return  4000;
 	case ETime::_7s		: return  7000;
 	case ETime::_10s	: return 10000;
+	case ETime::_20s    : return 20000;
 	}
 };
 

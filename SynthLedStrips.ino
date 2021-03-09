@@ -1,8 +1,8 @@
 
 /*
-        03Mar  08Mar
-Sketch: 14852  16300
-Global:  3245   3229
+        03Mar  08Mar 09Mar
+Sketch: 14852  16862 17176
+Global:  3245   3267  3267
 */
 
 #include "SynthLedStrips.h"
@@ -10,11 +10,11 @@ Global:  3245   3229
 
 void setup() 
 {
-  SynthLedStrips::Setup();
+    SynthLedStrips::Setup();
 }
 
 
 void loop() 
 {
-  SynthLedStrips::Loop();
+    SynthLedStrips::Loop();
 }

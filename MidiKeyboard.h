@@ -23,10 +23,15 @@ public:
 
 	uint8_t GetNrOfKeys();
 	uint8_t GetKeyOffset();
+	
 	bool IsPressed(uint8_t keyNumber);
+	
 	uint8_t GetVelocity(uint8_t keyNumber); // Returns velocity or release velocity
+	
 	bool IsNew(uint8_t keyNumber);
-	uint16_t TimeAgo(uint8_t keyNumber); // 0..32767 ms (32.767 s, 15 bits)
+	
+	uint32_t TimeAgo(uint8_t keyNumber); // 0..32767 ms (32.767 s, 15 bits)
+	void SetTimeAgo(uint8_t keyNumber, uint32_t timeAgo);
 
 private:
 	const uint8_t PRESSED_FLAG = 0x80;
@@ -37,7 +42,7 @@ private:
 	const uint8_t NOTE_ON_OFF_PERIOD = 10; // 10 ms per note on/off increase time
 
 	uint8_t* _keys; // MSB: Pressed/Released, LSB 7 bits: Velocity / Release Velocity
-	uint16_t* _times; // MSB: New, LSB 7 bits: Time ago pressed/released
+	uint16_t* _times; // MSB: New, LSB 7 bits: Time ago pressed (Note On)
 
 	uint8_t _nrOfKeys;
 	uint8_t _keyOffset;

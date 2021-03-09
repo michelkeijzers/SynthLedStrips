@@ -28,6 +28,7 @@ void MidiKeyboard::SetNrOfKeys(uint8_t nrOfKeys)
 	for (uint8_t key = 0; key < nrOfKeys; key++)
 	{
 		_keys[key] = 0;
+		_times[key] = TIME_AGO_BITS;
 	}
 }
 
@@ -38,12 +39,13 @@ void MidiKeyboard::Process(uint32_t counter)
 	{
 		if (counter % NOTE_ON_OFF_PERIOD == 0)
 		{
-			if ((key == 14) && (_nrOfKeys == 61))
+			/*if ((key == 14) && (_nrOfKeys == 61))
 			{
 				Serial.println("Process key 14, 61 keys");
 				Serial.println(TimeAgo(key));
 				Serial.println((_times[key] & TIME_AGO_BITS));
 			}
+			*/
 			_times[key] = (_times[key] & NEW_FLAG) + MathUtils::Min(TIME_AGO_BITS, (_times[key] & TIME_AGO_BITS) + 1);
 		}
 	}
@@ -52,7 +54,7 @@ void MidiKeyboard::Process(uint32_t counter)
 
 void MidiKeyboard::ProcessMidiNoteOn(midi::DataByte noteNumber, midi::DataByte velocity)
 { 
-	Serial.println("MIDI Note on");
+	Serial.print("MIDI Note on: ");
 	Serial.println(noteNumber - _keyOffset);
 	_keys[noteNumber - _keyOffset] = PRESSED_FLAG | velocity;
 	_times[noteNumber - _keyOffset] = NEW_FLAG;
@@ -62,8 +64,10 @@ void MidiKeyboard::ProcessMidiNoteOn(midi::DataByte noteNumber, midi::DataByte v
 
 void MidiKeyboard::ProcessMidiNoteOff(midi::DataByte noteNumber, midi::DataByte releaseVelocity)
 {
+	Serial.print("MIDI Note off: ");
+	Serial.println(noteNumber - _keyOffset);
 	_keys[noteNumber - _keyOffset] = releaseVelocity;
-	_times[noteNumber - _keyOffset] = NEW_FLAG;
+	_times[noteNumber - _keyOffset] |= NEW_FLAG; // Do not change time (ago).
 }
 
 
@@ -108,7 +112,14 @@ bool MidiKeyboard::IsNew(uint8_t keyNumber)
 }
 
 
-uint16_t MidiKeyboard::TimeAgo(uint8_t keyNumber)
+uint32_t MidiKeyboard::TimeAgo(uint8_t keyNumber)
 {
 	return (_times[keyNumber] & TIME_AGO_BITS) * NOTE_ON_OFF_PERIOD;
+}
+
+
+void MidiKeyboard::SetTimeAgo(uint8_t keyNumber, uint32_t timeAgo)
+{
+	_times[keyNumber] &= NEW_FLAG;
+	_times[keyNumber] |= MathUtils::Min(timeAgo / NOTE_ON_OFF_PERIOD, TIME_AGO_BITS);
 }

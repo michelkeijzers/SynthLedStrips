@@ -28,6 +28,8 @@ public:
 	/* override */ void Process(uint32_t counter);
 
 private:
+	void ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter);
+
 	MidiKeyboard& _midiKeyboard;
 
 	LedColor::EColor _backgroundColor;
