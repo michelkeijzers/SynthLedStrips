@@ -44,4 +44,3 @@ public:
 
 	Pattern* _pattern;
 };
-

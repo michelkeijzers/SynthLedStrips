@@ -9,4 +9,3 @@ public:
 
 	static uint32_t GetTimeInMilliSeconds(ETime time);
 };
-

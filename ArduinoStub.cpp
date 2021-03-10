@@ -92,7 +92,6 @@ extern int Max(int a, int b)
 }
 
 
-
 // Trigonometry
 
 // Characters

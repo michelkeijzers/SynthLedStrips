@@ -72,5 +72,4 @@ void SerialClass::flush()
 {
 }
 
-
 #endif // _WINDOWS

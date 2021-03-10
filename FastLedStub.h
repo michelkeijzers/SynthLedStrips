@@ -104,7 +104,3 @@ public:
 extern CFastLED FastLED;
 
 #endif // FAST_LED_STUB_H
-
-
-
-

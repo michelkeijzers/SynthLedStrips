@@ -93,6 +93,7 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 	}
 }
 
+
 void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter)
 {
 	uint32_t fadeTime = Time::GetTimeInMilliSeconds(fadeTimeEnum);
@@ -106,5 +107,4 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	rgb->red = red;
 	rgb->green = green;
 	rgb->blue = blue;
-
 }

@@ -85,4 +85,3 @@ BitsUtils::~BitsUtils()
 
 	return value;
 }
-

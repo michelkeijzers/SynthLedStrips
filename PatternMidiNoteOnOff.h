@@ -42,4 +42,3 @@ private:
 
 	uint8_t _noteOnVelocityIntensity;
 };
-

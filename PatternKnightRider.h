@@ -46,4 +46,3 @@ private:
 
 	uint8_t _currentLed;
 };
-

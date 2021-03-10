@@ -49,4 +49,3 @@ private:
 
 	uint8_t _ccGroup[NR_OF_CCS];
 };
-

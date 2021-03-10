@@ -12,4 +12,3 @@ public:
 
 	static int32_t GetSpeedInMilliSeconds(ESpeed speed);
 };
-

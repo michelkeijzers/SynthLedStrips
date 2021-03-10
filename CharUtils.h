@@ -14,4 +14,3 @@ private:
 	CharUtils();
 	~CharUtils();
 };
-

@@ -20,4 +20,3 @@ public:
 
 	static void MyAssert(bool expression, const char* fileName, int line);
 };
-

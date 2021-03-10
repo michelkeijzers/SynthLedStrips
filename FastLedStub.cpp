@@ -2,6 +2,7 @@
 
 #include "FastLedStub.h"
 
+
 CFastLED FastLED;
 
 
@@ -19,9 +20,11 @@ CFastLED::CFastLED()
 {
 }
 
+
 CFastLED::~CFastLED()
 {
 }
+
 
 /* static */ struct FastLedCRGB* CFastLED::GetData(int ledStrip) 
 {
@@ -29,11 +32,15 @@ CFastLED::~CFastLED()
 	return _data[ledStrip]; 
 }
 
+
 /* static */ int CFastLED::GetPinNumber(int ledStrip) { return _pinNumbers[ledStrip]; }
+
 
 /* static */ int CFastLED::GetNrOfUsedLeds(int ledStrip) { return _nrOfUsedLeds[ledStrip]; }
 
+
 /* static */ int CFastLED::GetNrOfLedStrips() { return _nrOfLedStrips; }
+
 
 /* static */ bool CFastLED::IsShowEnabled() { return _showEnabled; }
 
@@ -47,9 +54,11 @@ CFastLED::~CFastLED()
 	return *new CLEDController();
 }
 
+
 /* static */ void CFastLED::show()
 {
 	_showEnabled = true;
 }
+
 
 #endif // _WINDOWS

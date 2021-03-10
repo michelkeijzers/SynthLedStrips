@@ -326,5 +326,4 @@ void ArduinoAppLoop(MSG& msg)
 	InvalidateRect(msg.hwnd, nullptr, FALSE);
 }
 
-
 #endif // _WINDOWS

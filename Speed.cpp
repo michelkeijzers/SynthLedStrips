@@ -43,4 +43,3 @@
 	case ESpeed::_10s		: return  10000;
 	}
 };
-

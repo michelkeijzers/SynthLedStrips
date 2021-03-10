@@ -89,10 +89,6 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 		if (ratio == 0)
 		{
-			// counter    speed :1000 ms       2000 ms
-			// 0                    0            0
-			// 1000                359           180
-            // 2000                720           360
 			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / Speed::GetSpeedInMilliSeconds(_backgroundColorSpeed));
 		}
 		else

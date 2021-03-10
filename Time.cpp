@@ -25,4 +25,3 @@
 	case ETime::_20s    : return 20000;
 	}
 };
-

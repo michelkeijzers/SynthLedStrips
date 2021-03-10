@@ -69,4 +69,3 @@ extern void randomSeed(uint16_t seed);
 // Communication
 
 // USB
-

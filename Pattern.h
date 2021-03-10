@@ -21,4 +21,3 @@ public:
 protected:
 	LedStrip& _ledStrip;
 };
-
