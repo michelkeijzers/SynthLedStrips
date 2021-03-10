@@ -1,7 +1,9 @@
 #include "PatternMidiNoteOnOff.h"
 #include "MidiKeyboard.h"
 #include "Time.h"
-#include "MathUtils.h"
+
+#include "ClassNames.h"
+#include HEADER_FILE(ARDUINO_CLASS)
 
 
 PatternMidiNoteOnOff::PatternMidiNoteOnOff(LedStrip& ledStrip, MidiKeyboard& midiKeyboard)
@@ -97,9 +99,9 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	struct FastLedCRGB foregroundColor{};
 	LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor, 0);
 	uint32_t timeAgo = _midiKeyboard.TimeAgo(key);
-	uint8_t red = foregroundColor.red * MathUtils::Max(0, fadeTime - timeAgo) / fadeTime;
-	uint8_t green = foregroundColor.green * MathUtils::Max(0, fadeTime - timeAgo) / fadeTime;
-	uint8_t blue = foregroundColor.blue * MathUtils::Max(0, fadeTime - timeAgo) / fadeTime;
+	uint8_t red = foregroundColor.red * MAX(0, fadeTime - timeAgo) / fadeTime;
+	uint8_t green = foregroundColor.green * MAX(0, fadeTime - timeAgo) / fadeTime;
+	uint8_t blue = foregroundColor.blue * MAX(0, fadeTime - timeAgo) / fadeTime;
 	struct FastLedCRGB* rgb = _ledStrip.GetLed(key); // TODO: Key should be in range 0..59 (led strips)
 	rgb->red = red;
 	rgb->green = green;

@@ -161,7 +161,6 @@
     <ClInclude Include="SynthLedStripsTypes.h" />
     <ClInclude Include="MidiStub.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SerialPrint.h" />
     <ClInclude Include="SerialStub.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />

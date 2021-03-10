@@ -63,9 +63,6 @@
     <ClInclude Include="MidiStub.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
-    <ClInclude Include="SerialPrint.h">
-      <Filter>Header Files\Stubs</Filter>
-    </ClInclude>
     <ClInclude Include="SerialStub.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>

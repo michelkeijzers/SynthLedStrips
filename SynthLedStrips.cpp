@@ -23,7 +23,6 @@
 
 #include "MathUtils.h"
 #include "SynthLedStrips.h"
-#include "SerialPrint.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 #include HEADER_FILE(MIDI_CLASS)
@@ -92,7 +91,7 @@ SynthLedStrips::~SynthLedStrips()
 	_midiKeyboards[1].SetNrOfKeys(88);
 
 	// LED STRIPS
-	int maxSize = MathUtils::Max(sizeof(PatternOff), sizeof(PatternKnightRider));
+	int maxSize = MAX(sizeof(PatternOff), sizeof(PatternKnightRider));
 	byte* patternData = new byte[maxSize * 4];
 
 	FastLED.addLeds<WS2813, 3, RGB>(_leds[0], NR_OF_LEDS);
@@ -113,22 +112,29 @@ SynthLedStrips::~SynthLedStrips()
 	_ledStrips[1].SetPattern(pattern_1);
 	//_ledStrips[1].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
 
-	FastLED.addLeds<WS2813, 5, RGB>(_leds[2], NR_OF_LEDS);
+	FastLED.addLeds<WS2813, 6, RGB>(_leds[2], NR_OF_LEDS);
 	_ledStrips[2].Initialize(DATA_PINS[2], NR_OF_LEDS, _leds[2]);
-	//_ledStrips[2].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 5);
-	PatternOff* pattern_2 = new (patternData + 2 * maxSize) PatternOff(_ledStrips[2]);
+	PatternKnightRider* pattern_2 = new (patternData + 2 * maxSize) PatternKnightRider(_ledStrips[2]);
+	pattern_2->SetBackgroundColor(LedColor::EColor::Black);
+	pattern_2->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
+	pattern_2->SetForegroundColor(LedColor::EColor::Rainbow);
+	pattern_2->SetForegroundColorSpeed(Speed::ESpeed::_4s);
+	pattern_2->SetDirection(true);
+	pattern_2->SetLedSpeed(Speed::ESpeed::_1s);
+	pattern_2->SetLedWidth(10);
 	_ledStrips[2].SetPattern(pattern_2);
 
 	FastLED.addLeds<WS2813, 6, RGB>(_leds[3], NR_OF_LEDS);
 	_ledStrips[3].Initialize(DATA_PINS[3], NR_OF_LEDS, _leds[3]);
 	PatternKnightRider* pattern_3 = new (patternData + 3 * maxSize) PatternKnightRider(_ledStrips[3]);
 	pattern_3->SetBackgroundColor(LedColor::EColor::Black);
+	pattern_3->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
 	pattern_3->SetForegroundColor(LedColor::EColor::White);
+	pattern_3->SetForegroundColorSpeed(Speed::ESpeed::_4s);
 	pattern_3->SetDirection(true);
 	pattern_3->SetLedSpeed(Speed::ESpeed::_1s);
 	pattern_3->SetLedWidth(10);
 	_ledStrips[3].SetPattern(pattern_3);
-	//_ledStrips[3].SetPattern(LedStrip::EPattern::KnightRider, 255, 255, 255, 20, 10);
 }
 
 

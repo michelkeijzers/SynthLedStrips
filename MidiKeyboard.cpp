@@ -1,5 +1,8 @@
 #include "MidiKeyboard.h"
-#include "MathUtils.h"
+
+#include "ClassNames.h"
+#include HEADER_FILE(ARDUINO_CLASS)
+
 
 MidiKeyboard::MidiKeyboard()
 : 
@@ -46,7 +49,7 @@ void MidiKeyboard::Process(uint32_t counter)
 				Serial.println((_times[key] & TIME_AGO_BITS));
 			}
 			*/
-			_times[key] = (_times[key] & NEW_FLAG) + MathUtils::Min(TIME_AGO_BITS, (_times[key] & TIME_AGO_BITS) + 1);
+			_times[key] = (_times[key] & NEW_FLAG) + MIN(TIME_AGO_BITS, (_times[key] & TIME_AGO_BITS) + 1);
 		}
 	}
 }
@@ -121,5 +124,5 @@ uint32_t MidiKeyboard::TimeAgo(uint8_t keyNumber)
 void MidiKeyboard::SetTimeAgo(uint8_t keyNumber, uint32_t timeAgo)
 {
 	_times[keyNumber] &= NEW_FLAG;
-	_times[keyNumber] |= MathUtils::Min(timeAgo / NOTE_ON_OFF_PERIOD, TIME_AGO_BITS);
+	_times[keyNumber] |= MIN(timeAgo / NOTE_ON_OFF_PERIOD, TIME_AGO_BITS);
 }

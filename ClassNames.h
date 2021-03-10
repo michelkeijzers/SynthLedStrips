@@ -24,6 +24,10 @@
 
 #else
 
+#define ABS                     abs
+#define MIN                     min
+#define MAX                     max
+
 #define ARDUINO_CLASS			Arduino
 #define DMX_SIMPLE_CLASS		DmxSimple
 #define FAST_LED_CLASS          FastLED

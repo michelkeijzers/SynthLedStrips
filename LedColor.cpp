@@ -9,7 +9,7 @@
 
 
 // https://www.rapidtables.com/web/color/RGB_Color.html
-/* static */ void LedColor::SetRgb(uint8_t* red, uint8_t* green, uint8_t* blue, LedColor::EColor color, uint8_t step)
+/* static */ void LedColor::SetRgb(uint8_t* red, uint8_t* green, uint8_t* blue, LedColor::EColor color, uint32_t step)
 {
 	switch (color)
 	{
@@ -24,6 +24,7 @@
 	case LedColor::EColor::Silver		: SetRgb(red, green, blue, 0xC0C0C0); break;
 	case LedColor::EColor::Gray			: SetRgb(red, green, blue, 0x808080); break;
 	case LedColor::EColor::Random		: SetRandom(red, green, blue); break;
+	case LedColor::EColor::Rainbow      : SetRainbow(red, green, blue, step); break;
 
 	default:
 		exit(0);
@@ -36,6 +37,49 @@
 	*red = random(256);
 	*green = random(256);
 	*blue = random(256);
+}
+
+// https://www.instructables.com/How-to-Make-Proper-Rainbow-and-Random-Colors-With-/
+// Regular HSV
+/* static */ void LedColor::SetRainbow(uint8_t* red, uint8_t* green, uint8_t* blue, uint32_t step)
+{
+	uint16_t angle = step % 360;
+	if (angle < 60) 
+	{
+		*red = 255; 
+		*green = map(angle, 0, 60, 0, 255); 
+		*blue = 0;
+	}
+	else if (angle < 120)
+	{
+		*red = map(angle, 60, 120, 255, 0);
+		*green = 255;
+		*blue = 0;
+	}
+	else if (angle < 180)
+	{
+		*red = 0;
+		*green = 255;
+		*blue = map(angle, 120, 180, 0, 255);
+	}
+	else if (angle < 240)
+	{
+		*red = 0;
+		*green = map(angle, 180, 240, 255, 0);
+		*blue = 255;
+	}
+	else if (angle < 300)
+	{
+		*red = map(angle, 240, 300, 0, 255);
+		*green = 0;
+		*blue = 255;
+	}
+	else
+	{
+		*red = 255;
+		*green = 0;
+		*blue = map(angle, 300, 360, 255, 0);
+	}
 }
 
 

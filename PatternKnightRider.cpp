@@ -3,12 +3,18 @@
 
 #include "LedColor.h"
 
+#include "ClassNames.h"
+#include HEADER_FILE(ARDUINO_CLASS)
+
+
 PatternKnightRider::PatternKnightRider(LedStrip& ledStrip)
 	: Pattern(ledStrip),
 	_ledWidth(0),
 	_ledSpeed(Speed::ESpeed::NA),
 	_foregroundColor(LedColor::EColor::Black),
+	_foregroundColorSpeed(Speed::ESpeed::NA),
 	_backgroundColor(LedColor::EColor::Black),
+	_backgroundColorSpeed(Speed::ESpeed::NA),
 	_direction(false),
 	_currentLed(0)
 {
@@ -26,9 +32,21 @@ void PatternKnightRider::SetBackgroundColor(LedColor::EColor color)
 }
 
 
+void PatternKnightRider::SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed)
+{
+	_backgroundColorSpeed = backgroundColorSpeed;
+}
+
+
 void PatternKnightRider::SetForegroundColor(LedColor::EColor color)
 {
 	_foregroundColor = color;
+}
+
+
+void PatternKnightRider::SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed)
+{
+	_foregroundColorSpeed = foregroundColorSpeed;
 }
 
 
@@ -67,11 +85,22 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 	for (int led = 0; led < _ledStrip.GetNrOfLeds(); led++)
 	{
 		struct FastLedCRGB *rgb = _ledStrip.GetLed(led);
-		uint8_t ratio = MathUtils::Max(0, _ledWidth - MathUtils::Abs(led - _currentLed));
+		uint8_t ratio = MAX(0, _ledWidth - ABS(led - _currentLed));
 
-		LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, 0); // TODO: Step 0
-		rgb->red = (rgb->red * ratio) / _ledWidth;
-		rgb->green = (rgb->green * ratio) / _ledWidth;
-		rgb->blue = (rgb->blue * ratio) / _ledWidth;
+		if (ratio == 0)
+		{
+			// counter    speed :1000 ms       2000 ms
+			// 0                    0            0
+			// 1000                359           180
+            // 2000                720           360
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / Speed::GetSpeedInMilliSeconds(_backgroundColorSpeed));
+		}
+		else
+		{
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter * 360 / Speed::GetSpeedInMilliSeconds(_foregroundColorSpeed));
+			rgb->red = (rgb->red * ratio) / _ledWidth;
+			rgb->green = (rgb->green * ratio) / _ledWidth;
+			rgb->blue = (rgb->blue * ratio) / _ledWidth;
+		}
 	}
 }

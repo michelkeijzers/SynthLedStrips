@@ -50,6 +50,8 @@ bool Midi::read()
 	_queue.pop();
 	_data2 = _queue.front();
 	_queue.pop();
+
+	return true;
 }
 
 

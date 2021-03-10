@@ -13,7 +13,11 @@ public:
 
 	void SetBackgroundColor(LedColor::EColor color);
 
+	void SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed);
+
 	void SetForegroundColor(LedColor::EColor color);
+
+	void SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed);
 
 	void SetDirection(bool direction);
 
@@ -28,7 +32,11 @@ public:
 private:
 	LedColor::EColor _backgroundColor;
 
+	Speed::ESpeed _backgroundColorSpeed;
+
 	LedColor::EColor _foregroundColor;
+
+	Speed::ESpeed _foregroundColorSpeed;
 
 	bool _direction;
 
