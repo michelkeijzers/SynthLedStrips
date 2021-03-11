@@ -124,7 +124,7 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_2->SetForegroundColor(LedColor::EColor::Red);
 	pattern_2->SetForegroundColorSpeed(Speed::ESpeed::_4s);
 	pattern_2->SetDirection(true);
-	pattern_2->SetLedSpeed(Speed::ESpeed::_1s);
+	pattern_2->SetLedSpeed(Speed::ESpeed::_10ms);
 	pattern_2->SetLedWidth(10);
 	_ledStrips[2].SetPattern(pattern_2);
 
@@ -136,7 +136,7 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_3->SetForegroundColor(LedColor::EColor::Red);
 	pattern_3->SetForegroundColorSpeed(Speed::ESpeed::_4s);
 	pattern_3->SetDirection(true);
-	pattern_3->SetLedSpeed(Speed::ESpeed::_1s);
+	pattern_3->SetLedSpeed(Speed::ESpeed::_10ms);
 	pattern_3->SetLedWidth(10);
 	_ledStrips[3].SetPattern(pattern_3);
 }

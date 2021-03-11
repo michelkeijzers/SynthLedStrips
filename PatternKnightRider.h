@@ -30,6 +30,10 @@ public:
 	/* override */ void Process(uint32_t counter);
 
 private:
+	void ProcessCurrentLed(uint32_t counter);
+
+	void GotoNextCurrentLed(uint8_t currentLedShiftAmount);
+
 	LedColor::EColor _backgroundColor;
 
 	Speed::ESpeed _backgroundColorSpeed;
@@ -48,4 +52,6 @@ private:
 	uint8_t _ledWidth;
 
 	uint8_t _currentLed;
+
+	uint16_t _counterRemainder;
 };
