@@ -29,9 +29,21 @@ void PatternMidiNoteOnOff::SetBackgroundColor(LedColor::EColor color)
 }
 
 
+void PatternMidiNoteOnOff::SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed)
+{
+	_backgroundColorSpeed = backgroundColorSpeed;
+}
+
+
 void PatternMidiNoteOnOff::SetForegroundColor(LedColor::EColor color)
 {
 	_foregroundColor = color;
+}
+
+
+void PatternMidiNoteOnOff::SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed)
+{
+	_foregroundColorSpeed = foregroundColorSpeed;
 }
 
 
@@ -69,8 +81,9 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 			{
 				Serial.print("Key pressed: ");
 				Serial.println(key);
-				struct FastLedCRGB* rgb = _ledStrip.GetLed(key); // TODO: Key should be in range 0..59 (led strips)
-				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, 0); // P2: Foreground color
+				uint8_t led = ConvertKeyToLed(key);
+				struct FastLedCRGB* rgb = _ledStrip.GetLed(led);
+				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter); // P2: Foreground color
 				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _noteOnVelocityIntensity, _midiKeyboard.GetVelocity(key) * 2 + 1);
 			}
 			else
@@ -96,15 +109,39 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 
 void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter)
 {
+	uint8_t led = ConvertKeyToLed(key);
 	uint32_t fadeTime = Time::GetTimeInMilliSeconds(fadeTimeEnum);
-	struct FastLedCRGB foregroundColor{};
-	LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor, 0);
 	uint32_t timeAgo = _midiKeyboard.TimeAgo(key);
-	uint8_t red = foregroundColor.red * MAX(0, fadeTime - timeAgo) / fadeTime;
-	uint8_t green = foregroundColor.green * MAX(0, fadeTime - timeAgo) / fadeTime;
-	uint8_t blue = foregroundColor.blue * MAX(0, fadeTime - timeAgo) / fadeTime;
-	struct FastLedCRGB* rgb = _ledStrip.GetLed(key); // TODO: Key should be in range 0..59 (led strips)
+
+	uint8_t red = 0;
+	uint8_t green = 0;
+	uint8_t blue = 0;
+
+	if (timeAgo < fadeTime)
+	{
+		struct FastLedCRGB foregroundColor{};
+		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor,  counter * 360 / Speed::GetSpeedInMilliSeconds(_foregroundColorSpeed));
+		red = foregroundColor.red * (fadeTime - timeAgo) / fadeTime;
+		green = foregroundColor.green * (fadeTime - timeAgo) / fadeTime;
+		blue = foregroundColor.blue * (fadeTime - timeAgo) / fadeTime;
+	}
+	else
+	{
+		struct FastLedCRGB backgroundColor{};
+		LedColor::SetRgb(&backgroundColor.red, &backgroundColor.green, &backgroundColor.blue, _backgroundColor,  counter * 360 / Speed::GetSpeedInMilliSeconds(_backgroundColorSpeed));
+		red = backgroundColor.red;
+		green = backgroundColor.green;
+		blue = backgroundColor.blue;
+	}
+		
+	struct FastLedCRGB* rgb = _ledStrip.GetLed(led);
 	rgb->red = red;
 	rgb->green = green;
 	rgb->blue = blue;
+}
+
+
+uint8_t PatternMidiNoteOnOff::ConvertKeyToLed(uint8_t key)
+{
+	return constrain(key, 0, _ledStrip.GetNrOfLeds() - 1);
 }

@@ -1,8 +1,9 @@
 
 /*
-        03Mar  08Mar 09Mar
-Sketch: 14852  16862 16616
-Global:  3245   3267  3224
+        March 2021
+          7     8     9    10    11
+Sketch: 14852 16862 16616 17010
+Global:  3245  3267  3224  2684
 */
 
 #include "SynthLedStrips.h"

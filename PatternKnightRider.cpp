@@ -76,7 +76,7 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 /* override */ void PatternKnightRider::Process(uint32_t counter)
 {
-	if (counter % (Speed::GetSpeedInMilliSeconds(_ledSpeed) / _ledStrip.GetNrOfLeds()) == 0)
+	if ((counter % (Speed::GetSpeedInMilliSeconds(_ledSpeed) / _ledStrip.GetNrOfLeds())) == 0)
 	{
 		_currentLed = (_direction) ? _currentLed + 1 : _currentLed - 1;
 		_direction = ((_currentLed == 0) || (_currentLed == _ledStrip.GetNrOfLeds() - 1)) ? !_direction : _direction;

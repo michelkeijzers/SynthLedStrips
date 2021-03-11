@@ -2,7 +2,7 @@
 #include "Pattern.h"
 #include "LedStrip.h"
 #include "Time.h"
-
+#include "Speed.h"
 
 class MidiKeyboard;
 
@@ -15,7 +15,11 @@ public:
 
 	void SetBackgroundColor(LedColor::EColor color);
 
+	void SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed);
+
 	void SetForegroundColor(LedColor::EColor color);
+
+	void SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed);
 
 	void SetFadeTimeNoteOn(Time::ETime fadeTimeNoteOn);
 
@@ -30,11 +34,17 @@ public:
 private:
 	void ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter);
 
+	uint8_t ConvertKeyToLed(uint8_t key);
+
 	MidiKeyboard& _midiKeyboard;
 
 	LedColor::EColor _backgroundColor;
 
+	Speed::ESpeed _backgroundColorSpeed;
+
 	LedColor::EColor _foregroundColor;
+
+	Speed::ESpeed _foregroundColorSpeed;
 
 	Time::ETime _fadeTimeNoteOn;
 

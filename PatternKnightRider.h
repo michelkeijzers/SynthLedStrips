@@ -40,6 +40,9 @@ private:
 
 	bool _direction;
 
+	/// <summary>
+	/// Speed in one direction
+	/// </summary>
 	Speed::ESpeed _ledSpeed;
 
 	uint8_t _ledWidth;

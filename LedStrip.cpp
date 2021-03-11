@@ -44,6 +44,12 @@ void LedStrip::SetPattern(Pattern* pattern)
 
 struct FastLedCRGB* LedStrip::GetLed(uint8_t ledIndex)
 {
+#ifdef _DEBUG
+	if (ledIndex >= _nrOfLeds)
+	{
+		exit(0);
+	}
+#endif
 	return &_data[ledIndex];
 }
 

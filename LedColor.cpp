@@ -85,8 +85,8 @@
 
 /* static */ void LedColor::SetRgb(uint8_t* red, uint8_t* green, uint8_t* blue, uint32_t rgb)
 {
-	*red = rgb & 0xFF0000 >> 16;
-	*green = rgb & 0xFF00 >> 8;
+	*red = (rgb & 0xFF0000) >> 16;
+	*green = (rgb & 0xFF00) >> 8;
 	*blue = rgb & 0xFF;
 }
 
