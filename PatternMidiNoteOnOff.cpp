@@ -10,7 +10,9 @@ PatternMidiNoteOnOff::PatternMidiNoteOnOff(LedStrip& ledStrip, MidiKeyboard& mid
 	: Pattern(ledStrip),
 	_midiKeyboard(midiKeyboard),
 	_foregroundColor(LedColor::EColor::Black),
+	_foregroundColorSpeed(Speed::ESpeed::NA),
 	_backgroundColor(LedColor::EColor::Black),
+	_backgroundColorSpeed(Speed::ESpeed::NA),
 	_fadeTimeNoteOff(Time::ETime::NA),
 	_fadeTimeNoteOn(Time::ETime::NA),
 	_noteOnVelocityIntensity(0)
@@ -81,8 +83,7 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 			{
 				Serial.print("Key pressed: ");
 				Serial.println(key);
-				uint8_t led = ConvertKeyToLed(key);
-				struct FastLedCRGB* rgb = _ledStrip.GetLed(led);
+				struct FastLedCRGB* rgb = _ledStrip.GetLed(key);
 				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter); // P2: Foreground color
 				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _noteOnVelocityIntensity, _midiKeyboard.GetVelocity(key) * 2 + 1);
 			}
@@ -90,16 +91,16 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 			{
 				Serial.print("TimeAgo: ");
 				Serial.print(_midiKeyboard.TimeAgo(key));
-				_midiKeyboard.SetTimeAgo(key, _midiKeyboard.TimeAgo(key) * Time::GetTimeInMilliSeconds(_fadeTimeNoteOff) / Time::GetTimeInMilliSeconds(_fadeTimeNoteOn));
+				_midiKeyboard.SetTimeAgo(key, _midiKeyboard.TimeAgo(key) * Time::GetTime(_fadeTimeNoteOff) / Time::GetTime(_fadeTimeNoteOn));
 				Serial.print(", new: ");
 				Serial.println(_midiKeyboard.TimeAgo(key));
 			}
 		} 
-		else if (_midiKeyboard.IsPressed(key)) // if ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _fadeTimeNoteOn) == 0)
+		else if (_midiKeyboard.IsPressed(key)) // if ((counter % Time::GetTime((Time::ETime) _fadeTimeNoteOn) == 0)
 		{
 			ProcessFade(_fadeTimeNoteOn, key, counter);
 		}
-		else if (!_midiKeyboard.IsPressed(key)) // ((counter % Time::GetTimeInMilliSeconds((Time::ETime) _fadeTimeNoteOff) == 0)
+		else if (!_midiKeyboard.IsPressed(key)) // ((counter % Time::GetTime((Time::ETime) _fadeTimeNoteOff) == 0)
 		{
 			ProcessFade(_fadeTimeNoteOff, key, counter);
 		}
@@ -109,8 +110,7 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 
 void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter)
 {
-	uint8_t led = ConvertKeyToLed(key);
-	uint32_t fadeTime = Time::GetTimeInMilliSeconds(fadeTimeEnum);
+	uint32_t fadeTime = Time::GetTime(fadeTimeEnum);
 	uint32_t timeAgo = _midiKeyboard.TimeAgo(key);
 
 	uint8_t red = 0;
@@ -120,7 +120,7 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	if (timeAgo < fadeTime)
 	{
 		struct FastLedCRGB foregroundColor{};
-		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor,  counter * 360 / Speed::GetSpeedInMilliSeconds(_foregroundColorSpeed));
+		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor,  counter * 360 / Speed::GetSpeed(_foregroundColorSpeed));
 		red = foregroundColor.red * (fadeTime - timeAgo) / fadeTime;
 		green = foregroundColor.green * (fadeTime - timeAgo) / fadeTime;
 		blue = foregroundColor.blue * (fadeTime - timeAgo) / fadeTime;
@@ -128,20 +128,14 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	else
 	{
 		struct FastLedCRGB backgroundColor{};
-		LedColor::SetRgb(&backgroundColor.red, &backgroundColor.green, &backgroundColor.blue, _backgroundColor,  counter * 360 / Speed::GetSpeedInMilliSeconds(_backgroundColorSpeed));
+		LedColor::SetRgb(&backgroundColor.red, &backgroundColor.green, &backgroundColor.blue, _backgroundColor,  counter * 360 / Speed::GetSpeed(_backgroundColorSpeed));
 		red = backgroundColor.red;
 		green = backgroundColor.green;
 		blue = backgroundColor.blue;
 	}
 		
-	struct FastLedCRGB* rgb = _ledStrip.GetLed(led);
+	struct FastLedCRGB* rgb = _ledStrip.GetLed(key);
 	rgb->red = red;
 	rgb->green = green;
 	rgb->blue = blue;
-}
-
-
-uint8_t PatternMidiNoteOnOff::ConvertKeyToLed(uint8_t key)
-{
-	return constrain(key, 0, _ledStrip.GetNrOfLeds() - 1);
 }

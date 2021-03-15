@@ -1,9 +1,12 @@
 // Window.cpp
 // Only for Windows.
 
+#ifdef _WINDOWS
+
 #include "Resource.h"
 
-#ifdef _WINDOWS
+#include "Time.h"
+
 
 // DmxLightShow.cpp : Defines the entry point for the application.
 //
@@ -220,8 +223,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
+		break;
 	}
-	break;
+
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -283,11 +287,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 
 		EndPaint(hWnd, &ps);
+		break;
 	}
-	break;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_MOUSEMOVE:
+	case WM_NCMOUSEMOVE:
+	case WM_SETCURSOR:
+	case WM_NCHITTEST:
+	case WM_MOUSELEAVE:
+	case WM_NCMOUSELEAVE:
+		// Ignore
+		break;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -309,10 +323,10 @@ void ArduinoAppSetup()
 {
 	SynthLedStrips::Setup();
 
-	_midiInjection.Add(1000, midiB, midi::MidiType::NoteOn, 50, 127);
-	_midiInjection.Add(1000, midiB, midi::MidiType::NoteOn, 55, 127);
-	_midiInjection.Add(5000, midiB, midi::MidiType::NoteOff, 50, 127);
-	_midiInjection.Add(5000, midiB, midi::MidiType::NoteOff, 55, 127);
+	_midiInjection.Add(100 / Time::MULTIPLIER, midiB, midi::MidiType::NoteOn, 50, 127);
+	_midiInjection.Add(100 / Time::MULTIPLIER, midiB, midi::MidiType::NoteOn, 55, 127);
+	_midiInjection.Add(500 / Time::MULTIPLIER, midiB, midi::MidiType::NoteOff, 50, 127);
+	_midiInjection.Add(500 / Time::MULTIPLIER, midiB, midi::MidiType::NoteOff, 55, 127);
 }
 
 

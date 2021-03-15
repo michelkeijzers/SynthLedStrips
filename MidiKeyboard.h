@@ -29,20 +29,32 @@ public:
 	uint8_t GetVelocity(uint8_t keyNumber); // Returns velocity or release velocity
 	
 	bool IsNew(uint8_t keyNumber);
-	
-	uint32_t TimeAgo(uint8_t keyNumber); // 0..32767 ms (32.767 s, 15 bits)
-	void SetTimeAgo(uint8_t keyNumber, uint32_t timeAgo);
+
+	bool IsAssignedToLed(uint8_t keyNumber);
+	void AssignToLed(uint8_t keyNumber);
+	void UnassignToLed(uint8_t keyNumber);
+	uint8_t GetNrOfKeysAssignedToLeds();
+	bool AreNewPressedKeysAssigned();
+
+	uint16_t TimeAgo(uint8_t keyNumber); // 0..4096 in 10 ms (40.96 s)
+	void SetTimeAgo(uint8_t keyNumber, uint16_t timeAgo);
 
 private:
 	const uint8_t PRESSED_FLAG = 0x80;
 	const uint8_t VELOCITY_BITS = 0x7F;
 	const uint16_t NEW_FLAG = 0x8000;
-	const uint16_t TIME_AGO_BITS = 0x7FFF;
+	const uint16_t ASSIGNED_TO_LED_FLAG = 0x4000;
+	const uint16_t TIME_AGO_BITS = 0x0FFF;
 
 	const uint8_t NOTE_ON_OFF_PERIOD = 10; // 10 ms per note on/off increase time
 
-	uint8_t* _keys; // MSB: Pressed/Released, LSB 7 bits: Velocity / Release Velocity
-	uint16_t* _times; // MSB: New, LSB 7 bits: Time ago pressed (Note On)
+	uint8_t* _keys;    // Bits: 7     : 1=Pressed (Note On), 0=Released (Note Off)
+                       //       6..0  : Velocity (Note On), Release Velocity (Note Off)
+
+	uint16_t* _status; // Bits  15    : 1=New Note On or Note Off
+	                   //       14    : Assigned to LED
+					   //       13..12: Reserved
+					   //       11..0 : Time ago pressed/released (Note On/Off) in 10 ms, max 40.96s
 
 	uint8_t _nrOfKeys;
 	uint8_t _keyOffset;

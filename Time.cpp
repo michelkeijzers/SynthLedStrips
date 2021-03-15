@@ -1,27 +1,29 @@
 #include "Time.h"
 
-/* static */ uint32_t Time::GetTimeInMilliSeconds(ETime time)
+#include <stdlib.h>
+
+
+/* static */ uint32_t Time::GetTime(ETime time)
 {
 	switch (time)
 	{
 	case ETime::NA		: return 0xFFFFFFFF;
-	case ETime::_1ms	: return     1;
-	case ETime::_2ms	: return     2;
-	case ETime::_4ms	: return     4;
-	case ETime::_7ms	: return     7;
-	case ETime::_10ms	: return    10;
-	case ETime::_20ms	: return    20;
-	case ETime::_40ms	: return    40;
-	case ETime::_70ms	: return    70;
-	case ETime::_100ms	: return   100;
-	case ETime::_200ms	: return   200;
-	case ETime::_400ms	: return   400;
-	case ETime::_700ms	: return   700;
-	case ETime::_1s		: return  1000;
-	case ETime::_2s		: return  2000;
-	case ETime::_4s		: return  4000;
-	case ETime::_7s		: return  7000;
-	case ETime::_10s	: return 10000;
-	case ETime::_20s    : return 20000;
+	case ETime::_10ms	: return    10 / Time::MULTIPLIER;
+	case ETime::_20ms	: return    20 / Time::MULTIPLIER;
+	case ETime::_40ms	: return    40 / Time::MULTIPLIER;
+	case ETime::_70ms	: return    70 / Time::MULTIPLIER;
+	case ETime::_100ms	: return   100 / Time::MULTIPLIER;
+	case ETime::_200ms	: return   200 / Time::MULTIPLIER;
+	case ETime::_400ms	: return   400 / Time::MULTIPLIER;
+	case ETime::_700ms	: return   700 / Time::MULTIPLIER;
+	case ETime::_1s		: return  1000 / Time::MULTIPLIER;
+	case ETime::_2s		: return  2000 / Time::MULTIPLIER;
+	case ETime::_4s		: return  4000 / Time::MULTIPLIER;
+	case ETime::_7s		: return  7000 / Time::MULTIPLIER;
+	case ETime::_10s	: return 10000 / Time::MULTIPLIER;
+	case ETime::_20s    : return 20000 / Time::MULTIPLIER;
+	case ETime::_30s    : return 30000 / Time::MULTIPLIER;
+	case ETime::_1m     : return 60000 / Time::MULTIPLIER;
+	default:              exit(0);
 	}
 };

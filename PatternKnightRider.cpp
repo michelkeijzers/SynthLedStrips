@@ -86,11 +86,11 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 		if (ratio == 0)
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / Speed::GetSpeedInMilliSeconds(_backgroundColorSpeed));
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / Speed::GetSpeed(_backgroundColorSpeed));
 		}
 		else
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter * 360 / Speed::GetSpeedInMilliSeconds(_foregroundColorSpeed));
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter * 360 / Speed::GetSpeed(_foregroundColorSpeed));
 			rgb->red = (rgb->red * ratio) / _ledWidth;
 			rgb->green = (rgb->green * ratio) / _ledWidth;
 			rgb->blue = (rgb->blue * ratio) / _ledWidth;
@@ -102,12 +102,12 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 void PatternKnightRider::ProcessCurrentLed(uint32_t counter)
 {
 	Serial.print("counter: "); Serial.print(counter); 
-	uint32_t ledSpeedInMilliSeconds =  Speed::GetSpeedInMilliSeconds(_ledSpeed);
-	uint8_t currentLedShiftAmount = _ledStrip.GetNrOfLeds() / ledSpeedInMilliSeconds;
-	_counterRemainder += _ledStrip.GetNrOfLeds() % ledSpeedInMilliSeconds;
-	if (_counterRemainder >= ledSpeedInMilliSeconds)
+	uint32_t ledSpeed =  Speed::GetSpeed(_ledSpeed);
+	uint8_t currentLedShiftAmount = _ledStrip.GetNrOfLeds() / ledSpeed;
+	_counterRemainder += _ledStrip.GetNrOfLeds() % ledSpeed;
+	if (_counterRemainder >= ledSpeed)
 	{
-		_counterRemainder -= ledSpeedInMilliSeconds;
+		_counterRemainder -= ledSpeed;
 		currentLedShiftAmount++;
 	}
 

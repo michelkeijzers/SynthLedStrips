@@ -35,12 +35,12 @@ extern uint16_t analogRead(uint8_t pin)
 
 // Time
 
-extern void delay(uint32_t delayInMilliSeconds)
+extern void delay(uint32_t delay)
 {
 	timeb startTime;
 	ftime(&startTime);
 
-	uint64_t endTime = startTime.time * 1000 + startTime.millitm + delayInMilliSeconds;
+	uint64_t endTime = startTime.time * 1000 + startTime.millitm + delay;
 	timeb runningTime;
 
 	do

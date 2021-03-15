@@ -34,8 +34,6 @@ public:
 private:
 	void ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter);
 
-	uint8_t ConvertKeyToLed(uint8_t key);
-
 	MidiKeyboard& _midiKeyboard;
 
 	LedColor::EColor _backgroundColor;

@@ -48,9 +48,9 @@ void* operator new(size_t size, void* ptr)
 
 /* static */ LedStrip SynthLedStrips::_ledStrips[NR_OF_LED_STRIPS];
 /* static */ MidiKeyboard SynthLedStrips::_midiKeyboards[NR_OF_MIDI_KEYBOARDS];
-/* static */ FastLedCRGB SynthLedStrips::_ledsMainSynthBack[NR_OF_BACK_LEDS];
+/* static */ FastLedCRGB SynthLedStrips::_ledsMainSynthBack[NR_OF_MAIN_SYNTH_KEYS_LEDS];
 /* static */ FastLedCRGB SynthLedStrips::_ledsMainSynthFront[NR_OF_MAIN_SYNTH_FRONT_LEDS];
-/* static */ FastLedCRGB SynthLedStrips::_ledsMasterKeyboardBack[NR_OF_BACK_LEDS];
+/* static */ FastLedCRGB SynthLedStrips::_ledsMasterKeyboardBack[NR_OF_MASTER_KEYBOARD_KEYS_LEDS];
 /* static */ FastLedCRGB SynthLedStrips::_ledsMasterKeyboardFront[NR_OF_MASTER_KEYBOARD_FRONT_LEDS];
 /* static */ uint32_t SynthLedStrips::_counter = 0;
 /* static */ const uint8_t SynthLedStrips::DATA_PINS[] = { 2, 3, 4, 5 };
@@ -89,15 +89,15 @@ SynthLedStrips::~SynthLedStrips()
 	midiC.begin();
 	midiD.begin();
 
-	_midiKeyboards[0].SetNrOfKeys(61);
-	_midiKeyboards[1].SetNrOfKeys(88);
+	_midiKeyboards[0].SetNrOfKeys(NR_OF_MAIN_SYNTH_KEYS_LEDS);
+	_midiKeyboards[1].SetNrOfKeys(NR_OF_MASTER_KEYBOARD_KEYS_LEDS);
 
 	// LED STRIPS
 	int maxSize = MAX(sizeof(PatternOff), sizeof(PatternKnightRider));
 	byte* patternData = new byte[maxSize * 4];
 
-	FastLED.addLeds<WS2813, 3, RGB>(_ledsMainSynthBack, NR_OF_BACK_LEDS);
-	_ledStrips[0].Initialize(DATA_PINS[0], NR_OF_BACK_LEDS, _ledsMainSynthBack);
+	FastLED.addLeds<WS2813, 3, RGB>(_ledsMainSynthBack, NR_OF_MAIN_SYNTH_KEYS_LEDS);
+	_ledStrips[0].Initialize(DATA_PINS[0], NR_OF_MAIN_SYNTH_KEYS_LEDS, _ledsMainSynthBack);
 #pragma warning( disable: 6386 )
 	PatternMidiNoteOnOff* pattern_0 = new (patternData) PatternMidiNoteOnOff(_ledStrips[0], _midiKeyboards[0]);
 #pragma warning(pop)
@@ -116,15 +116,15 @@ SynthLedStrips::~SynthLedStrips()
 	_ledStrips[1].SetPattern(pattern_1);
 	//_ledStrips[1].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
 
-	FastLED.addLeds<WS2813, 6, RGB>(_ledsMasterKeyboardBack, NR_OF_BACK_LEDS);
-	_ledStrips[2].Initialize(DATA_PINS[2], NR_OF_BACK_LEDS, _ledsMasterKeyboardBack);
+	FastLED.addLeds<WS2813, 6, RGB>(_ledsMasterKeyboardBack, NR_OF_MASTER_KEYBOARD_KEYS_LEDS);
+	_ledStrips[2].Initialize(DATA_PINS[2], NR_OF_MASTER_KEYBOARD_KEYS_LEDS, _ledsMasterKeyboardBack);
 	PatternKnightRider* pattern_2 = new (patternData + 2 * maxSize) PatternKnightRider(_ledStrips[2]);
 	pattern_2->SetBackgroundColor(LedColor::EColor::Black);
 	pattern_2->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
 	pattern_2->SetForegroundColor(LedColor::EColor::Red);
 	pattern_2->SetForegroundColorSpeed(Speed::ESpeed::_4s);
 	pattern_2->SetDirection(true);
-	pattern_2->SetLedSpeed(Speed::ESpeed::_10ms);
+	pattern_2->SetLedSpeed(Speed::ESpeed::_1s);
 	pattern_2->SetLedWidth(10);
 	_ledStrips[2].SetPattern(pattern_2);
 
@@ -136,7 +136,7 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_3->SetForegroundColor(LedColor::EColor::Red);
 	pattern_3->SetForegroundColorSpeed(Speed::ESpeed::_4s);
 	pattern_3->SetDirection(true);
-	pattern_3->SetLedSpeed(Speed::ESpeed::_10ms);
+	pattern_3->SetLedSpeed(Speed::ESpeed::_1s);
 	pattern_3->SetLedWidth(10);
 	_ledStrips[3].SetPattern(pattern_3);
 }
@@ -150,7 +150,7 @@ SynthLedStrips::~SynthLedStrips()
 	ClearNewFlags();
 	FastLED.show();
 	_counter++;
-	delay(1);
+	delay(10);
 }
 
 
