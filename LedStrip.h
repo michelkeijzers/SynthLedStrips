@@ -13,6 +13,9 @@
 class LedStrip
 {
 public:
+	static const uint8_t MAX_CURRENT_IN_MILLI_AMP_PER_SUB_LED;
+	static const uint8_t SUB_LEDS_PER_LED;                    
+
 	LedStrip();
     ~LedStrip();
 
@@ -23,6 +26,10 @@ public:
 	struct FastLedCRGB* GetLeds();
 
 	struct FastLedCRGB* GetLed(uint8_t ledIndex);
+
+	uint16_t CalculateCurrentInMilliAmp();
+
+	void ReduceCurrent(uint8_t percentage);
 
 public:
 	void SetAllLeds(LedColor::EColor color, uint8_t step);

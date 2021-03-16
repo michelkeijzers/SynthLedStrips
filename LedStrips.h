@@ -13,6 +13,14 @@
 class LedStrips
 {
 public:
+	enum ELocation 
+	{
+		MainSynthFront = 0, 
+		MainSynthBack = 1, 
+		MasterKeyboardFront = 2, 
+		MasterKeyboardBack = 3 
+	};
+
 	LedStrips();
 	~LedStrips();
 
@@ -23,5 +31,7 @@ public:
 	LedStrip& GetLedStrip(uint8_t index);
 
 private:
+	static const uint16_t MAX_CURRENT_IN_MILLI_AMP;
+
 	LedStrip _ledStrips[NR_OF_LED_STRIPS];
 };
