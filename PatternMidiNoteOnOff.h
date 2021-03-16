@@ -9,7 +9,7 @@ class MidiKeyboard;
 class PatternMidiNoteOnOff : public Pattern
 {
 public:
-	PatternMidiNoteOnOff(LedStrip& ledStrip, MidiKeyboard& midiKeyboard);
+	PatternMidiNoteOnOff();
 
 	~PatternMidiNoteOnOff();
 
@@ -33,8 +33,6 @@ public:
 
 private:
 	void ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter);
-
-	MidiKeyboard& _midiKeyboard;
 
 	LedColor::EColor _backgroundColor;
 

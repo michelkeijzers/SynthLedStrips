@@ -7,13 +7,13 @@
 
 #include "ClassNames.h"
 #include HEADER_FILE(MIDI_CLASS)
+#include HEADER_FILE(FAST_LED_CLASS)
+
 
 LedStrip::LedStrip()
 :
-	_dataPin(0),
 	_nrOfLeds(0),
-	_data(NULL),
-	_pattern(NULL)
+	_leds(NULL)
 {
 }
 
@@ -23,12 +23,12 @@ LedStrip::~LedStrip()
 }
 
 
-void LedStrip::Initialize(uint8_t dataPin, uint8_t nrOfLeds, struct FastLedCRGB* data)
+void LedStrip::Initialize( uint8_t nrOfLeds)
 {
-	_dataPin = dataPin;
 	_nrOfLeds = nrOfLeds;
-	_data = data;
+	_leds = new FastLedCRGB[nrOfLeds];
 }
+
 
 uint8_t LedStrip::GetNrOfLeds()
 {
@@ -36,11 +36,11 @@ uint8_t LedStrip::GetNrOfLeds()
 }
 
 
-void LedStrip::SetPattern(Pattern* pattern)
+struct FastLedCRGB* LedStrip::GetLeds()
 {
-	_pattern = pattern;
-	_pattern->Start();
+	return _leds;
 }
+
 
 struct FastLedCRGB* LedStrip::GetLed(uint8_t ledIndex)
 {
@@ -50,12 +50,7 @@ struct FastLedCRGB* LedStrip::GetLed(uint8_t ledIndex)
 		exit(0);
 	}
 #endif
-	return &_data[ledIndex];
-}
-
-void LedStrip::Process(uint32_t counter)
-{
-	_pattern->Process(counter);
+	return &_leds[ledIndex];
 }
 
 
@@ -63,7 +58,7 @@ void LedStrip::SetAllLeds(LedColor::EColor color, uint8_t step)
 {
 	for (uint8_t ledIndex = 0; ledIndex < _nrOfLeds; ledIndex++)
 	{
-		FastLedCRGB& led = _data[ledIndex];
+		FastLedCRGB& led = _leds[ledIndex];
 		LedColor::SetRgb(&led.red, &led.green, &led.blue, color, step);
 	}
 }
@@ -73,7 +68,7 @@ void LedStrip::SetAllLeds(uint32_t color)
 {
 	for (uint8_t ledIndex = 0; ledIndex < _nrOfLeds; ledIndex++)
 	{
-		FastLedCRGB& led = _data[ledIndex];
+		FastLedCRGB& led = _leds[ledIndex];
 		LedColor::SetRgb(&led.red, &led.green, &led.blue, color);
 	}
 }
@@ -83,7 +78,7 @@ void LedStrip::SetAllLeds(uint8_t red, uint8_t green, uint8_t blue)
 {
 	for (uint8_t ledIndex = 0; ledIndex < _nrOfLeds; ledIndex++)
 	{
-		FastLedCRGB& led = _data[ledIndex];
+		FastLedCRGB& led = _leds[ledIndex];
 		LedColor::SetRgb(&led.red, &led.green, &led.blue, red, green, blue);
 	}
 }

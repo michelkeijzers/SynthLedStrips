@@ -1,11 +1,26 @@
 #include "Pattern.h"
 
-Pattern::Pattern(LedStrip& ledStrip)
-	: _ledStrip(ledStrip)
+#include <stdlib.h>
+
+#include "MidiKeyboard.h"
+#include "LedStrip.h"
+
+
+Pattern::Pattern()
+:
+	_ledStrip(NULL),
+	_midiKeyboard(NULL)
 {
 }
 
 
 Pattern::~Pattern()
 {
+}
+
+
+void Pattern::Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip)
+{
+	_midiKeyboard = midiKeyboard;
+	_ledStrip = ledStrip;
 }

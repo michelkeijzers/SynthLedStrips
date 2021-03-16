@@ -7,9 +7,8 @@
 #include HEADER_FILE(ARDUINO_CLASS)
 
 
-PatternKnightRider::PatternKnightRider(LedStrip& ledStrip)
-	: Pattern(ledStrip),
-	_ledWidth(0),
+PatternKnightRider::PatternKnightRider()
+:	_ledWidth(0),
 	_ledSpeed(Speed::ESpeed::NA),
 	_foregroundColor(LedColor::EColor::Black),
 	_foregroundColorSpeed(Speed::ESpeed::NA),
@@ -70,8 +69,8 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 /* override */ void PatternKnightRider::Start()
 {
-	_ledStrip.SetAllLeds(_foregroundColor, 0); // P0: Background color
-	_currentLed = _direction? 0 : _ledStrip.GetNrOfLeds() - 1;
+	_ledStrip->SetAllLeds(_foregroundColor, 0); // P0: Background color
+	_currentLed = _direction? 0 : _ledStrip->GetNrOfLeds() - 1;
 }
 
 
@@ -79,9 +78,9 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 {
 	ProcessCurrentLed(counter);
 
-	for (int led = 0; led < _ledStrip.GetNrOfLeds(); led++)
+	for (int led = 0; led < _ledStrip->GetNrOfLeds(); led++)
 	{
-		struct FastLedCRGB *rgb = _ledStrip.GetLed(led);
+		struct FastLedCRGB *rgb = _ledStrip->GetLed(led);
 		uint8_t ratio = MAX(0, _ledWidth - ABS(led - _currentLed));
 
 		if (ratio == 0)
@@ -103,8 +102,8 @@ void PatternKnightRider::ProcessCurrentLed(uint32_t counter)
 {
 	Serial.print("counter: "); Serial.print(counter); 
 	uint32_t ledSpeed =  Speed::GetSpeed(_ledSpeed);
-	uint8_t currentLedShiftAmount = _ledStrip.GetNrOfLeds() / ledSpeed;
-	_counterRemainder += _ledStrip.GetNrOfLeds() % ledSpeed;
+	uint8_t currentLedShiftAmount = _ledStrip->GetNrOfLeds() / ledSpeed;
+	_counterRemainder += _ledStrip->GetNrOfLeds() % ledSpeed;
 	if (_counterRemainder >= ledSpeed)
 	{
 		_counterRemainder -= ledSpeed;
@@ -120,6 +119,6 @@ void PatternKnightRider::GotoNextCurrentLed(uint8_t currentLedShiftAmount)
 	for (uint8_t index = 0; index < currentLedShiftAmount; index++)
 	{
 		_currentLed = (_direction) ? _currentLed + 1 : _currentLed - 1;
-		_direction = ((_currentLed == 0) || (_currentLed == _ledStrip.GetNrOfLeds())) ? !_direction : _direction;
+		_direction = ((_currentLed == 0) || (_currentLed == _ledStrip->GetNrOfLeds())) ? !_direction : _direction;
 	}
 }

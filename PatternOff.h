@@ -6,7 +6,7 @@
 class PatternOff : public Pattern
 {
 public:
-	PatternOff(LedStrip& ledStrip);
+	PatternOff();
 
 	~PatternOff();
 

@@ -4,20 +4,25 @@
 #include "SynthLedStripsTypes.h"
 
 
+class MidiKeyboard;
 class LedStrip;
 
 
 class Pattern
 {
 public:
-	Pattern(LedStrip& ledStrip);
+	Pattern();
 
 	~Pattern();
+
+	void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
 
 	virtual void Start() = 0;
 
 	virtual void Process(uint32_t counter) = 0;
 
 protected:
-	LedStrip& _ledStrip;
+	MidiKeyboard* _midiKeyboard;
+
+	LedStrip* _ledStrip;
 };

@@ -23,37 +23,29 @@
 
 #include "MathUtils.h"
 #include "SynthLedStrips.h"
+#include "SynthLedStripsTypes.h"
+#include "MidiKeyboards.h"
+#include "Patterns.h"
+#include "MidiKeyboards.h"
+
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 #include HEADER_FILE(MIDI_CLASS)
 #include HEADER_FILE(SERIAL_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
-
-#include "SynthLedStripsTypes.h"
-#include "Speed.h"
-#include "Time.h"
-#include "LedColor.h"
+#include "Patterns.h"
 #include "PatternOff.h"
 #include "PatternKnightRider.h"
 #include "PatternMidiNoteOnOff.h"
 
-/*
-void* operator new(size_t size, void* ptr)
-{
-	return ptr;
-}
-*/
 
 #define USE_SERIAL
 
-/* static */ LedStrip SynthLedStrips::_ledStrips[NR_OF_LED_STRIPS];
-/* static */ MidiKeyboard SynthLedStrips::_midiKeyboards[NR_OF_MIDI_KEYBOARDS];
-/* static */ FastLedCRGB SynthLedStrips::_ledsMainSynthBack[NR_OF_MAIN_SYNTH_KEYS_LEDS];
-/* static */ FastLedCRGB SynthLedStrips::_ledsMainSynthFront[NR_OF_MAIN_SYNTH_FRONT_LEDS];
-/* static */ FastLedCRGB SynthLedStrips::_ledsMasterKeyboardBack[NR_OF_MASTER_KEYBOARD_KEYS_LEDS];
-/* static */ FastLedCRGB SynthLedStrips::_ledsMasterKeyboardFront[NR_OF_MASTER_KEYBOARD_FRONT_LEDS];
+/* static */ LedStrips SynthLedStrips::_ledStrips;
+/* static */ Patterns SynthLedStrips::_patterns;
+/* static */ MidiKeyboards SynthLedStrips::_midiKeyboards;
+
 /* static */ uint32_t SynthLedStrips::_counter = 0;
-/* static */ const uint8_t SynthLedStrips::DATA_PINS[] = { 2, 3, 4, 5 };
 
 #ifndef USE_SERIAL
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, midiA);
@@ -89,18 +81,19 @@ SynthLedStrips::~SynthLedStrips()
 	midiC.begin();
 	midiD.begin();
 
-	_midiKeyboards[0].SetNrOfKeys(NR_OF_MAIN_SYNTH_KEYS_LEDS);
-	_midiKeyboards[1].SetNrOfKeys(NR_OF_MASTER_KEYBOARD_KEYS_LEDS);
+	_midiKeyboards.Initialize();
+	_patterns.Initialize();
+	_ledStrips.Initialize();
 
-	// LED STRIPS
-	int maxSize = MAX(sizeof(PatternOff), sizeof(PatternKnightRider));
-	byte* patternData = new byte[maxSize * 4];
+	SetPatterns();
+}
 
-	FastLED.addLeds<WS2813, 3, RGB>(_ledsMainSynthBack, NR_OF_MAIN_SYNTH_KEYS_LEDS);
-	_ledStrips[0].Initialize(DATA_PINS[0], NR_OF_MAIN_SYNTH_KEYS_LEDS, _ledsMainSynthBack);
-#pragma warning( disable: 6386 )
-	PatternMidiNoteOnOff* pattern_0 = new (patternData) PatternMidiNoteOnOff(_ledStrips[0], _midiKeyboards[0]);
-#pragma warning(pop)
+
+/* static */ void SynthLedStrips::SetPatterns()
+{
+//#pragma warning( disable: 6386 )
+//#pragma warning(pop)
+	PatternMidiNoteOnOff* pattern_0 = new (_patterns.GetPatternData(0)) PatternMidiNoteOnOff();
 	pattern_0->SetBackgroundColor(LedColor::EColor::Rainbow);
 	pattern_0->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
 	pattern_0->SetForegroundColor(LedColor::EColor::White);
@@ -108,17 +101,12 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_0->SetFadeTimeNoteOn(Time::ETime::_10s);
 	pattern_0->SetFadeTimeNoteOff(Time::ETime::_20s);
 	pattern_0->SetNoteOnVelocityIntensity(255);
-	_ledStrips[0].SetPattern(pattern_0);
+	_patterns.SetPattern(0, pattern_0, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(0));
 
-	FastLED.addLeds<WS2813, 4, RGB>(_ledsMainSynthFront, NR_OF_MAIN_SYNTH_FRONT_LEDS);
-	_ledStrips[1].Initialize(DATA_PINS[1], NR_OF_MAIN_SYNTH_FRONT_LEDS, _ledsMainSynthFront);
-	PatternOff* pattern_1 = new (patternData + maxSize) PatternOff(_ledStrips[1]);
-	_ledStrips[1].SetPattern(pattern_1);
-	//_ledStrips[1].SetPattern(LedStrip::EPattern::KnightRider, 255, 0, 0, 10, 1);
+	PatternOff* pattern_1 = new (_patterns.GetPatternData(1)) PatternOff();
+	_patterns.SetPattern(1, pattern_1, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(1));
 
-	FastLED.addLeds<WS2813, 6, RGB>(_ledsMasterKeyboardBack, NR_OF_MASTER_KEYBOARD_KEYS_LEDS);
-	_ledStrips[2].Initialize(DATA_PINS[2], NR_OF_MASTER_KEYBOARD_KEYS_LEDS, _ledsMasterKeyboardBack);
-	PatternKnightRider* pattern_2 = new (patternData + 2 * maxSize) PatternKnightRider(_ledStrips[2]);
+	PatternKnightRider* pattern_2 = new (_patterns.GetPatternData(2)) PatternKnightRider();
 	pattern_2->SetBackgroundColor(LedColor::EColor::Black);
 	pattern_2->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
 	pattern_2->SetForegroundColor(LedColor::EColor::Red);
@@ -126,11 +114,9 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_2->SetDirection(true);
 	pattern_2->SetLedSpeed(Speed::ESpeed::_1s);
 	pattern_2->SetLedWidth(10);
-	_ledStrips[2].SetPattern(pattern_2);
+	_patterns.SetPattern(2, pattern_2, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(2));
 
-	FastLED.addLeds<WS2813, 6, RGB>(_ledsMasterKeyboardFront, NR_OF_MASTER_KEYBOARD_FRONT_LEDS);
-	_ledStrips[3].Initialize(DATA_PINS[3], NR_OF_MASTER_KEYBOARD_FRONT_LEDS, _ledsMasterKeyboardFront);
-	PatternKnightRider* pattern_3 = new (patternData + 3 * maxSize) PatternKnightRider(_ledStrips[3]);
+	PatternKnightRider* pattern_3 = new (_patterns.GetPatternData(3)) PatternKnightRider();
 	pattern_3->SetBackgroundColor(LedColor::EColor::Black);
 	pattern_3->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
 	pattern_3->SetForegroundColor(LedColor::EColor::Red);
@@ -138,16 +124,17 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_3->SetDirection(true);
 	pattern_3->SetLedSpeed(Speed::ESpeed::_1s);
 	pattern_3->SetLedWidth(10);
-	_ledStrips[3].SetPattern(pattern_3);
+	_patterns.SetPattern(3, pattern_3, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(3));
 }
 
 
 /* static */ void SynthLedStrips::Loop()
 {
 	ProcessMidi();
-	ProcessMidiKeyboards();
-	ProcessLedStrips();
-	ClearNewFlags();
+	_midiKeyboards.Process(_counter);
+	_patterns.Process(_counter);
+	_ledStrips.Process(_counter);
+	_midiKeyboards.ClearNewFlags();
 	FastLED.show();
 	_counter++;
 	delay(10);
@@ -188,7 +175,7 @@ SynthLedStrips::~SynthLedStrips()
 /* static */ void SynthLedStrips::ProcessMidiEvents(midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
-	MidiKeyboard& midiKeyboard = _midiKeyboards[midiChannel];
+	MidiKeyboard& midiKeyboard = _midiKeyboards.GetMidiKeyboard(midiChannel);
 
 	switch (midiType)
 	{
@@ -207,29 +194,3 @@ SynthLedStrips::~SynthLedStrips()
 
 
 /* static void */
-
-/* static */ void SynthLedStrips::ProcessMidiKeyboards()
-{
-	for (uint8_t midiKeyboard = 0; midiKeyboard < NR_OF_MIDI_KEYBOARDS; midiKeyboard++)
-	{
-		_midiKeyboards[midiKeyboard].Process(_counter);
-	}
-}
-
-
-/* static */ void SynthLedStrips::ProcessLedStrips()
-{
-	for (int ledStrip = 0; ledStrip < NR_OF_LED_STRIPS; ledStrip++)
-	{
-		_ledStrips[ledStrip].Process(_counter);
-	}
-}
-
-
-/* static */ void SynthLedStrips::ClearNewFlags()
-{
-	for (uint8_t midiKeyboard = 0; midiKeyboard < NR_OF_MIDI_KEYBOARDS; midiKeyboard++)
-	{
-		_midiKeyboards[midiKeyboard].ClearNewFlags();
-	}
-}

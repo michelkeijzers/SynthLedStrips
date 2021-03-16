@@ -7,7 +7,7 @@
 class PatternKnightRider : public Pattern
 {
 public:
-	PatternKnightRider(LedStrip& ledStrip);
+	PatternKnightRider();
 
 	~PatternKnightRider();
 
