@@ -26,10 +26,10 @@ void LedStrips::Initialize()
 	_ledStrips[2].Initialize(NR_OF_MASTER_KEYBOARD_KEYS);
 	_ledStrips[3].Initialize(NR_OF_MASTER_KEYBOARD_FRONT_LEDS);
 
-	FastLED.addLeds<WS2811B, 2, RGB>(_ledStrips[0].GetLeds(), _ledStrips[0].GetNrOfLeds());
-	FastLED.addLeds<WS2811B, 3, RGB>(_ledStrips[1].GetLeds(), _ledStrips[1].GetNrOfLeds());
-	FastLED.addLeds<WS2811B, 4, RGB>(_ledStrips[2].GetLeds(), _ledStrips[2].GetNrOfLeds());
-	FastLED.addLeds<WS2811B, 5, RGB>(_ledStrips[3].GetLeds(), _ledStrips[3].GetNrOfLeds());
+	FastLED.addLeds<WS2811, 2, RGB>(_ledStrips[0].GetLeds(), _ledStrips[0].GetNrOfLeds());
+	FastLED.addLeds<WS2811, 3, RGB>(_ledStrips[1].GetLeds(), _ledStrips[1].GetNrOfLeds());
+	FastLED.addLeds<WS2811, 4, RGB>(_ledStrips[2].GetLeds(), _ledStrips[2].GetNrOfLeds());
+	FastLED.addLeds<WS2811, 5, RGB>(_ledStrips[3].GetLeds(), _ledStrips[3].GetNrOfLeds());
 }
 
 

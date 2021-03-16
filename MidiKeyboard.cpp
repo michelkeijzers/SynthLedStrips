@@ -115,49 +115,6 @@ bool MidiKeyboard::IsNew(uint8_t keyNumber)
 }
 
 
-bool MidiKeyboard::IsAssignedToLed(uint8_t keyNumber)
-{
-	return (bool)(_status[keyNumber] & ASSIGNED_TO_LED_FLAG);
-}
-
-
-void MidiKeyboard::AssignToLed(uint8_t keyNumber)
-{
-	_status[keyNumber] |= ASSIGNED_TO_LED_FLAG;
-}
-
-
-void MidiKeyboard::UnassignToLed(uint8_t keyNumber)
-{
-	_status[keyNumber] &= ASSIGNED_TO_LED_FLAG;
-}
-
-
-uint8_t MidiKeyboard::GetNrOfKeysAssignedToLeds()
-{
-	uint8_t count = 0;
-	for (uint8_t keyNumber = 0; keyNumber < _nrOfKeys; keyNumber++)
-	{
-		count += IsAssignedToLed(keyNumber);
-	}
-	return count;
-}
-
-
-bool MidiKeyboard::AreNewPressedKeysAssigned()
-{
-	for (uint8_t keyNumber = 0; keyNumber < _nrOfKeys; keyNumber++)
-	{
-		if (IsPressed(keyNumber) && !IsAssignedToLed(keyNumber))
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-
 uint16_t MidiKeyboard::TimeAgo(uint8_t keyNumber)
 {
 	return (_status[keyNumber] & TIME_AGO_BITS) * NOTE_ON_OFF_PERIOD;

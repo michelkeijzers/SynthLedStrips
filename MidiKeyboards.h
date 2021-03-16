@@ -28,4 +28,3 @@ public:
 private:
 	MidiKeyboard _midiKeyboards[NR_OF_MIDI_KEYBOARDS];
 };
-

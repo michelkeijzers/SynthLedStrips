@@ -8,16 +8,13 @@ class PatternKnightRider : public Pattern
 {
 public:
 	PatternKnightRider();
-
 	~PatternKnightRider();
 
 	void SetBackgroundColor(LedColor::EColor color);
-
 	void SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed);
 
 	void SetForegroundColor(LedColor::EColor color);
-
-	void SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed);
+    void SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed);
 
 	void SetDirection(bool direction);
 
@@ -35,11 +32,9 @@ private:
 	void GotoNextCurrentLed(uint8_t currentLedShiftAmount);
 
 	LedColor::EColor _backgroundColor;
-
 	Speed::ESpeed _backgroundColorSpeed;
 
 	LedColor::EColor _foregroundColor;
-
 	Speed::ESpeed _foregroundColorSpeed;
 
 	bool _direction;

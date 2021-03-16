@@ -14,7 +14,6 @@ class LedStrip
 {
 public:
 	LedStrip();
-
     ~LedStrip();
 
     void Initialize(uint8_t nrOfLeds);
@@ -22,8 +21,6 @@ public:
 	uint8_t GetNrOfLeds();
 
 	struct FastLedCRGB* GetLeds();
-
-	void SetPattern(Pattern* pattern);
 
 	struct FastLedCRGB* GetLed(uint8_t ledIndex);
 

@@ -7,7 +7,6 @@ class PatternOff : public Pattern
 {
 public:
 	PatternOff();
-
 	~PatternOff();
 
 	/* override */ void Start();

@@ -9,7 +9,7 @@ const uint8_t MAX_NR_OF_LED_STRIPS = 16;
 
 const uint8_t MAX_NR_OF_LEDS = 255;
 
-enum ESPIChipsets {	WS2811B, WS2812B, WS2813B };
+enum ESPIChipsets {	WS2811, WS2812, WS2813 };
 enum EOrder { RGB };
 
 struct FastLedCRGB

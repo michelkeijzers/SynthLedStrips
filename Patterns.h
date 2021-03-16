@@ -26,4 +26,3 @@ private:
 	uint8_t* _patternData;
 	uint8_t _patternDataSize;
 };
-

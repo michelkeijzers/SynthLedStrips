@@ -14,7 +14,6 @@ class LedStrips
 {
 public:
 	LedStrips();
-
 	~LedStrips();
 
 	void Initialize();
@@ -26,4 +25,3 @@ public:
 private:
 	LedStrip _ledStrips[NR_OF_LED_STRIPS];
 };
-

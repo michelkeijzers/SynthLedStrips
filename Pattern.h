@@ -12,7 +12,6 @@ class Pattern
 {
 public:
 	Pattern();
-
 	~Pattern();
 
 	void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
