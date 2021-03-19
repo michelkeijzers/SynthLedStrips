@@ -94,7 +94,7 @@ SynthLedStrips::~SynthLedStrips()
 //#pragma warning( disable: 6386 )
 //#pragma warning(pop)
 	PatternMidiNoteOnOff* pattern_0 = new (_patterns.GetPatternData(0)) PatternMidiNoteOnOff();
-	pattern_0->SetBackgroundColor(LedColor::EColor::Rainbow);
+	pattern_0->SetBackgroundColor(LedColor::EColor::Galaxy);
 	pattern_0->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
 	pattern_0->SetForegroundColor(LedColor::EColor::White);
 	pattern_0->SetForegroundColorSpeed(Speed::ESpeed::_4s);

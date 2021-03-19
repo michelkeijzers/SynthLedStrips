@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Patterns">
       <UniqueIdentifier>{5533cbdb-dfc8-40c3-bd8d-c3eb71df3d7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{27c2dd13-70e2-460e-bb23-4caab7e4d0d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssertUtils.h">
@@ -129,6 +132,9 @@
     <ClInclude Include="MidiKeyboards.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="ArrayUtils.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -206,6 +212,9 @@
     <ClCompile Include="MidiKeyboards.cpp">
       <Filter>Source Files\App</Filter>
     </ClCompile>
+    <ClCompile Include="ArrayUtils.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SynthLedStrips.rc">
@@ -222,5 +231,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SynthLedStrips.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Colors.txt">
+      <Filter>Documentation</Filter>
+    </Text>
   </ItemGroup>
 </Project>

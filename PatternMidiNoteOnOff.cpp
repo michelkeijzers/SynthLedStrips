@@ -125,11 +125,11 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	}
 	else
 	{
-		struct FastLedCRGB backgroundColor{};
-		LedColor::SetRgb(&backgroundColor.red, &backgroundColor.green, &backgroundColor.blue, _backgroundColor,  counter * 360 / Speed::GetSpeed(_backgroundColorSpeed));
-		red = backgroundColor.red;
-		green = backgroundColor.green;
-		blue = backgroundColor.blue;
+		struct FastLedCRGB* backgroundColor = _ledStrip->GetLed(key);
+		LedColor::SetRgb(&(backgroundColor->red), &(backgroundColor->green), &(backgroundColor->blue), _backgroundColor,  counter * 360 / Speed::GetSpeed(_backgroundColorSpeed));
+		red = backgroundColor->red;
+		green = backgroundColor->green;
+		blue = backgroundColor->blue;
 	}
 		
 	struct FastLedCRGB* rgb = _ledStrip->GetLed(key);

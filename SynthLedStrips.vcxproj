@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArrayUtils.h" />
     <ClInclude Include="LedColor.h" />
     <ClInclude Include="LedStrip.h" />
     <ClInclude Include="LedStrips.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayUtils.cpp" />
     <ClCompile Include="LedColor.cpp" />
     <ClCompile Include="LedStrip.cpp" />
     <ClCompile Include="LedStrips.cpp" />
@@ -205,6 +207,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SynthLedStrips.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Colors.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
