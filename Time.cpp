@@ -1,6 +1,7 @@
 #include "Time.h"
 
 #include <stdlib.h>
+#include "AssertUtils.h"
 
 
 /* static */ uint32_t Time::GetTime(ETime time)
@@ -24,6 +25,6 @@
 	case ETime::_20s    : return 20000 / Time::MULTIPLIER;
 	case ETime::_30s    : return 30000 / Time::MULTIPLIER;
 	case ETime::_1m     : return 60000 / Time::MULTIPLIER;
-	default:              exit(0);
+	default:              AssertUtils::MyAssert(false);
 	}
 };

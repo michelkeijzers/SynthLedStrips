@@ -25,8 +25,8 @@
 #else
 
 #define ABS                     abs
-#define MIN                     min
-#define MAX                     max
+#define MIN(a,b)			    (((a)<(b))?(a):(b))
+#define MAX(a,b)			    (((a)>(b))?(a):(b))
 
 #define ARDUINO_CLASS			Arduino
 #define DMX_SIMPLE_CLASS		DmxSimple

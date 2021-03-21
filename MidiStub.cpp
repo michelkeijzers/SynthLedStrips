@@ -1,12 +1,13 @@
 #ifdef _WINDOWS
 
 #include "MidiStub.h"
+#include "AssertUtils.h"
 
 
-Midi midiA;
+//Midi midiA;
 Midi midiB;
 Midi midiC;
-Midi midiD;
+//Midi midiD;
 
 
 Midi::Midi()
@@ -96,7 +97,7 @@ void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataB
 		return 1;
 
 	case midi::MidiType::InvalidType:			// Fall Through
-		exit(0);
+		AssertUtils::MyAssert(false);
 	}
 
 	switch (midiType)
@@ -119,7 +120,7 @@ void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataB
 	case midi::MidiType::SystemReset:
 	default:
 		// Not supported
-		exit(0);
+		AssertUtils::MyAssert(false);
 	}
 
 	return 0;

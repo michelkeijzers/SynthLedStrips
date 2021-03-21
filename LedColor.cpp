@@ -6,10 +6,18 @@
 #include "SynthLedStripsTypes.h"
 #include "LedColor.h"
 #include "MathUtils.h"
-#include "ArrayUtils.h"
+#include "AssertUtils.h"
 
 
-/* static */ const uint8_t LedColor::GALAXY_STEPS[] = 
+/* Table for galaxy, each value shows the next step. There is a slow speed, starting at 1 (next step is 5)
+ * and a fast speed, starting at 3 (next step is 7). When at highest brightness, the values (steps) fade 
+ * out with values +1 compared to fade in. All values which do not follow the slow/fast route have numbers
+ * to continue via the fast fade down route. */
+
+/* static */ const uint8_t LedColor::GALAXY_SLOW_SPEED_START_STEP = 1;
+/* static */ const uint8_t LedColor::GALAXY_FAST_SPEED_START_STEP = 3;
+
+/* static */ const PROGMEM uint8_t LedColor::GALAXY_STEPS[] = 
 {
 	// --0  --1  --2  --3  --4  --5  --6  --7  --8  --9
 	     0,   5,   0,   7,   0,   9,   2,  17,   4,  14, // 000-009
@@ -66,7 +74,7 @@
 	case LedColor::EColor::Fire         : SetFire   (red, green, blue, step);	  break;
 	case LedColor::EColor::Galaxy       : SetGalaxy (red, green, blue, step);	  break;
 	default:
-		exit(0);
+		AssertUtils::MyAssert(false);
 	}
 }
 
@@ -158,21 +166,21 @@
 	switch (random(1000))
 	{
 	case 0: // Slow white star
-		*red = *green = *blue = 1; 
+		*red = *green = *blue = GALAXY_SLOW_SPEED_START_STEP; 
 		break;
 
 	case 1: // Fast white star
-		*red = *green = *blue = 3;
+		*red = *green = *blue = GALAXY_FAST_SPEED_START_STEP;
 		break;
 
 	case 2: // Slow blue star
 		*red = *green = 0;
-		*blue = 1;
+		*blue = GALAXY_SLOW_SPEED_START_STEP;
 		break;
 
 	case 3: // Fast blue star
 		*red = *green = 0;
-		*blue = 3;
+		*blue = GALAXY_FAST_SPEED_START_STEP;
 		break;
 
 	default:

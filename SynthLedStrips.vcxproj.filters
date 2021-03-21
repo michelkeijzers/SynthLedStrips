@@ -135,6 +135,9 @@
     <ClInclude Include="ArrayUtils.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="MidiProcessor.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -214,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="ArrayUtils.cpp">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiProcessor.cpp">
+      <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

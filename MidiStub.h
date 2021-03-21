@@ -8,6 +8,9 @@
 #include "SynthLedStripsTypes.h"
 
 
+namespace MIDI_NAMESPACE
+{
+
 #define MIDI_CREATE_INSTANCE(serialPort, serialType, name);
 
 
@@ -77,7 +80,9 @@ private:
 };
 
 
-extern Midi midiA;
+//extern Midi midiA;
 extern Midi midiB;
 extern Midi midiC;
-extern Midi midiD;
+//extern Midi midiD;
+
+}

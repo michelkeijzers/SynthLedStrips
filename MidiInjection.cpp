@@ -2,6 +2,7 @@
 #ifdef _WINDOWS
 
 #include "MidiInjection.h"
+#include "AssertUtils.h"
 
 MidiInjection::MidiInjection()
 	: _dataBytesSent(0)
@@ -48,7 +49,7 @@ void MidiInjection::Inject(uint32_t counter)
 			break;
 
 		default:
-			exit(0);
+			AssertUtils::MyAssert(false);
 		}
 
 		_dataBytesSent += 3 + nrOfDataBytes;

@@ -14,8 +14,6 @@ public:
 		Random = 240, Rainbow, Fire, Galaxy
 	};
 
-	static const uint8_t GALAXY_STEPS[256];
-
 	static bool IsOff					(uint8_t* red, uint8_t* green, uint8_t* blue);
 	static void SetRgb					(uint8_t* red, uint8_t* green, uint8_t* blue, LedColor::EColor color, uint32_t step);
 
@@ -32,4 +30,9 @@ public:
 	static void SetRgb					(uint8_t* red, uint8_t* green, uint8_t* blue, uint8_t redValue, uint8_t greenValue, uint8_t blueValue);
 
 	static uint8_t SetBrightness		(uint8_t* red, uint8_t* green, uint8_t* blue, uint8_t percentage_0, uint8_t percentage_1);
+
+private:
+	static const uint8_t GALAXY_SLOW_SPEED_START_STEP;
+	static const uint8_t GALAXY_FAST_SPEED_START_STEP;
+	static const uint8_t GALAXY_STEPS[256];
 };

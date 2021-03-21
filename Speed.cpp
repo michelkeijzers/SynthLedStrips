@@ -2,6 +2,7 @@
 #include "Time.h"
 
 #include <stdlib.h>
+#include "AssertUtils.h"
 
 
 /* static */ int32_t Speed::GetSpeed(ESpeed speed)
@@ -42,6 +43,6 @@
 	case ESpeed::_20s		: return  20000 / Time::MULTIPLIER;
 	case ESpeed::_30s		: return  30000 / Time::MULTIPLIER;
 	case ESpeed::_1m 		: return  60000 / Time::MULTIPLIER;
-	default                 : exit(0);
+	default                 : AssertUtils::MyAssert(false);
 	}
 };

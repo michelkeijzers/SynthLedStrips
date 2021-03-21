@@ -6,6 +6,7 @@
 #include "Speed.h"
 #include "Time.h"
 #include "LedColor.h"
+#include "AssertUtils.h"
 
 
 /* static */ const uint16_t LedStrips::MAX_CURRENT_IN_MILLI_AMP = 9000; // mA
@@ -16,7 +17,7 @@ LedStrips::LedStrips()
 	if ((NR_OF_MAIN_SYNTH_KEYS + NR_OF_MAIN_SYNTH_FRONT_LEDS + NR_OF_MASTER_KEYBOARD_KEYS + NR_OF_MASTER_KEYBOARD_FRONT_LEDS) *
 		LedStrip::MAX_CURRENT_IN_MILLI_AMP_PER_SUB_LED * LedStrip::SUB_LEDS_PER_LED > UINT16_MAX)
 	{
-		exit(0);
+		AssertUtils::MyAssert(false);
 	}
 }
 

@@ -5,6 +5,7 @@
 class MidiKeyboards;
 class Patterns;
 class LedStrips;
+class MidiProcessor;
 
 
 class SynthLedStrips
@@ -21,6 +22,8 @@ private:
 	static void ProcessMidiEvents(midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataBatye2);
 
 	static void SetPatterns();
+
+	static MidiProcessor _midiProcessor;
 
 	static MidiKeyboards _midiKeyboards;
 

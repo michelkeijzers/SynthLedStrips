@@ -37,6 +37,8 @@
 #include "PatternOff.h"
 #include "PatternKnightRider.h"
 #include "PatternMidiNoteOnOff.h"
+#include "AssertUtils.h"
+#include "MidiProcessor.h"
 
 
 #define USE_SERIAL
@@ -44,6 +46,7 @@
 /* static */ LedStrips SynthLedStrips::_ledStrips;
 /* static */ Patterns SynthLedStrips::_patterns;
 /* static */ MidiKeyboards SynthLedStrips::_midiKeyboards;
+/* static */ MidiProcessor SynthLedStrips::_midiProcessor;
 
 /* static */ uint32_t SynthLedStrips::_counter = 0;
 
@@ -51,9 +54,9 @@
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, midiA);
 #endif
 
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, midiB);
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiC);
-MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiD);
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, midiB);
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial2, midiC);
+//MIDI_CREATE_INSTANCE(HardwareSerial, Serial3, midiD);
 
 
 SynthLedStrips::SynthLedStrips()
@@ -79,7 +82,9 @@ SynthLedStrips::~SynthLedStrips()
 
 	midiB.begin();
 	midiC.begin();
-	midiD.begin();
+	//midiD.begin();
+
+	_midiProcessor.SetMidiB(&midiB);
 
 	_midiKeyboards.Initialize();
 	_patterns.Initialize();
@@ -143,6 +148,8 @@ SynthLedStrips::~SynthLedStrips()
 
 /* static */ void SynthLedStrips::ProcessMidi()
 {
+	_midiProcessor.Process();
+
 	if (midiB.read())
 	{
 		midi::MidiType midiType = midiB.getType();
@@ -161,7 +168,7 @@ SynthLedStrips::~SynthLedStrips()
 		ProcessMidiEvents(midiType, dataByte1, dataByte2);
 	}
 
-	if (midiD.read())
+	/*if (midiD.read())
 	{
 		midi::MidiType midiType = midiD.getType();
 		midi::DataByte dataByte1 = midiD.getData1();
@@ -169,6 +176,7 @@ SynthLedStrips::~SynthLedStrips()
 
 		ProcessMidiEvents(midiType, dataByte1, dataByte2);
 	}
+	*/
 }
 
 
@@ -188,7 +196,7 @@ SynthLedStrips::~SynthLedStrips()
 		break;
 
 	default:
-		exit(0);
+		AssertUtils::MyAssert(false);
 	}
 }
 

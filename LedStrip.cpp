@@ -6,6 +6,7 @@
 #include "Time.h"
 
 #include "ClassNames.h"
+#include "AssertUtils.h"
 #include HEADER_FILE(MIDI_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
 
@@ -50,7 +51,7 @@ struct FastLedCRGB* LedStrip::GetLed(uint8_t ledIndex)
 #ifdef _DEBUG
 	if (ledIndex >= _nrOfLeds)
 	{
-		exit(0);
+		AssertUtils::MyAssert(false);
 	}
 #endif
 	return &_leds[ledIndex];
