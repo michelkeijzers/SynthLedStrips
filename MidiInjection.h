@@ -13,7 +13,7 @@ public:
 	void Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1);
 	void Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2);
 
-	void Inject(uint32_t counter);
+	void Inject(uint32_t timeStamp);
 
 private:
 	std::vector<uint32_t> _data;

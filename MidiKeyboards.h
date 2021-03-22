@@ -15,13 +15,12 @@ class MidiKeyboards
 {
 public:
 	MidiKeyboards();
-	~MidiKeyboards();
 
 	void Initialize();
 
 	MidiKeyboard& GetMidiKeyboard(uint8_t index);
 
-	void Process(uint32_t counter);
+	void Process();
 
 	void ClearNewFlags();
 

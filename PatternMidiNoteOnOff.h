@@ -25,10 +25,10 @@ public:
 
 	/* override */ void Start();
 
-	/* override */ void Process(uint32_t counter);
+	/* override */ void Process();
 
 private:
-	void ProcessFade(uint32_t fadeTime, uint8_t key, uint32_t counter);
+	void ProcessFade(uint32_t fadeTime, uint8_t key);
 
 	LedColor::EColor _backgroundColor;
 	uint32_t _backgroundColorSpeed;

@@ -135,6 +135,9 @@
     <ClInclude Include="MidiProcessor.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="MidiNote.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -210,6 +213,9 @@
       <Filter>Source Files\Common</Filter>
     </ClCompile>
     <ClCompile Include="MidiProcessor.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="MidiNote.cpp">
       <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>

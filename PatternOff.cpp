@@ -20,6 +20,6 @@ PatternOff::~PatternOff()
 }
 
 
-/* override */ void PatternOff::Process(uint32_t counter)
+/* override */ void PatternOff::Process()
 {
 }

@@ -40,7 +40,7 @@ void LedStrips::Initialize()
 }
 
 
-void LedStrips::Process(uint32_t counter)
+void LedStrips::Process()
 {
 	uint16_t currentFront = _ledStrips[MainSynthFront     ].CalculateCurrentInMilliAmp() +
                             _ledStrips[MasterKeyboardFront].CalculateCurrentInMilliAmp();

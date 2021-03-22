@@ -26,7 +26,7 @@ public:
 
 	void Initialize();
 
-	void Process(uint32_t counter);
+	void Process();
 
 	LedStrip& GetLedStrip(uint8_t index);
 

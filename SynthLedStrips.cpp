@@ -48,7 +48,6 @@
 /* static */ MidiKeyboards SynthLedStrips::_midiKeyboards;
 /* static */ MidiProcessor SynthLedStrips::_midiProcessor;
 
-/* static */ uint32_t SynthLedStrips::_counter = 0;
 
 #ifndef USE_SERIAL
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, midiA);
@@ -134,13 +133,11 @@ SynthLedStrips::~SynthLedStrips()
 /* static */ void SynthLedStrips::Loop()
 {
 	ProcessMidi();
-	_midiKeyboards.Process(_counter);
-	_patterns.Process(_counter);
-	_ledStrips.Process(_counter);
+	_midiKeyboards.Process();
+	_patterns.Process();
+	_ledStrips.Process();
 	_midiKeyboards.ClearNewFlags();
 	FastLED.show();
-	_counter++;
-	delay(10);
 }
 
 

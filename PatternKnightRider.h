@@ -24,10 +24,10 @@ public:
 
 	/* override */ void Start();
 
-	/* override */ void Process(uint32_t counter);
+	/* override */ void Process();
 
 private:
-	void ProcessCurrentLed(uint32_t counter);
+	void ProcessCurrentLed();
 
 	void GotoNextCurrentLed(uint8_t currentLedShiftAmount);
 
@@ -48,5 +48,5 @@ private:
 
 	uint8_t _currentLed;
 
-	uint16_t _counterRemainder;
+	uint16_t _timeRemainder;
 };

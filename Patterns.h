@@ -19,7 +19,7 @@ public:
 
 	void SetPattern(uint8_t index, Pattern* pattern, MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
 
-	void Process(uint32_t counter);
+	void Process();
 
 private:
 	Pattern* _patterns[NR_OF_LED_STRIPS];

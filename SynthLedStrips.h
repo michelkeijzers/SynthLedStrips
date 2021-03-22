@@ -30,6 +30,4 @@ private:
 	static Patterns _patterns;
 
 	static LedStrips _ledStrips;
-
-	static uint32_t _counter;
 };

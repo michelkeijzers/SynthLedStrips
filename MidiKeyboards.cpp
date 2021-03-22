@@ -6,11 +6,6 @@ MidiKeyboards::MidiKeyboards()
 }
 
 
-MidiKeyboards::~MidiKeyboards()
-{
-}
-
-
 void MidiKeyboards::Initialize()
 {
 	_midiKeyboards[0].SetNrOfKeys(NR_OF_MAIN_SYNTH_KEYS);
@@ -24,11 +19,11 @@ MidiKeyboard& MidiKeyboards::GetMidiKeyboard(uint8_t index)
 }
 
 
-void MidiKeyboards::Process(uint32_t counter)
+void MidiKeyboards::Process()
 {
 	for (uint8_t midiKeyboard = 0; midiKeyboard < NR_OF_MIDI_KEYBOARDS; midiKeyboard++)
 	{
-		_midiKeyboards[midiKeyboard].Process(counter);
+		_midiKeyboards[midiKeyboard].Process();
 	}
 }
 

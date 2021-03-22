@@ -17,7 +17,10 @@ Patterns::Patterns()
 
 Patterns::~Patterns()
 {
-	delete _patternData;
+	if (_patternData != NULL)
+	{
+		delete _patternData;
+	}
 }
 
 
@@ -41,10 +44,12 @@ void Patterns::SetPattern(uint8_t index, Pattern* pattern, MidiKeyboard* midiKey
 }
 
 
-void Patterns::Process(uint32_t counter)
+void Patterns::Process()
 {
 	for (uint8_t index = 0; index < NR_OF_PATTERNS; index++)
 	{
-		_patterns[index]->Process(counter);
+		Serial.print("Pattern: ");
+		Serial.println(index);
+		_patterns[index]->Process();
 	}
 }

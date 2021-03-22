@@ -18,10 +18,12 @@ public:
 
 	virtual void Start() = 0;
 
-	virtual void Process(uint32_t counter) = 0;
+	virtual void Process() = 0;
 
 protected:
 	MidiKeyboard* _midiKeyboard;
 
 	LedStrip* _ledStrip;
+
+	uint32_t _timeLastProcessed;
 };

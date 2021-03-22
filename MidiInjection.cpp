@@ -33,9 +33,9 @@ void MidiInjection::Add(uint32_t time, MidiInterface& midi, midi::MidiType type,
 }
 
 
-void MidiInjection::Inject(uint32_t counter)
+void MidiInjection::Inject(uint32_t timeStamp)
 {
-	while ((_dataBytesSent < _data.size()) && (_data[_dataBytesSent] <= counter))
+	while ((_dataBytesSent < _data.size()) && (_data[_dataBytesSent] <= timeStamp))
 	{
 		MidiInterface*& midi = (MidiInterface*&) _data[_dataBytesSent + 1];
 		midi::MidiType type = (midi::MidiType) (_data[_dataBytesSent + 2] & 0xF0);

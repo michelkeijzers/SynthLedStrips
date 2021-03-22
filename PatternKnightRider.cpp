@@ -2,9 +2,9 @@
 #include "MathUtils.h"
 #include "Time.h"
 #include "LedColor.h"
-
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
+#include "SynthLedStrips.h"
 
 
 PatternKnightRider::PatternKnightRider()
@@ -16,7 +16,7 @@ PatternKnightRider::PatternKnightRider()
 	_backgroundColorSpeed(0),
 	_direction(false),
 	_currentLed(0),
-	_counterRemainder(0)
+	_timeRemainder(0)
 {
 }
 
@@ -58,7 +58,7 @@ void PatternKnightRider::SetDirection(bool direction)
 
 void PatternKnightRider::SetLedSpeed(uint32_t ledSpeed)
 {
-	_ledSpeed = ledSpeed / Time::MULTIPLIER;
+	_ledSpeed = ledSpeed;
 }
 
 void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
@@ -74,9 +74,9 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 }
 
 
-/* override */ void PatternKnightRider::Process(uint32_t counter)
+/* override */ void PatternKnightRider::Process()
 {
-	ProcessCurrentLed(counter);
+	ProcessCurrentLed();
 
 	for (int led = 0; led < _ledStrip->GetNrOfLeds(); led++)
 	{
@@ -85,11 +85,11 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 		if (ratio == 0)
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / _backgroundColorSpeed);
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, millis() * 360 / _backgroundColorSpeed);
 		}
 		else
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter * 360 / _foregroundColorSpeed);
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, millis() * 360 / _foregroundColorSpeed);
 			rgb->red = (rgb->red * ratio) / _ledWidth;
 			rgb->green = (rgb->green * ratio) / _ledWidth;
 			rgb->blue = (rgb->blue * ratio) / _ledWidth;
@@ -98,18 +98,23 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 }
 
 
-void PatternKnightRider::ProcessCurrentLed(uint32_t counter)
+void PatternKnightRider::ProcessCurrentLed()
 {
-	Serial.print("counter: "); Serial.print(counter); 
-	uint8_t currentLedShiftAmount = _ledStrip->GetNrOfLeds() / _ledSpeed;
-	_counterRemainder += _ledStrip->GetNrOfLeds() % _ledSpeed;
-	if (_counterRemainder >= _ledSpeed)
+	uint32_t currentTime = millis();
+	uint8_t currentLedShiftAmount = ((currentTime - _timeLastProcessed) * _ledStrip->GetNrOfLeds()) / _ledSpeed;
+
+	while(_timeRemainder >= _ledSpeed)
 	{
-		_counterRemainder -= _ledSpeed;
+		_timeRemainder -= _ledSpeed;
 		currentLedShiftAmount++;
 	}
 
-	GotoNextCurrentLed(currentLedShiftAmount);
+	if (currentLedShiftAmount > 0)
+	{
+		_timeRemainder += ((currentTime - _timeLastProcessed) * _ledStrip->GetNrOfLeds()) % _ledSpeed;
+		GotoNextCurrentLed(currentLedShiftAmount);
+		_timeLastProcessed = currentTime;
+	}
 }
 
 
