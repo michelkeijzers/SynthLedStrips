@@ -4,13 +4,11 @@
 #include "AssertUtils.h"
 
 
-//Midi midiA;
-Midi midiB;
-Midi midiC;
-//Midi midiD;
+MidiInterface midiB;
+MidiInterface midiC;
 
 
-Midi::Midi()
+MidiInterface::MidiInterface()
 :
 	_midiType(midi::MidiType::InvalidType),
 	_midiChannel(0),
@@ -20,17 +18,17 @@ Midi::Midi()
 }
 
 
-Midi::~Midi()
+MidiInterface::~MidiInterface()
 {
 }
 
 
-void Midi::begin()
+void MidiInterface::begin()
 {
 }
 
 
-bool Midi::read()
+bool MidiInterface::read()
 {
 	if (_queue.empty())
 	{
@@ -49,39 +47,39 @@ bool Midi::read()
 }
 
 
-midi::MidiType Midi::getType()
+midi::MidiType MidiInterface::getType()
 {
 	return _midiType;;
 }
 
 
-midi::DataByte Midi::getData1()
+midi::DataByte MidiInterface::getData1()
 {
 	return _data1;
 }
 
 
-midi::DataByte Midi::getData2()
+midi::DataByte MidiInterface::getData2()
 {
 	return _data2;
 }
 
 
-void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1)
+void MidiInterface::AddToQueue(midi::MidiType type, midi::DataByte dataByte1)
 {
 	_queue.push((uint8_t) type);
 	_queue.push(dataByte1);
 }
 
 
-void Midi::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2)
+void MidiInterface::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	AddToQueue(type, dataByte1);
 	_queue.push(dataByte2);
 }
 
 
-/* static */ uint8_t Midi::GetNrOfDataBytes(midi::MidiType midiType)
+/* static */ uint8_t MidiInterface::GetNrOfDataBytes(midi::MidiType midiType)
 {
 	switch ((midi::MidiType) ((uint8_t) midiType & 0xF0))
 	{

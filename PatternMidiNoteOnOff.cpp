@@ -8,11 +8,11 @@
 
 PatternMidiNoteOnOff::PatternMidiNoteOnOff()
 :	_foregroundColor(LedColor::EColor::Black),
-	_foregroundColorSpeed(Speed::ESpeed::NA),
+	_foregroundColorSpeed(0),
 	_backgroundColor(LedColor::EColor::Black),
-	_backgroundColorSpeed(Speed::ESpeed::NA),
-	_fadeTimeNoteOff(Time::ETime::NA),
-	_fadeTimeNoteOn(Time::ETime::NA),
+	_backgroundColorSpeed(0),
+	_fadeTimeNoteOff(0),
+	_fadeTimeNoteOn(0),
 	_noteOnVelocityIntensity(0)
 {
 }
@@ -29,7 +29,7 @@ void PatternMidiNoteOnOff::SetBackgroundColor(LedColor::EColor color)
 }
 
 
-void PatternMidiNoteOnOff::SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed)
+void PatternMidiNoteOnOff::SetBackgroundColorSpeed(uint32_t backgroundColorSpeed)
 {
 	_backgroundColorSpeed = backgroundColorSpeed;
 }
@@ -41,19 +41,19 @@ void PatternMidiNoteOnOff::SetForegroundColor(LedColor::EColor color)
 }
 
 
-void PatternMidiNoteOnOff::SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed)
+void PatternMidiNoteOnOff::SetForegroundColorSpeed(uint32_t foregroundColorSpeed)
 {
 	_foregroundColorSpeed = foregroundColorSpeed;
 }
 
 
-void PatternMidiNoteOnOff::SetFadeTimeNoteOn(Time::ETime fadeTimeNoteOn)
+void PatternMidiNoteOnOff::SetFadeTimeNoteOn(uint32_t fadeTimeNoteOn)
 {
 	_fadeTimeNoteOn = fadeTimeNoteOn;
 }
 
 
-void PatternMidiNoteOnOff::SetFadeTimeNoteOff(Time::ETime fadeTimeNoteOff)
+void PatternMidiNoteOnOff::SetFadeTimeNoteOff(uint32_t fadeTimeNoteOff)
 {
 	_fadeTimeNoteOff = fadeTimeNoteOff;
 }
@@ -89,7 +89,7 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 			{
 				Serial.print("TimeAgo: ");
 				Serial.print(_midiKeyboard->TimeAgo(key));
-				_midiKeyboard->SetTimeAgo(key, _midiKeyboard->TimeAgo(key) * Time::GetTime(_fadeTimeNoteOff) / Time::GetTime(_fadeTimeNoteOn));
+				_midiKeyboard->SetTimeAgo(key, _midiKeyboard->TimeAgo(key) * _fadeTimeNoteOff / _fadeTimeNoteOn);
 				Serial.print(", new: ");
 				Serial.println(_midiKeyboard->TimeAgo(key));
 			}
@@ -106,9 +106,8 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 }
 
 
-void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter)
+void PatternMidiNoteOnOff::ProcessFade(uint32_t fadeTime, uint8_t key, uint32_t counter)
 {
-	uint32_t fadeTime = Time::GetTime(fadeTimeEnum);
 	uint32_t timeAgo = _midiKeyboard->TimeAgo(key);
 
 	uint8_t red = 0;
@@ -118,7 +117,7 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	if (timeAgo < fadeTime)
 	{
 		struct FastLedCRGB foregroundColor{};
-		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor,  counter * 360 / Speed::GetSpeed(_foregroundColorSpeed));
+		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor,  counter * 360 / _foregroundColorSpeed);
 		red = foregroundColor.red * (fadeTime - timeAgo) / fadeTime;
 		green = foregroundColor.green * (fadeTime - timeAgo) / fadeTime;
 		blue = foregroundColor.blue * (fadeTime - timeAgo) / fadeTime;
@@ -126,7 +125,7 @@ void PatternMidiNoteOnOff::ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, ui
 	else
 	{
 		struct FastLedCRGB* backgroundColor = _ledStrip->GetLed(key);
-		LedColor::SetRgb(&(backgroundColor->red), &(backgroundColor->green), &(backgroundColor->blue), _backgroundColor,  counter * 360 / Speed::GetSpeed(_backgroundColorSpeed));
+		LedColor::SetRgb(&(backgroundColor->red), &(backgroundColor->green), &(backgroundColor->blue), _backgroundColor,  counter * 360 / _backgroundColorSpeed);
 		red = backgroundColor->red;
 		green = backgroundColor->green;
 		blue = backgroundColor->blue;

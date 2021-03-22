@@ -2,7 +2,7 @@
 #include "Pattern.h"
 #include "LedStrip.h"
 #include "Time.h"
-#include "Speed.h"
+
 
 class MidiKeyboard;
 
@@ -13,13 +13,13 @@ public:
 	~PatternMidiNoteOnOff();
 
 	void SetBackgroundColor(LedColor::EColor color);
-	void SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed);
+	void SetBackgroundColorSpeed(uint32_t backgroundColorSpeed);
 
 	void SetForegroundColor(LedColor::EColor color);
-	void SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed);
+	void SetForegroundColorSpeed(uint32_t foregroundColorSpeed);
 
-	void SetFadeTimeNoteOn(Time::ETime fadeTimeNoteOn);
-	void SetFadeTimeNoteOff(Time::ETime fadeTimeNoteOff);
+	void SetFadeTimeNoteOn(uint32_t fadeTimeNoteOn);
+	void SetFadeTimeNoteOff(uint32_t fadeTimeNoteOff);
 
 	void SetNoteOnVelocityIntensity(uint8_t noteOnVelocityIntensity);
 
@@ -28,16 +28,16 @@ public:
 	/* override */ void Process(uint32_t counter);
 
 private:
-	void ProcessFade(Time::ETime fadeTimeEnum, uint8_t key, uint32_t counter);
+	void ProcessFade(uint32_t fadeTime, uint8_t key, uint32_t counter);
 
 	LedColor::EColor _backgroundColor;
-	Speed::ESpeed _backgroundColorSpeed;
+	uint32_t _backgroundColorSpeed;
 
 	LedColor::EColor _foregroundColor;
-	Speed::ESpeed _foregroundColorSpeed;
+	uint32_t _foregroundColorSpeed;
 
-	Time::ETime _fadeTimeNoteOn;
-	Time::ETime _fadeTimeNoteOff;
+	uint32_t _fadeTimeNoteOn;
+	uint32_t _fadeTimeNoteOff;
 
 	uint8_t _noteOnVelocityIntensity;
 };

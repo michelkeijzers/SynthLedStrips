@@ -2,7 +2,7 @@
 
 #include "Pattern.h"
 #include "LedStrip.h"
-#include "Speed.h"
+
 
 class PatternKnightRider : public Pattern
 {
@@ -11,14 +11,14 @@ public:
 	~PatternKnightRider();
 
 	void SetBackgroundColor(LedColor::EColor color);
-	void SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed);
+	void SetBackgroundColorSpeed(uint32_t backgroundColorSpeed);
 
 	void SetForegroundColor(LedColor::EColor color);
-    void SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed);
+    void SetForegroundColorSpeed(uint32_t foregroundColorSpeed);
 
 	void SetDirection(bool direction);
 
-	void SetLedSpeed(Speed::ESpeed ledSpeed);
+	void SetLedSpeed(uint32_t ledSpeed);
 
 	void SetLedWidth(uint8_t ledWidth);
 
@@ -32,17 +32,17 @@ private:
 	void GotoNextCurrentLed(uint8_t currentLedShiftAmount);
 
 	LedColor::EColor _backgroundColor;
-	Speed::ESpeed _backgroundColorSpeed;
+	uint32_t _backgroundColorSpeed;
 
 	LedColor::EColor _foregroundColor;
-	Speed::ESpeed _foregroundColorSpeed;
+	uint32_t _foregroundColorSpeed;
 
 	bool _direction;
 
 	/// <summary>
 	/// Speed in one direction
 	/// </summary>
-	Speed::ESpeed _ledSpeed;
+	uint32_t _ledSpeed;
 
 	uint8_t _ledWidth;
 

@@ -10,8 +10,8 @@ public:
 	MidiInjection();
 	~MidiInjection();
 
-	void Add(uint32_t time, Midi& midi, midi::MidiType type, midi::DataByte dataByte1);
-	void Add(uint32_t time, Midi& midi, midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2);
+	void Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1);
+	void Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2);
 
 	void Inject(uint32_t counter);
 

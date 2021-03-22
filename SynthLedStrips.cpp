@@ -84,8 +84,6 @@ SynthLedStrips::~SynthLedStrips()
 	midiC.begin();
 	//midiD.begin();
 
-	_midiProcessor.SetMidiB(&midiB);
-
 	_midiKeyboards.Initialize();
 	_patterns.Initialize();
 	_ledStrips.Initialize();
@@ -100,11 +98,11 @@ SynthLedStrips::~SynthLedStrips()
 //#pragma warning(pop)
 	PatternMidiNoteOnOff* pattern_0 = new (_patterns.GetPatternData(0)) PatternMidiNoteOnOff();
 	pattern_0->SetBackgroundColor(LedColor::EColor::Galaxy);
-	pattern_0->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
+	pattern_0->SetBackgroundColorSpeed(1000);
 	pattern_0->SetForegroundColor(LedColor::EColor::White);
-	pattern_0->SetForegroundColorSpeed(Speed::ESpeed::_4s);
-	pattern_0->SetFadeTimeNoteOn(Time::ETime::_10s);
-	pattern_0->SetFadeTimeNoteOff(Time::ETime::_20s);
+	pattern_0->SetForegroundColorSpeed(4000);
+	pattern_0->SetFadeTimeNoteOn(10000);
+	pattern_0->SetFadeTimeNoteOff(20000);
 	pattern_0->SetNoteOnVelocityIntensity(255);
 	_patterns.SetPattern(0, pattern_0, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(0));
 
@@ -113,21 +111,21 @@ SynthLedStrips::~SynthLedStrips()
 
 	PatternKnightRider* pattern_2 = new (_patterns.GetPatternData(2)) PatternKnightRider();
 	pattern_2->SetBackgroundColor(LedColor::EColor::Black);
-	pattern_2->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
+	pattern_2->SetBackgroundColorSpeed(10000);
 	pattern_2->SetForegroundColor(LedColor::EColor::Red);
-	pattern_2->SetForegroundColorSpeed(Speed::ESpeed::_4s);
+	pattern_2->SetForegroundColorSpeed(4000);
 	pattern_2->SetDirection(true);
-	pattern_2->SetLedSpeed(Speed::ESpeed::_1s);
+	pattern_2->SetLedSpeed(1000);
 	pattern_2->SetLedWidth(10);
 	_patterns.SetPattern(2, pattern_2, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(2));
 
 	PatternKnightRider* pattern_3 = new (_patterns.GetPatternData(3)) PatternKnightRider();
 	pattern_3->SetBackgroundColor(LedColor::EColor::Black);
-	pattern_3->SetBackgroundColorSpeed(Speed::ESpeed::_10s);
+	pattern_3->SetBackgroundColorSpeed(10000);
 	pattern_3->SetForegroundColor(LedColor::EColor::Red);
-	pattern_3->SetForegroundColorSpeed(Speed::ESpeed::_4s);
+	pattern_3->SetForegroundColorSpeed(4000);
 	pattern_3->SetDirection(true);
-	pattern_3->SetLedSpeed(Speed::ESpeed::_1s);
+	pattern_3->SetLedSpeed(1000);
 	pattern_3->SetLedWidth(10);
 	_patterns.SetPattern(3, pattern_3, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(3));
 }
@@ -148,15 +146,16 @@ SynthLedStrips::~SynthLedStrips()
 
 /* static */ void SynthLedStrips::ProcessMidi()
 {
-	_midiProcessor.Process();
-
 	if (midiB.read())
 	{
 		midi::MidiType midiType = midiB.getType();
 		midi::DataByte dataByte1 = midiB.getData1();
 		midi::DataByte dataByte2 = midiB.getData2();
 
-		ProcessMidiEvents(midiType, dataByte1, dataByte2);
+		uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
+		MidiKeyboard& midiKeyboard = _midiKeyboards.GetMidiKeyboard(midiChannel);
+
+		_midiProcessor.Process(midiKeyboard, midiType, dataByte1, dataByte2);
 	}
 
 	if (midiC.read())
@@ -165,38 +164,10 @@ SynthLedStrips::~SynthLedStrips()
 		midi::DataByte dataByte1 = midiC.getData1();
 		midi::DataByte dataByte2 = midiC.getData2();
 
-		ProcessMidiEvents(midiType, dataByte1, dataByte2);
-	}
+		uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
+		MidiKeyboard& midiKeyboard = _midiKeyboards.GetMidiKeyboard(midiChannel);
 
-	/*if (midiD.read())
-	{
-		midi::MidiType midiType = midiD.getType();
-		midi::DataByte dataByte1 = midiD.getData1();
-		midi::DataByte dataByte2 = midiD.getData2();
-
-		ProcessMidiEvents(midiType, dataByte1, dataByte2);
-	}
-	*/
-}
-
-
-/* static */ void SynthLedStrips::ProcessMidiEvents(midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataByte2)
-{
-	uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
-	MidiKeyboard& midiKeyboard = _midiKeyboards.GetMidiKeyboard(midiChannel);
-
-	switch (midiType)
-	{
-	case midi::MidiType::NoteOn:
-		midiKeyboard.ProcessMidiNoteOn(dataByte1, dataByte2);
-		break;
-
-	case midi::MidiType::NoteOff:
-		midiKeyboard.ProcessMidiNoteOff(dataByte1, dataByte2);
-		break;
-
-	default:
-		AssertUtils::MyAssert(false);
+		_midiProcessor.Process(midiKeyboard, midiType, dataByte1, dataByte2);
 	}
 }
 

@@ -1,6 +1,6 @@
 #include "PatternKnightRider.h"
 #include "MathUtils.h"
-
+#include "Time.h"
 #include "LedColor.h"
 
 #include "ClassNames.h"
@@ -9,11 +9,11 @@
 
 PatternKnightRider::PatternKnightRider()
 :	_ledWidth(0),
-	_ledSpeed(Speed::ESpeed::NA),
+	_ledSpeed(0),
 	_foregroundColor(LedColor::EColor::Black),
-	_foregroundColorSpeed(Speed::ESpeed::NA),
+	_foregroundColorSpeed(0),
 	_backgroundColor(LedColor::EColor::Black),
-	_backgroundColorSpeed(Speed::ESpeed::NA),
+	_backgroundColorSpeed(0),
 	_direction(false),
 	_currentLed(0),
 	_counterRemainder(0)
@@ -32,7 +32,7 @@ void PatternKnightRider::SetBackgroundColor(LedColor::EColor color)
 }
 
 
-void PatternKnightRider::SetBackgroundColorSpeed(Speed::ESpeed backgroundColorSpeed)
+void PatternKnightRider::SetBackgroundColorSpeed(uint32_t backgroundColorSpeed)
 {
 	_backgroundColorSpeed = backgroundColorSpeed;
 }
@@ -44,7 +44,7 @@ void PatternKnightRider::SetForegroundColor(LedColor::EColor color)
 }
 
 
-void PatternKnightRider::SetForegroundColorSpeed(Speed::ESpeed foregroundColorSpeed)
+void PatternKnightRider::SetForegroundColorSpeed(uint32_t foregroundColorSpeed)
 {
 	_foregroundColorSpeed = foregroundColorSpeed;
 }
@@ -56,9 +56,9 @@ void PatternKnightRider::SetDirection(bool direction)
 }
 
 
-void PatternKnightRider::SetLedSpeed(Speed::ESpeed ledSpeed)
+void PatternKnightRider::SetLedSpeed(uint32_t ledSpeed)
 {
-	_ledSpeed = ledSpeed;
+	_ledSpeed = ledSpeed / Time::MULTIPLIER;
 }
 
 void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
@@ -85,11 +85,11 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 		if (ratio == 0)
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / Speed::GetSpeed(_backgroundColorSpeed));
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, counter * 360 / _backgroundColorSpeed);
 		}
 		else
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter * 360 / Speed::GetSpeed(_foregroundColorSpeed));
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, counter * 360 / _foregroundColorSpeed);
 			rgb->red = (rgb->red * ratio) / _ledWidth;
 			rgb->green = (rgb->green * ratio) / _ledWidth;
 			rgb->blue = (rgb->blue * ratio) / _ledWidth;
@@ -101,12 +101,11 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 void PatternKnightRider::ProcessCurrentLed(uint32_t counter)
 {
 	Serial.print("counter: "); Serial.print(counter); 
-	uint32_t ledSpeed =  Speed::GetSpeed(_ledSpeed);
-	uint8_t currentLedShiftAmount = _ledStrip->GetNrOfLeds() / ledSpeed;
-	_counterRemainder += _ledStrip->GetNrOfLeds() % ledSpeed;
-	if (_counterRemainder >= ledSpeed)
+	uint8_t currentLedShiftAmount = _ledStrip->GetNrOfLeds() / _ledSpeed;
+	_counterRemainder += _ledStrip->GetNrOfLeds() % _ledSpeed;
+	if (_counterRemainder >= _ledSpeed)
 	{
-		_counterRemainder -= ledSpeed;
+		_counterRemainder -= _ledSpeed;
 		currentLedShiftAmount++;
 	}
 

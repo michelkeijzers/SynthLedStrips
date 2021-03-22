@@ -3,7 +3,6 @@
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 #include "MidiKeyboards.h"
-#include "Speed.h"
 #include "Time.h"
 #include "LedColor.h"
 #include "AssertUtils.h"

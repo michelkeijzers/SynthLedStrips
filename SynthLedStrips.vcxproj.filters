@@ -99,9 +99,6 @@
     <ClInclude Include="MidiKeyboard.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
-    <ClInclude Include="Speed.h">
-      <Filter>Header Files\App</Filter>
-    </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
@@ -180,12 +177,6 @@
       <Filter>Source Files\App</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Speed.cpp">
-      <Filter>Source Files\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
       <Filter>Source Files\App</Filter>
     </ClCompile>
     <ClCompile Include="LedColor.cpp">

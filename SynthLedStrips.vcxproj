@@ -153,7 +153,6 @@
     <ClInclude Include="PatternMidiNoteOnOff.h" />
     <ClInclude Include="PatternOff.h" />
     <ClInclude Include="Patterns.h" />
-    <ClInclude Include="Speed.h" />
     <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="ArduinoStub.h" />
     <ClInclude Include="AssertUtils.h" />
@@ -186,7 +185,6 @@
     <ClCompile Include="PatternMidiNoteOnOff.cpp" />
     <ClCompile Include="PatternOff.cpp" />
     <ClCompile Include="Patterns.cpp" />
-    <ClCompile Include="Speed.cpp" />
     <ClCompile Include="SynthLedStrips.cpp" />
     <ClCompile Include="ArduinoStub.cpp" />
     <ClCompile Include="AssertUtils.cpp" />
@@ -197,7 +195,6 @@
     <ClCompile Include="MidiStub.cpp" />
     <ClCompile Include="SerialStub.cpp" />
     <ClCompile Include="StringUtils.cpp" />
-    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
