@@ -108,18 +108,21 @@ SynthLedStrips::~SynthLedStrips()
 	PatternOff* pattern_1 = new (_patterns.GetPatternData(1)) PatternOff();
 	_patterns.SetPattern(1, pattern_1, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(1));
 
-	PatternKnightRider* pattern_2 = new (_patterns.GetPatternData(2)) PatternKnightRider();
+	PatternOff* pattern_2 = new (_patterns.GetPatternData(2)) PatternOff();
+	/*
 	pattern_2->SetBackgroundColor(LedColor::EColor::Black);
 	pattern_2->SetBackgroundColorSpeed(10000);
 	pattern_2->SetForegroundColor(LedColor::EColor::Red);
 	pattern_2->SetForegroundColorSpeed(4000);
 	pattern_2->SetDirection(true);
-	pattern_2->SetLedSpeed(1000);
+	pattern_2->SetLedSpeed(50000);
 	pattern_2->SetLedWidth(10);
+	*/
 	_patterns.SetPattern(2, pattern_2, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(2));
+	pattern_2->Start();
 
 	PatternKnightRider* pattern_3 = new (_patterns.GetPatternData(3)) PatternKnightRider();
-	pattern_3->SetBackgroundColor(LedColor::EColor::Black);
+	pattern_3->SetBackgroundColor(LedColor::EColor::Rainbow);
 	pattern_3->SetBackgroundColorSpeed(10000);
 	pattern_3->SetForegroundColor(LedColor::EColor::Red);
 	pattern_3->SetForegroundColorSpeed(4000);
@@ -127,6 +130,7 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_3->SetLedSpeed(1000);
 	pattern_3->SetLedWidth(10);
 	_patterns.SetPattern(3, pattern_3, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(3));
+	pattern_3->Start();
 }
 
 
@@ -138,6 +142,8 @@ SynthLedStrips::~SynthLedStrips()
 	_ledStrips.Process();
 	_midiKeyboards.ClearNewFlags();
 	FastLED.show();
+
+	delay(1);
 }
 
 

@@ -27,7 +27,7 @@ public:
 	/* override */ void Process();
 
 private:
-	void ProcessCurrentLed();
+	void ProcessCurrentLed(uint32_t timeStamp);
 
 	void GotoNextCurrentLed(uint8_t currentLedShiftAmount);
 

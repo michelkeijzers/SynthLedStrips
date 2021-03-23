@@ -18,7 +18,10 @@
 
 void AssertUtils::MyAssert(bool expression)
 {
-	//TODO call MyAssert with fileName/line
+	if (!expression)
+	{
+		exit(0); //TODO call MyAssert with fileName/line
+	}
 }
 
 

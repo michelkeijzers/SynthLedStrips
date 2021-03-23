@@ -84,8 +84,9 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 				Serial.print("Key pressed: ");
 				Serial.println(key);
 				struct FastLedCRGB* rgb = _ledStrip->GetLed(key);
-				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, millis()); // P2: Foreground color
-				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, _noteOnVelocityIntensity, midiNote.GetVelocity() * 2 + 1);
+				LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, millis());
+				LedColor::SetBrightness(&rgb->red, &rgb->green, &rgb->blue, 
+					_noteOnVelocityIntensity, midiNote.GetVelocity() * 2 + 1);
 			}
 		} 
 		else if (midiNote.IsPressed())
@@ -103,7 +104,6 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 void PatternMidiNoteOnOff::ProcessFade(uint32_t fadeTime, uint8_t key)
 {
 	uint32_t timeAgo = millis() - _midiKeyboard->GetMidiNote(key).GetTimePressed();
-
 	uint8_t red = 0;
 	uint8_t green = 0;
 	uint8_t blue = 0;
@@ -111,7 +111,8 @@ void PatternMidiNoteOnOff::ProcessFade(uint32_t fadeTime, uint8_t key)
 	if (timeAgo < fadeTime)
 	{
 		struct FastLedCRGB foregroundColor{};
-		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, _foregroundColor,  millis() * 360 / _foregroundColorSpeed);
+		LedColor::SetRgb(&foregroundColor.red, &foregroundColor.green, &foregroundColor.blue, 
+			_foregroundColor,  millis() * 360 / _foregroundColorSpeed);
 		red = foregroundColor.red * (fadeTime - timeAgo) / fadeTime;
 		green = foregroundColor.green * (fadeTime - timeAgo) / fadeTime;
 		blue = foregroundColor.blue * (fadeTime - timeAgo) / fadeTime;
@@ -119,7 +120,8 @@ void PatternMidiNoteOnOff::ProcessFade(uint32_t fadeTime, uint8_t key)
 	else
 	{
 		struct FastLedCRGB* backgroundColor = _ledStrip->GetLed(key);
-		LedColor::SetRgb(&(backgroundColor->red), &(backgroundColor->green), &(backgroundColor->blue), _backgroundColor, millis() * 360 / _backgroundColorSpeed);
+		LedColor::SetRgb(&(backgroundColor->red), &(backgroundColor->green), &(backgroundColor->blue), 
+			_backgroundColor, millis() * 360 / _backgroundColorSpeed);
 		red = backgroundColor->red;
 		green = backgroundColor->green;
 		blue = backgroundColor->blue;

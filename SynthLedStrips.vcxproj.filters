@@ -138,6 +138,9 @@
     <ClInclude Include="MidiNote.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="SerialUtils.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -217,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="MidiNote.cpp">
       <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="SerialUtils.cpp">
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

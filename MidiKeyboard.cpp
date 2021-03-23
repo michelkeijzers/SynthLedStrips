@@ -63,10 +63,9 @@ void MidiKeyboard::ProcessMidiNoteOff(midi::DataByte noteNumber, midi::DataByte 
 
 void MidiKeyboard::ClearNewFlags()
 {
-	//Serial.println("Clear New Flags");
 	for (int key = 0; key < _nrOfKeys; key++)
 	{
-		GetMidiNote(key - _keyOffset).ClearStatusChanged();
+		GetMidiNote(key).ClearStatusChanged();
 	}
 }
 

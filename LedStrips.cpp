@@ -33,10 +33,10 @@ void LedStrips::Initialize()
 	_ledStrips[MasterKeyboardFront].Initialize(NR_OF_MASTER_KEYBOARD_KEYS);
 	_ledStrips[MasterKeyboardBack ].Initialize(NR_OF_MASTER_KEYBOARD_FRONT_LEDS);
 
-	FastLED.addLeds<WS2811, 2, RGB>(_ledStrips[0].GetLeds(), _ledStrips[0].GetNrOfLeds());
-	FastLED.addLeds<WS2811, 3, RGB>(_ledStrips[1].GetLeds(), _ledStrips[1].GetNrOfLeds());
-	FastLED.addLeds<WS2811, 4, RGB>(_ledStrips[2].GetLeds(), _ledStrips[2].GetNrOfLeds());
-	FastLED.addLeds<WS2811, 5, RGB>(_ledStrips[3].GetLeds(), _ledStrips[3].GetNrOfLeds());
+	FastLED.addLeds<WS2812, 2, RGB>(_ledStrips[0].GetLeds(), _ledStrips[0].GetNrOfLeds());
+	FastLED.addLeds<WS2812, 3, RGB>(_ledStrips[1].GetLeds(), _ledStrips[1].GetNrOfLeds());
+	FastLED.addLeds<WS2812, 4, RGB>(_ledStrips[2].GetLeds(), _ledStrips[2].GetNrOfLeds());
+	FastLED.addLeds<WS2812, 5, RGB>(_ledStrips[3].GetLeds(), _ledStrips[3].GetNrOfLeds());
 }
 
 
@@ -49,9 +49,22 @@ void LedStrips::Process()
 
 	if (currentFront + currentBack > MAX_CURRENT_IN_MILLI_AMP)
 	{
-		uint8_t currentPercentage = MIN(100, (MAX_CURRENT_IN_MILLI_AMP - currentBack) * 100 / currentFront);
-		_ledStrips[MainSynthFront     ].ReduceCurrent(currentPercentage);
-		_ledStrips[MasterKeyboardFront].ReduceCurrent(currentPercentage);
+		if (currentFront > 0)
+		{
+			uint8_t currentPercentage = MIN(100, (MAX_CURRENT_IN_MILLI_AMP - currentBack) * 100 / currentFront);
+			_ledStrips[MainSynthFront     ].ReduceCurrent(currentPercentage);
+			_ledStrips[MasterKeyboardFront].ReduceCurrent(currentPercentage);
+		}
+
+		currentFront = _ledStrips[MainSynthFront     ].CalculateCurrentInMilliAmp() +
+				       _ledStrips[MasterKeyboardFront].CalculateCurrentInMilliAmp();
+	}
+
+	if (currentFront + currentBack > MAX_CURRENT_IN_MILLI_AMP)
+	{
+		uint8_t currentPercentage = MIN(100, (MAX_CURRENT_IN_MILLI_AMP - currentFront) * 100 / currentBack);
+		_ledStrips[MainSynthBack     ].ReduceCurrent(currentPercentage);
+		_ledStrips[MasterKeyboardBack].ReduceCurrent(currentPercentage);
 	}
 }
 

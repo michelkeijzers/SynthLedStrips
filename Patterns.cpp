@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "SerialUtils.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 #include "Patterns.h"
@@ -48,8 +49,9 @@ void Patterns::Process()
 {
 	for (uint8_t index = 0; index < NR_OF_PATTERNS; index++)
 	{
-		Serial.print("Pattern: ");
-		Serial.println(index);
-		_patterns[index]->Process();
+		if (_patterns[index] != nullptr)
+		{
+			_patterns[index]->Process();
+		}
 	}
 }
