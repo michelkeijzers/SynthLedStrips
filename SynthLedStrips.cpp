@@ -95,18 +95,24 @@ SynthLedStrips::~SynthLedStrips()
 {
 //#pragma warning( disable: 6386 )
 //#pragma warning(pop)
+
+	//PatternOff* pattern_0 = new (_patterns.GetPatternData(0)) PatternOff();
+	
 	PatternMidiNoteOnOff* pattern_0 = new (_patterns.GetPatternData(0)) PatternMidiNoteOnOff();
-	pattern_0->SetBackgroundColor(LedColor::EColor::Galaxy);
+	pattern_0->SetBackgroundColor(LedColor::EColor::Black); // Galaxy
 	pattern_0->SetBackgroundColorSpeed(1000);
 	pattern_0->SetForegroundColor(LedColor::EColor::White);
 	pattern_0->SetForegroundColorSpeed(4000);
 	pattern_0->SetFadeTimeNoteOn(10000);
 	pattern_0->SetFadeTimeNoteOff(20000);
 	pattern_0->SetNoteOnVelocityIntensity(255);
+	
 	_patterns.SetPattern(0, pattern_0, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(0));
+	pattern_0->Start();
 
 	PatternOff* pattern_1 = new (_patterns.GetPatternData(1)) PatternOff();
 	_patterns.SetPattern(1, pattern_1, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(1));
+	//pattern_1->Start();
 
 	PatternOff* pattern_2 = new (_patterns.GetPatternData(2)) PatternOff();
 	/*
@@ -119,8 +125,10 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_2->SetLedWidth(10);
 	*/
 	_patterns.SetPattern(2, pattern_2, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(2));
-	pattern_2->Start();
+	//pattern_2->Start();
 
+
+	//PatternOff* pattern_3 = new (_patterns.GetPatternData(3)) PatternOff();
 	PatternKnightRider* pattern_3 = new (_patterns.GetPatternData(3)) PatternKnightRider();
 	pattern_3->SetBackgroundColor(LedColor::EColor::Rainbow);
 	pattern_3->SetBackgroundColorSpeed(10000);
@@ -129,8 +137,9 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_3->SetDirection(true);
 	pattern_3->SetLedSpeed(1000);
 	pattern_3->SetLedWidth(10);
+	
 	_patterns.SetPattern(3, pattern_3, &_midiKeyboards.GetMidiKeyboard(1), &_ledStrips.GetLedStrip(3));
-	pattern_3->Start();
+	//pattern_3->Start();
 }
 
 

@@ -19,7 +19,7 @@ Pattern::~Pattern()
 }
 
 
-void Pattern::Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip)
+/* virtual */ void Pattern::Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip)
 {
 	_midiKeyboard = midiKeyboard;
 	_ledStrip = ledStrip;

@@ -21,6 +21,9 @@ public:
 	void SetFadeTimeNoteOn(uint32_t fadeTimeNoteOn);
 	void SetFadeTimeNoteOff(uint32_t fadeTimeNoteOff);
 
+	void SetMoveRightSpeed(uint32_t moveRightSpeed);
+	void SetMoveLeftSpeed(uint32_t moveLeftSpeed);
+
 	void SetNoteOnVelocityIntensity(uint8_t noteOnVelocityIntensity);
 
 	/* override */ void Start();
@@ -28,7 +31,8 @@ public:
 	/* override */ void Process();
 
 private:
-	void ProcessFade(uint32_t fadeTime, uint8_t key);
+	void AdjustForegroundLevels(uint8_t key);
+	void SetLedColors();
 
 	LedColor::EColor _backgroundColor;
 	uint32_t _backgroundColorSpeed;
@@ -38,6 +42,11 @@ private:
 
 	uint32_t _fadeTimeNoteOn;
 	uint32_t _fadeTimeNoteOff;
+	
+	uint32_t _moveRightSpeed;
+	uint32_t _moveLeftSpeed;
 
 	uint8_t _noteOnVelocityIntensity;
+
+	uint8_t _foregroundValues[255];
 };

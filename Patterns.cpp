@@ -20,7 +20,7 @@ Patterns::~Patterns()
 {
 	if (_patternData != NULL)
 	{
-		delete _patternData;
+		//delete _patternData;
 	}
 }
 
@@ -49,7 +49,7 @@ void Patterns::Process()
 {
 	for (uint8_t index = 0; index < NR_OF_PATTERNS; index++)
 	{
-		if (_patterns[index] != nullptr)
+		if (_patterns[index] != NULL)
 		{
 			_patterns[index]->Process();
 		}

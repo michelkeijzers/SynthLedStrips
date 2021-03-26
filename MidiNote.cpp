@@ -9,8 +9,8 @@ MidiNote::MidiNote()
 	_hasStatusChanged(false),
 	_velocity(0),
 	_releaseVelocity(0),
-	_timePressed(UINT32_MAX),
-	_timeReleased(UINT32_MAX)
+	_timePressed(0),
+	_timeReleased(0)
 {
 }
 

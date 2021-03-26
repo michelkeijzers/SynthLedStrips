@@ -9,7 +9,8 @@ MidiKeyboard::MidiKeyboard()
 : 
 	_nrOfKeys(0),
 	_keyOffset(0),
-	_midiNotes(NULL)
+	_midiNotes(NULL),
+	_ccGroup{}
 {
 }
 

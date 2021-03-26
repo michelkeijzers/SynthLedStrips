@@ -259,28 +259,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 		}
 
-		//SetDCBrushColor(hdc, RGB(80, 100, 120));
-		//SetBkColor(hdc, RGB(150, 180, 120));
-		//RECT rect = { 300, 400, 350, 420 };
-		//HBRUSH brush = CreateSolidBrush(RGB(150, 180, 120));
-		//Rectangle(hdc, 300, 400, 350, 420);
-		//FillRect(hdc, &rect, brush);
-
-
-		// Abbr
-		//wchar_t wtext[20];
-		//size_t sizet;
-
-		//mbstowcs_s(&sizet, wtext, "Text",
-		//strlen("Text") + 1); //Plus null
-
-		//SetBkColor(hdc, RGB(0, 0, 0));
-		//TextOut(hdc,
-		//	TEXT_OFFSET_X + 150,
-		//	TEXT_OFFSET_Y + 200 + (FONT_SIZE + 2) * 3 - 4,
-		//	wtext, lstrlen(wtext));
-
-
 		if (_backgroundFixturePaint)
 		{
 			_backgroundPainted = true;
@@ -304,6 +282,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
+		break;
 	}
 	return 0;
 }
