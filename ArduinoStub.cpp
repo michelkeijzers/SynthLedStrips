@@ -12,6 +12,9 @@
 #include "ArduinoStub.h"
 
 
+timeb* _startupTime = nullptr;
+
+
 // Digital I/O
 
 extern void pinMode(int pin, int state)
@@ -46,22 +49,29 @@ extern void delay(uint32_t delay)
 	do
 	{
 		ftime(&runningTime);
-	} while (runningTime.time * 1000 + runningTime.millitm < endTime);
+ 	} while ((uint64_t) (runningTime.time * 1000 + runningTime.millitm) < endTime);
 }
 
 
 extern uint32_t millis()
 {
+	if (_startupTime == nullptr)
+	{
+		_startupTime = new timeb;
+		ftime(_startupTime);
+	}
+
 	timeb now;
 
 	ftime(&now);
-	return uint32_t(now.time * 1000 + now.millitm);
+	return uint32_t(now          .time * 1000 + now          .millitm - 
+		            _startupTime->time * 1000 - _startupTime->millitm);
 }
 
 
 // Math
 
-extern int abs(int a)
+extern _Check_return_ int __cdecl abs(_In_ int a)
 {
 	return a < 0 ? -a : a;
 }
@@ -106,7 +116,7 @@ extern uint32_t random(uint32_t number)
 
 extern void randomSeed(uint16_t seed)
 {
-	srand(time(nullptr));
+	srand((unsigned int) time(nullptr));
 }
 
 

@@ -18,16 +18,14 @@
 #include <windows.h>
 #include "MemoryUtils.h"
 #endif
-
 #include <new>
-
+#include "SerialUtils.h"
 #include "MathUtils.h"
 #include "SynthLedStrips.h"
 #include "SynthLedStripsTypes.h"
 #include "MidiKeyboards.h"
 #include "Patterns.h"
 #include "MidiKeyboards.h"
-
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 #include HEADER_FILE(MIDI_CLASS)
@@ -138,13 +136,19 @@ SynthLedStrips::~SynthLedStrips()
 
 /* static */ void SynthLedStrips::Loop()
 {
+	SerialUtils::PrintUint("Millis", millis());
 	ProcessMidi();
+	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	_midiKeyboards.Process();
+	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	_patterns.Process();
+	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	_ledStrips.Process();
+	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	_midiKeyboards.ClearNewFlags();
+	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	FastLED.show();
-
+	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	delay(1);
 }
 

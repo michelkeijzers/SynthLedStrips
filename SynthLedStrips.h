@@ -19,7 +19,6 @@ public:
 
 private:
 	static void ProcessMidi();
-	static void ProcessMidiEvents(midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataBatye2);
 
 	static void SetPatterns();
 

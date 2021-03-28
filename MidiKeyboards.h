@@ -25,5 +25,5 @@ public:
 	void ClearNewFlags();
 
 private:
-	MidiKeyboard _midiKeyboards[NR_OF_MIDI_KEYBOARDS];
+	static MidiKeyboard _midiKeyboards[NR_OF_MIDI_KEYBOARDS];
 };

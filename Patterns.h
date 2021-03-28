@@ -24,5 +24,5 @@ public:
 private:
 	Pattern* _patterns[NR_OF_LED_STRIPS];
 	uint8_t* _patternData;
-	uint8_t _patternDataSize;
+	uint16_t _patternDataSize;
 };

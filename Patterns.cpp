@@ -27,7 +27,9 @@ Patterns::~Patterns()
 
 void Patterns::Initialize()
 {
-	_patternDataSize = MAX(sizeof(PatternOff), sizeof(PatternKnightRider));
+	_patternDataSize = sizeof(PatternOff);
+	_patternDataSize = MAX(_patternDataSize, sizeof(PatternKnightRider));
+	_patternDataSize = MAX(_patternDataSize, sizeof(PatternMidiNoteOnOff));
 	_patternData = new uint8_t[_patternDataSize * 4];
 }
 

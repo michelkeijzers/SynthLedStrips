@@ -80,7 +80,7 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 	uint32_t timeStamp = millis();
 	ProcessCurrentLed(timeStamp);
 
-	for (uint16_t led = 0; led < _ledStrip->GetNrOfLeds(); led++)
+	for (uint8_t led = 0; led < _ledStrip->GetNrOfLeds(); led++)
 	{
 		struct FastLedCRGB *rgb = _ledStrip->GetLed(led);
 		uint8_t ratio = MAX(0, _ledWidth - ABS(led - _currentLed));
@@ -125,7 +125,7 @@ void PatternKnightRider::ProcessCurrentLed(uint32_t timeStamp)
 
 void PatternKnightRider::GotoNextCurrentLed(uint8_t currentLedShiftAmount)
 {
-	for (uint16_t index = 0; index < currentLedShiftAmount; index++)
+	for (uint8_t index = 0; index < currentLedShiftAmount; index++)
 	{
 		_currentLed = (_direction) ? _currentLed + 1 : _currentLed - 1;
 		_direction = ((_currentLed == 0) || (_currentLed == _ledStrip->GetNrOfLeds())) ? !_direction : _direction;

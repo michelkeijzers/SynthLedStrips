@@ -25,7 +25,7 @@ public:
 
 	struct FastLedCRGB* GetLeds();
 
-	struct FastLedCRGB* GetLed(uint16_t ledIndex);
+	struct FastLedCRGB* GetLed(uint8_t ledIndex);
 
 	uint16_t CalculateCurrentInMilliAmp();
 

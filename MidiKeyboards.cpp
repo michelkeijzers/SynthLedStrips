@@ -1,6 +1,9 @@
 #include "MidiKeyboards.h"
 
 
+/* static */ MidiKeyboard MidiKeyboards::_midiKeyboards[NR_OF_MIDI_KEYBOARDS];
+
+
 MidiKeyboards::MidiKeyboards()
 {
 }
