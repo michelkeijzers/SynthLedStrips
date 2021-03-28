@@ -7,8 +7,8 @@
 
 Pattern::Pattern()
 :
-	_ledStrip(NULL),
-	_midiKeyboard(NULL),
+	_ledStrip(nullptr),
+	_midiKeyboard(nullptr),
 	_timeLastProcessed(millis())
 {
 }
@@ -19,7 +19,7 @@ Pattern::~Pattern()
 }
 
 
-void Pattern::Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip)
+/* virtual */ void Pattern::Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip)
 {
 	_midiKeyboard = midiKeyboard;
 	_ledStrip = ledStrip;

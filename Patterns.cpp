@@ -9,7 +9,7 @@
 
 
 Patterns::Patterns()
-	: _patternData(NULL),
+	: _patternData(nullptr),
 	  _patterns(),
 	  _patternDataSize(0)
 {
@@ -18,7 +18,7 @@ Patterns::Patterns()
 
 Patterns::~Patterns()
 {
-	if (_patternData != NULL)
+	if (_patternData != nullptr)
 	{
 		delete _patternData;
 	}

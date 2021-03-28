@@ -106,7 +106,7 @@ extern uint32_t random(uint32_t number)
 
 extern void randomSeed(uint16_t seed)
 {
-	srand(time(NULL));
+	srand(time(nullptr));
 }
 
 

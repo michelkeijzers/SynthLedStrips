@@ -53,7 +53,7 @@ public:
 		struct FastLedCRGB* data, int nLedsOrOffset)
 	{
 		_pinNumbers[_nrOfLedStrips] = DATA_PIN;
-		addLeds(NULL, data, nLedsOrOffset);
+		addLeds(nullptr, data, nLedsOrOffset);
 
 		return *new CLEDController();
 	}

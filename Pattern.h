@@ -14,7 +14,7 @@ public:
 	Pattern();
 	~Pattern();
 
-	void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
+	virtual void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
 
 	virtual void Start() = 0;
 

@@ -96,7 +96,7 @@ SynthLedStrips::~SynthLedStrips()
 //#pragma warning( disable: 6386 )
 //#pragma warning(pop)
 	PatternMidiNoteOnOff* pattern_0 = new (_patterns.GetPatternData(0)) PatternMidiNoteOnOff();
-	pattern_0->SetBackgroundColor(LedColor::EColor::Galaxy);
+	pattern_0->SetBackgroundColor(LedColor::EColor::Black); // Galaxy
 	pattern_0->SetBackgroundColorSpeed(1000);
 	pattern_0->SetForegroundColor(LedColor::EColor::White);
 	pattern_0->SetForegroundColorSpeed(4000);
@@ -104,9 +104,11 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_0->SetFadeTimeNoteOff(20000);
 	pattern_0->SetNoteOnVelocityIntensity(255);
 	_patterns.SetPattern(0, pattern_0, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(0));
+	pattern_0->Start();
 
 	PatternOff* pattern_1 = new (_patterns.GetPatternData(1)) PatternOff();
 	_patterns.SetPattern(1, pattern_1, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(1));
+	pattern_1->Start();
 
 	PatternOff* pattern_2 = new (_patterns.GetPatternData(2)) PatternOff();
 	/*

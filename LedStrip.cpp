@@ -17,7 +17,7 @@
 LedStrip::LedStrip()
 :
 	_nrOfLeds(0),
-	_leds(NULL)
+	_leds(nullptr)
 {
 }
 
@@ -46,7 +46,7 @@ struct FastLedCRGB* LedStrip::GetLeds()
 }
 
 
-struct FastLedCRGB* LedStrip::GetLed(uint8_t ledIndex)
+struct FastLedCRGB* LedStrip::GetLed(uint16_t ledIndex)
 {
 #ifdef _DEBUG
 	if (ledIndex >= _nrOfLeds)
