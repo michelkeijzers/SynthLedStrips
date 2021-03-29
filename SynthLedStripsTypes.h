@@ -6,7 +6,6 @@
 #include HEADER_FILE(ARDUINO_CLASS)
 
 #define FastLedCRGB CRGB
-
 #endif
 
 #include "stdint.h"

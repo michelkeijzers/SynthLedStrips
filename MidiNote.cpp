@@ -15,11 +15,6 @@ MidiNote::MidiNote()
 }
 
 
-MidiNote::~MidiNote()
-{
-}
-
-
 bool MidiNote::HasStatusChanged()
 {
 	return _hasStatusChanged;

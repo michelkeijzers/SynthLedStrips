@@ -8,7 +8,6 @@ class MidiInjection
 {
 public:
 	MidiInjection();
-	~MidiInjection();
 
 	void Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1);
 	void Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2);

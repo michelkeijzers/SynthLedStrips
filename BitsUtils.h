@@ -3,9 +3,7 @@
 
 #pragma once
 
-
 #include "SynthLedStripsTypes.h"
-
 
 class BitsUtils
 {
@@ -25,5 +23,4 @@ public:
 
 private:
   BitsUtils();
-  ~BitsUtils();
 };

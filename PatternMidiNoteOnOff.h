@@ -4,14 +4,12 @@
 #include "Time.h"
 #include "MidiNote.h"
 
-
 class MidiKeyboard;
 
 class PatternMidiNoteOnOff : public Pattern
 {
 public:
 	PatternMidiNoteOnOff();
-	~PatternMidiNoteOnOff();
 
 	void SetBackgroundColor(LedColor::EColor color);
 	void SetBackgroundColorTime(uint32_t backgroundColorTime);

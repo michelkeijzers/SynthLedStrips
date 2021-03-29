@@ -1,10 +1,8 @@
 #pragma once
 
-
 // Decimal
-#define DEC 1
-#define HEX 2
-
+constexpr auto DEC = 1;
+constexpr auto HEX = 2;
 
 class SerialClass
 {
@@ -38,7 +36,6 @@ extern SerialClass Serial;
 extern SerialClass Serial1;
 extern SerialClass Serial2;
 //extern SerialClass Serial3;
-
 
 extern SerialPort SoftwareSerial;
 extern SerialPort HardwareSerial;

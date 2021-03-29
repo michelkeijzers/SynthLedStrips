@@ -17,9 +17,6 @@ public:
 
 	static uint8_t GetWordLength(const char* stringToAnalyze, uint8_t startIndex);
 
-
 private:
 	StringUtils();
-
-	~StringUtils();
 };

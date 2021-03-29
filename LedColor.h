@@ -2,8 +2,8 @@
 
 #include "SynthLedStripsTypes.h"
 
-#define COLOR_GALAXY_SLOW_STAR_LENGTH 11
-#define COLOR_GALAXY_FAST_STAR_LENGTH  6
+constexpr auto COLOR_GALAXY_SLOW_STAR_LENGTH = 11;
+constexpr auto COLOR_GALAXY_FAST_STAR_LENGTH = 6;
 
 class LedColor
 {

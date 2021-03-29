@@ -22,11 +22,6 @@ PatternKnightRider::PatternKnightRider()
 }
 
 
-PatternKnightRider::~PatternKnightRider()
-{
-}
-
-
 void PatternKnightRider::SetBackgroundColor(LedColor::EColor color)
 {
 	_backgroundColor = color;

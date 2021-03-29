@@ -6,8 +6,7 @@ class MidiNote
 {
 public:
 	MidiNote();
-	~MidiNote();
-
+	
 	bool HasStatusChanged();
 	bool IsPressed();
 	uint8_t GetVelocity();
@@ -30,4 +29,3 @@ private:
 	uint32_t _timePressed;;
 	uint32_t _timeReleased;
 };
-

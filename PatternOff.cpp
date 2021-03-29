@@ -9,11 +9,6 @@ PatternOff::PatternOff()
 }
 
 
-PatternOff::~PatternOff()
-{
-}
-
-
 /* override */ void PatternOff::Start()
 {
 	_ledStrip->SetAllLeds(LedColor::EColor::Black, 0); // P0: Background color

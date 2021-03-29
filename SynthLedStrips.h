@@ -7,7 +7,6 @@ class Patterns;
 class LedStrips;
 class MidiProcessor;
 
-
 class SynthLedStrips
 {
 public:

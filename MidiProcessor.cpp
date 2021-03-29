@@ -8,11 +8,6 @@ MidiProcessor::MidiProcessor()
 }
 
 
-MidiProcessor::~MidiProcessor()
-{
-}
-
-
 void MidiProcessor::Process(MidiKeyboard& midiKeyboard, midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	switch (midiType)

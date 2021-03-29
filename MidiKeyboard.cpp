@@ -19,7 +19,7 @@ MidiKeyboard::~MidiKeyboard()
 {
 	if (_midiNotes != nullptr)
 	{
-		// delete _midiNotes; // Results in exception
+		delete _midiNotes; // Results in exception
 	}
 }
 

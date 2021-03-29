@@ -7,9 +7,7 @@
 #include "LedColor.h"
 #include "AssertUtils.h"
 
-
 /* static */ const uint16_t LedStrips::MAX_CURRENT_IN_MILLI_AMP = 9000; // mA
-
 
 LedStrips::LedStrips()
 {
@@ -18,11 +16,6 @@ LedStrips::LedStrips()
 	{
 		AssertUtils::MyAssert(false);
 	}
-}
-
-
-LedStrips::~LedStrips()
-{
 }
 
 

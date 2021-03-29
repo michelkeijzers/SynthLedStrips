@@ -1,16 +1,8 @@
-/*
-
-#include "AssertUtils.h"
-#include "ClassNames.h"
-#include HEADER_FILE(ARDUINO_CLASS)
-
-*/
-
-/* static */
 #include "ClassNames.h"
 #include HEADER_FILE(SERIAL_CLASS)
 #include "AssertUtils.h"
 #include <stdio.h>
+
 #ifdef _WINDOWS
 #include <cstdlib>
 #endif

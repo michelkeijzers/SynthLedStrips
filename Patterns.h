@@ -3,9 +3,7 @@
 #include "Pattern.h"
 #include "LedStrips.h"
 
-
-#define NR_OF_PATTERNS 4
-
+constexpr auto NR_OF_PATTERNS = 4;
 
 class Patterns
 {

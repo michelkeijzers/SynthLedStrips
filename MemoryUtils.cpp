@@ -1,9 +1,7 @@
 #ifdef _WINDOWS
 
 #include <malloc.h>
-
 #include "MemoryUtils.h"
-
 
 /* static */ long MemoryUtils::HeapUsed()
 {

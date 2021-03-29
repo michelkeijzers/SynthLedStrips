@@ -25,11 +25,6 @@ PatternMidiNoteOnOff::PatternMidiNoteOnOff()
 }
 
 
-PatternMidiNoteOnOff::~PatternMidiNoteOnOff()
-{
-}
-
-
 void PatternMidiNoteOnOff::SetBackgroundColor(LedColor::EColor color)
 {
 	_backgroundColor = color;
@@ -198,5 +193,4 @@ void PatternMidiNoteOnOff::SetLedColors()
 		}
 	}
 	AssertUtils::MyAssert(_midiKeyboard->GetNrOfKeys() == 61);
-
 }

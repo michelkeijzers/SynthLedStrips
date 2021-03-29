@@ -18,11 +18,6 @@ MidiInterface::MidiInterface()
 }
 
 
-MidiInterface::~MidiInterface()
-{
-}
-
-
 void MidiInterface::begin()
 {
 }

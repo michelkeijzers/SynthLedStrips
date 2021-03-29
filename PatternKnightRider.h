@@ -3,12 +3,10 @@
 #include "Pattern.h"
 #include "LedStrip.h"
 
-
 class PatternKnightRider : public Pattern
 {
 public:
 	PatternKnightRider();
-	~PatternKnightRider();
 
 	void SetBackgroundColor(LedColor::EColor color);
 	void SetBackgroundColorTime(uint32_t backgroundColorTime);

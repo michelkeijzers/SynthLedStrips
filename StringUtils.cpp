@@ -12,11 +12,6 @@ StringUtils::StringUtils()
 }
 
 
-StringUtils::~StringUtils()
-{
-}
-
-
 /**
  * -1 if not found, else index, only checks a-z, no capitals
  */

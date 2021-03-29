@@ -99,9 +99,6 @@
     <ClInclude Include="MidiKeyboard.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Header Files\App</Filter>
-    </ClInclude>
     <ClInclude Include="LedColor.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>

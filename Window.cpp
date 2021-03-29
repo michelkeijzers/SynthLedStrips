@@ -32,18 +32,18 @@ using namespace std;
 
 //#define SMART_BACKGROUND_PAINTING
 //#define SHOW_LEDS       
-#define PAR_DISTANCE_X		 100
-#define PAR_DISTANCE_Y		 180
+constexpr auto PAR_DISTANCE_X = 100;
+constexpr auto PAR_DISTANCE_Y = 180;
 #define PAR_DIAMETER	     (PAR_DISTANCE_X - 3)
 #define PAR_RADIUS			 (PAR_DIAMETER / 2)
 #define LED_DIAMETER		 (PAR_DIAMETER / 4 - 12)
 #define LED_RADIUS			 (LED_DIAMETER / 2)
-#define TEXT_OFFSET_X        -30
-#define TEXT_OFFSET_Y		-100
-#define FIXTURE_OFFSET_X	 -10
-#define FIXTURE_OFFSET_Y	 -80
-#define RGB_DISTANCE 0.4
-#define WHITE_DISTANCE	       0.15
+constexpr auto TEXT_OFFSET_X = -30;
+constexpr auto TEXT_OFFSET_Y = -100;
+constexpr auto FIXTURE_OFFSET_X = -10;
+constexpr auto FIXTURE_OFFSET_Y = -80;
+constexpr auto RGB_DISTANCE = 0.4;
+constexpr auto WHITE_DISTANCE = 0.15;
 
 #define FONT_SIZE             11
 
@@ -258,28 +258,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}
-
-		//SetDCBrushColor(hdc, RGB(80, 100, 120));
-		//SetBkColor(hdc, RGB(150, 180, 120));
-		//RECT rect = { 300, 400, 350, 420 };
-		//HBRUSH brush = CreateSolidBrush(RGB(150, 180, 120));
-		//Rectangle(hdc, 300, 400, 350, 420);
-		//FillRect(hdc, &rect, brush);
-
-
-		// Abbr
-		//wchar_t wtext[20];
-		//size_t sizet;
-
-		//mbstowcs_s(&sizet, wtext, "Text",
-		//strlen("Text") + 1); //Plus null
-
-		//SetBkColor(hdc, RGB(0, 0, 0));
-		//TextOut(hdc,
-		//	TEXT_OFFSET_X + 150,
-		//	TEXT_OFFSET_Y + 200 + (FONT_SIZE + 2) * 3 - 4,
-		//	wtext, lstrlen(wtext));
-
 
 		if (_backgroundFixturePaint)
 		{

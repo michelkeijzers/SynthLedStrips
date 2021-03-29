@@ -11,16 +11,10 @@
 /* static */ const uint8_t LedStrip::MAX_CURRENT_IN_MILLI_AMP_PER_SUB_LED =   20; // mA
 /* static */ const uint8_t LedStrip::SUB_LEDS_PER_LED                     =    3; // R, G, B
 
-
 LedStrip::LedStrip()
 :
 	_nrOfLeds(0),
 	_leds(nullptr)
-{
-}
-
-
-LedStrip::~LedStrip()
 {
 }
 

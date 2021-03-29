@@ -3,7 +3,6 @@
 
 #pragma once
 
-
 class CharUtils
 {
 public:
@@ -12,5 +11,4 @@ public:
 
 private:
 	CharUtils();
-	~CharUtils();
 };

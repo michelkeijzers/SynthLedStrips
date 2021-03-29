@@ -2,7 +2,6 @@
 
 #include "SynthLedStripsTypes.h"
 
-
 class ArrayUtils
 {
 public:
@@ -11,5 +10,4 @@ public:
 
 private:
 	ArrayUtils();
-	~ArrayUtils();
 };

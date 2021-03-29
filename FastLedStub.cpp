@@ -2,26 +2,16 @@
 
 #include "FastLedStub.h"
 
-
 CFastLED FastLED;
-
 
 /* static */ struct FastLedCRGB* CFastLED::_data[MAX_NR_OF_LED_STRIPS];
 /* static */ int CFastLED::_pinNumbers[MAX_NR_OF_LED_STRIPS];
 /* static */ int CFastLED::_nrOfUsedLeds[MAX_NR_OF_LED_STRIPS];
 ///* static */ int CFastLED::_nLedsOrOffset[MAX_NR_OF_LED_STRIPS];
-
 /* static */ int CFastLED::_nrOfLedStrips = 0;
-
 /* static */ bool CFastLED::_showEnabled = false;
 
-
 CFastLED::CFastLED()
-{
-}
-
-
-CFastLED::~CFastLED()
 {
 }
 
@@ -59,6 +49,5 @@ CFastLED::~CFastLED()
 {
 	_showEnabled = true;
 }
-
 
 #endif // _WINDOWS

@@ -12,11 +12,6 @@ MidiInjection::MidiInjection()
 }
 
 
-MidiInjection::~MidiInjection()
-{
-}
-
-
 void MidiInjection::Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1)
 {
 	_data.push_back(time);

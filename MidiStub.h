@@ -1,15 +1,11 @@
 #pragma once
 
 #include <queue>
-
 #include "ClassNames.h"
 #include HEADER_FILE(SERIAL_CLASS)
-
 #include "SynthLedStripsTypes.h"
 
-
 #define MIDI_CREATE_INSTANCE(serialPort, serialType, name);
-
 
 class midi
 {
@@ -50,7 +46,6 @@ class MidiInterface
 {
 public:
     MidiInterface();
-	~MidiInterface();
 
 	void begin();
 

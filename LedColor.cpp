@@ -138,7 +138,6 @@
 }
 
 
-
 /* static */ void LedColor::SetGalaxy(uint8_t* red, uint8_t* green, uint8_t* blue, uint32_t step)
 {
 	if (step % 10 == 0)

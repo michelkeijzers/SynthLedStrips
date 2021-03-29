@@ -3,16 +3,13 @@
 #include "LedColor.h"
 #include "SynthLedStripsTypes.h"
 
-
 class MidiKeyboard;
 class LedStrip;
-
 
 class Pattern
 {
 public:
 	Pattern();
-	~Pattern();
 
 	virtual void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
 

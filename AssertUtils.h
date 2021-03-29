@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define assert(expression) \
   if (!(expression)) \
   { \
@@ -9,7 +8,6 @@
 	  Serial.flush(); \
   	abort(); \
   }
-
 
 //#define assert(expr) AssertUtils::Assert((expr), (__FILE__), (__LINE__));
 

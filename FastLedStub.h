@@ -38,8 +38,6 @@ private:
 public:
 	CFastLED();
 
-	~CFastLED();
-
 	static struct FastLedCRGB* GetData(int ledStrip);
 	static int GetPinNumber(int ledStrip);
 	static int GetNrOfUsedLeds(int ledStrip);

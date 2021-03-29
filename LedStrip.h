@@ -19,7 +19,6 @@ public:
 	static const uint8_t SUB_LEDS_PER_LED;                    
 
 	LedStrip();
-    ~LedStrip();
 
     void Initialize(uint8_t nrOfLeds);
 	
