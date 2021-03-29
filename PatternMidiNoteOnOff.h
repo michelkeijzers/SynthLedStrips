@@ -2,6 +2,7 @@
 #include "Pattern.h"
 #include "LedStrip.h"
 #include "Time.h"
+#include "MidiNote.h"
 
 
 class MidiKeyboard;
@@ -32,6 +33,9 @@ public:
 
 private:
 	void AdjustForegroundLevels(uint8_t key);
+	bool ProcessSidewaysMovement(
+		bool DdirectionRight, MidiNote midiNote, uint8_t key, uint32_t timeAgoPressed, uint32_t moveSpeed, uint32_t now, uint8_t* newKey);
+
 	void SetLedColors();
 
 	LedColor::EColor _backgroundColor;
@@ -49,5 +53,5 @@ private:
 	uint8_t _noteOnVelocityIntensity;
 
 	// Due to patterns having fixed lengths, it is not allowed to use dynamic memory
-	uint8_t _foregroundValues[MAX_NR_OF_LEDS]; 
+	uint8_t _foregroundValues[LED_STRIP_MAX_NR_OF_LEDS]; 
 };

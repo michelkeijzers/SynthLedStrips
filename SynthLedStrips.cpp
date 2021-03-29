@@ -100,6 +100,8 @@ SynthLedStrips::~SynthLedStrips()
 	pattern_0->SetForegroundColorSpeed(4000);
 	pattern_0->SetFadeTimeNoteOn(10000);
 	pattern_0->SetFadeTimeNoteOff(20000);
+	pattern_0->SetMoveRightSpeed(30000);
+	pattern_0->SetMoveLeftSpeed(500);
 	pattern_0->SetNoteOnVelocityIntensity(255);
 	_patterns.SetPattern(0, pattern_0, &_midiKeyboards.GetMidiKeyboard(0), &_ledStrips.GetLedStrip(0));
 	pattern_0->Start();

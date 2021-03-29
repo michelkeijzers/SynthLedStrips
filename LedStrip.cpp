@@ -1,10 +1,8 @@
 #include "MathUtils.h"
 #include <stdlib.h>
-
 #include "LedStrip.h"
 #include "LedColor.h"
 #include "Time.h"
-
 #include "ClassNames.h"
 #include "AssertUtils.h"
 #include HEADER_FILE(MIDI_CLASS)

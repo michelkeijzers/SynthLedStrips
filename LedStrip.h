@@ -10,6 +10,8 @@
 #include "MidiKeyboard.h"
 #include "Pattern.h"
 
+#define LED_STRIP_MAX_NR_OF_LEDS 255
+
 class LedStrip
 {
 public:
