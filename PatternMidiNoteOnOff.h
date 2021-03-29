@@ -14,16 +14,16 @@ public:
 	~PatternMidiNoteOnOff();
 
 	void SetBackgroundColor(LedColor::EColor color);
-	void SetBackgroundColorSpeed(uint32_t backgroundColorSpeed);
+	void SetBackgroundColorTime(uint32_t backgroundColorTime);
 
 	void SetForegroundColor(LedColor::EColor color);
-	void SetForegroundColorSpeed(uint32_t foregroundColorSpeed);
+	void SetForegroundColorTime(uint32_t foregroundColorTime);
 
 	void SetFadeTimeNoteOn(uint32_t fadeTimeNoteOn);
 	void SetFadeTimeNoteOff(uint32_t fadeTimeNoteOff);
 
-	void SetMoveRightSpeed(uint32_t moveRightSpeed);
-	void SetMoveLeftSpeed(uint32_t moveLeftSpeed);
+	void SetMoveRightTime(uint32_t moveRightTime);
+	void SetMoveLeftTime(uint32_t moveLeftTime);
 
 	void SetNoteOnVelocityIntensity(uint8_t noteOnVelocityIntensity);
 
@@ -34,21 +34,21 @@ public:
 private:
 	void AdjustForegroundLevels(uint8_t key);
 	bool ProcessSidewaysMovement(
-		bool DdirectionRight, MidiNote midiNote, uint8_t key, uint32_t timeAgoPressed, uint32_t moveSpeed, uint32_t now, uint8_t* newKey);
+		bool DdirectionRight, MidiNote midiNote, uint8_t key, uint32_t timeAgoPressed, uint32_t moveTime, uint32_t now, uint8_t* newKey);
 
 	void SetLedColors();
 
 	LedColor::EColor _backgroundColor;
-	uint32_t _backgroundColorSpeed;
+	uint32_t _backgroundColorTime;
 
 	LedColor::EColor _foregroundColor;
-	uint32_t _foregroundColorSpeed;
+	uint32_t _foregroundColorTime;
 
 	uint32_t _fadeTimeNoteOn;
 	uint32_t _fadeTimeNoteOff;
 
-	uint32_t _moveRightSpeed;
-	uint32_t _moveLeftSpeed;
+	uint32_t _moveRightTime;
+	uint32_t _moveLeftTime;
 
 	uint8_t _noteOnVelocityIntensity;
 
