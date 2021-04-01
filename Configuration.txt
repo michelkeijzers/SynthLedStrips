@@ -1,0 +1,57 @@
+Configuration
+=============
+
+Stores all patterns.
+ 
+Byte		Name						Description
+-----------	---------------------------	---------------------------------------------------------------------------------------------
+    0-  100	Reserved
+  100- 1000	Pattern Table				Table with indices to patterns (2 bytes per index), max. 0xF00=3840, last used index is 0xFFFF
+ 1000- EFFF	Pattern Data                See patterns below (average 0), average 16 bytes/pattern
+ F000- FFFF CC Groups (?)
+
+Note On/Off Pattern
+===================
+Bytes are with offset related to `Pattern Data` above.
+
+Bytes    	Name						Description/Values
+-----------	--------------------------	----------------------------------------------------------------------------------------------
+  0         Background Color
+  1~ 2      Background Color Time       in ms, 0-65.535 s
+  3         Foreground Color
+  4~ 5      Foreground Color Time
+  6~ 7      Fade Time Note On
+  8~ 9      Fade Time Note Off
+ 10         Note On Velocity Intensity  ???
+ 11~12      Direction Left Time
+ 13~14      Direction Right Time
+ 15         CC Group table index
+
+ Knight Rider Pattern
+ ====================
+  0         Background Color
+  1~ 2      Background Color Time       in ms, 0-65.535 s
+  3         Foreground Color
+  4~ 5      Foreground Color Time
+  6~ 7      LED Time
+  8         Number of LEDs
+  9         LED Width
+
+Off Pattern
+===========
+No data needed
+
+SYSEX Messages
+==============
+
+Sysex message: Write Configuration
+
+Offset  Value   Description
+------- ------- -----------------
+  0     0x7D    Manufacturer ID, Education use, see http://midi.teragonaudio.com/tech/midispec/id.htm
+  1~2   Length  Amount of data bytes to follow
+  3~x   Data    Bytes that will be written in configuration with length `Length`
+
+Assuing the max size (0xFFFF), 64K bytes will take about 64 * 1,024 * 10 (bits) / 31,250 = 20 seconds 
+
+

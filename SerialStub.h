@@ -1,3 +1,5 @@
+#ifdef _WINDOWS
+
 #pragma once
 
 // Decimal
@@ -29,7 +31,6 @@ class SerialPort
 {
 public:
 	SerialPort() {};
-	~SerialPort() {};
 };
 
 extern SerialClass Serial;
@@ -39,3 +40,5 @@ extern SerialClass Serial2;
 
 extern SerialPort SoftwareSerial;
 extern SerialPort HardwareSerial;
+
+#endif // WINDOWS

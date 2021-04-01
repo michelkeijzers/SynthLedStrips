@@ -17,6 +17,7 @@
 #define MIDI_CLASS				MidiStub
 #define SPI_CLASS				SpiStub
 #define SPI_MEMORY_CLASS        SpiMemoryStub
+#define SPIFFS_CLASS            SpiffsStub
 #define SD_CLASS				SdStub
 #define IR_REMOTE_CLASS			IrRemoteStub
 #define LIQUID_CRYSTAL_CLASS	LiquidCrystalStub
@@ -36,6 +37,7 @@
 #define MIDI_CLASS				MIDI
 #define SPI_CLASS				SPI
 #define SPI_MEMORY_CLASS        SPIMemory
+#define SPIFFS_CLASS            SPIFFS
 #define SD_CLASS				SD
 #define IR_REMOTE_CLASS			IRremote
 #define LIQUID_CRYSTAL_CLASS	LiquidCrystal

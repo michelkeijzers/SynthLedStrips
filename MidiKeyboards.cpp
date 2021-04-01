@@ -11,8 +11,8 @@ MidiKeyboards::MidiKeyboards()
 
 void MidiKeyboards::Initialize()
 {
-	_midiKeyboards[0].SetNrOfKeys(NR_OF_MAIN_SYNTH_KEYS);
-	_midiKeyboards[1].SetNrOfKeys(NR_OF_MASTER_KEYBOARD_KEYS);
+	_midiKeyboards[0].SetNrOfKeys(NR_OF_KEYBOARD_1_KEYS);
+	_midiKeyboards[1].SetNrOfKeys(NR_OF_KEYBOARD_2_KEYS);
 }
 
 

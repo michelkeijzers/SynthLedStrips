@@ -1,0 +1,172 @@
+COMBI SPLITS TO LEDs
+===================
+
+Idea
+====
+Acquire the split of the current combi, show LEDs according to the splits, based on MIDI channel, key zones (top/bottom),
+the status of the timbres (On/Off), and category/sub category (for deciding which color).
+
+Solutions
+=========
+1. Read just in time: when a program change for a combi is received, read the combi, check which programs are active and
+   read programs.
+   Advantage: simple
+   Disadvantage: slow
+2. Read all used programs beforehand, read combi after a program change.
+   Advantage: somewhat quicker (still takes several seconds)
+   Disadvantage: changing in program are not taken into account (but changes in combis are)
+3. Read all used programs and combis beforehand
+   Advantage: very fast
+   Disadvantage: changes in programs/combis are not taken into account
+4. Do not use the current combi, but set one timbre to EX2 and use LSB/MSB to set a hardcoded front LED setup.
+
+Selected solution: 4.
+
+MIDI Channel 16 will be used. MSB is the pattern, LSB the front LEDs index.
+
+Total amount of data to be read
+===============================
+None, as a file will be created with the following structure:
+
+File Structure
+==============
+   Bytes    Group                                     Description
+----------- ----------------------------------------- ----------------------------------------------------------------------------------
+   0-  10   Reserved
+  10-  11   Pointer to Patterns                       Pointer to 500
+  12        Front LEDs: Setup 1, #splits              7~4: #splits keyboard 1, 3~0: #splits keyboard 2, last split has 0 splits
+  13                             split 0, Top key
+  14                                      Color       Colors are hardcoded
+  15                             split x...
+ (60)                   Setup 2, #splits
+  61 ...
+ (500)      Patterns: Pattern 1, Pattern ID          if pattern ID == 0: last pattern, pattern of an ID has fixed length (to find next)
+  501                            Parameter 0         parameter 0
+  502 ...                        Parameter x
+ (520)                Pattern 2, Pattern ID
+ ...
+
+
+MIDI responding
+===============
+The following messages need to be responded to:
+
+1. MIDI Channel 1, CC LSB: Stop LEDs
+2. MIDI Channel 16, CC LSB: Change the front LEDs index
+   Message: BF 00 <bank>
+3. MIDI Channel 16, CC MSB: Change the back LEDs pattern
+   Message: BF 20 <index>
+
+
+
+
+*** ONLY IF Solution 1-3 is selected ***
+Additions
+=========
+To be able to respond to last minute changes, the following additions can be added:
+- Sync current combi: reads the current combi to update key zones/MIDI channel
+- Sync current combi + programs: also takes category changes into account
+- Sync everything: takes a lot of time, but syncs everything
+
+Selected additions: only reading set list, as during a gig it is likely that the order of a set list will be changed.
+
+
+  1 combi   :  1 x 7,810 bytes =  7,810 bytes
+ 16 programs: 16 x 3,706 bytes = 59,296 bytes (HD1, worst case)
+                                 ------
+Total:                           67106
+Total bits:                     738166 bits (11, 2 for UART start/stop bit, 1 for 7->8 bits)
+MIDI speed                      31,250 bits/s
+Time to read:                     23.6 s
+
+Average case (4 programs):
+Around 8 s.
+
+Improvement
+-----------
+Check which combi bank/IDs are assigned to led strips
+For those, read combis
+For each gathered combi, gather a list of used programs
+Read those programs
+Store the data in a file in SPIFF
+
+Structure:
+
+
+
+
+Related Korg Kronos Sysex messages
+==================================
+For the Combi split LEDs, some sysex messages need to be read:
+
+Send   : 74 Current Object Dump Request (of combi)
+Receive: 75 Current Object Dump (of combi)
+
+Interesting data of combi object:
+4802 Timbre 1 Program Number
+4803 Timbre 1 Bank Number
+4804 Timbre 1 MIDI Channel / Status
+4805 Timbre 1 Bank MSB (difference with Bank number?)
+4806 Timbre 1 Bank LSB
+4839 Timbre 1 Key Window Top
+4840 Timbre 1 Key Window Bottom
+
+4990 Timbre 2 Program Number
+7622 Timbre 16 Program Number
+
+Interesting data of program object:
+
+2568 Category/Sub Category
+
+
+Messages
+--------
+[74] Current Object Dump Request                                          Receive
+        F0, 42, 3g, 68          Excl Header
+        74                      Function
+        obj                     01 : Combination
+        F7                      End of Excl
+
+ Requests the instrument to send the contents of the edit buffer for the
+ specified object type as a Current Object Dump message (function 75).
+ Instrument responds with a Reply message (function 24) for invalid requests.
+
+
+[75] Current Object Dump                                                  Receive/Transmit
+        F0, 42, 3g, 68          Excl Header
+        75                      Function
+        obj                     01 : Combination
+        version                 obj's version number
+        data                    *3
+        F7                      End of Excl
+        
+ *3
+ The detailed information about "data," see the text files specific to HD-1, EXi, etc.
+ Internal data is converted to MIDI data using following method.
++----------------------------------------------------------------------------------------+
+|  Internal 7byte data <--convert--> MIDI 8 byte data                                    |
+|  example) Internal data(bit image) MIDI data(bit image)                                |
+|                Aaaaaaaa            0GFEDCBA                                            |
+|                Bbbbbbbb            0aaaaaaa                                            |
+|                Cccccccc            0bbbbbbb                                            |
+|                Dddddddd            0ccccccc                                            |
+|                Eeeeeeee            0ddddddd                                            |
+|                Ffffffff            0eeeeeee                                            |
+|                Gggggggg            0fffffff                                            |
+|                Hhhhhhhh            0ggggggg                                            |
+|                Iiiiiiii            0NMLKJIH                                            |
+|                   :                0hhhhhhh                                            |
+|                   :                   :                                                |
+|                Vvvvvvvv            000000WV                                            |
+|                Wwwwwwww            0vvvvvvv                                            |
+|                                    0wwwwwww                                            |
+|                                    11110111 (EOX=F7H)                                  |
++----------------------------------------------------------------------------------------+
+ 
+ binarySize: number of 8-bit binary data bytes in memory
+ sysExSize: number of 7-bit sys/ex data bytes
+ 
+ sysExSize = binarySize + (binarySize+6)/7
+
+ binarySize = (sysExSize/8)*7 + (sysExSize%8 ? sysExSize%8-1 : 0)
+

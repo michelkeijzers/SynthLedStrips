@@ -2,6 +2,8 @@
 
 #include "LedStrips.h"
 
+class Configuration;
+class MidiKeyboard;
 class MidiKeyboards;
 class Patterns;
 class LedStrips;
@@ -16,10 +18,14 @@ public:
 	static void Setup();
 	static void Loop();
 
+	static MidiKeyboard& GetMidiKeyboards(uint8_t index);
+
 private:
 	static void ProcessMidi();
 
 	static void SetPatterns();
+
+	static Configuration _configuration;
 
 	static MidiProcessor _midiProcessor;
 

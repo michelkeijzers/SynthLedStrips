@@ -5,8 +5,8 @@
 #include "MidiKeyboard.h"
 
 constexpr auto NR_OF_MIDI_KEYBOARDS = 2;
-constexpr auto NR_OF_MAIN_SYNTH_KEYS = 61;
-constexpr auto NR_OF_MASTER_KEYBOARD_KEYS = 88;
+constexpr auto NR_OF_KEYBOARD_1_KEYS = 61;
+constexpr auto NR_OF_KEYBOARD_2_KEYS = 88;
 
 class MidiKeyboards
 {

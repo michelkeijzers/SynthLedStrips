@@ -1,0 +1,91 @@
+FILE STRUCTURE
+==============
+
+
+Example: 2 patterns, 2 split setups, JSON format
+
+
+
+
+
+
+
+
+// Off:         -
+// NoteOnOff:   Background Color, Background Color Time, Foreground Color, Foreground Color Time, 
+//              Fade Time Note On, Fade Time Note Off, Note On Velocity Intensity, 
+//              Direction Left Time, Direction Right Time, CC Groups
+// KnightRider: Background Color, Background Color Time, Foreground Color, Foreground Color Time,
+//              LED Time, Number of LEDs, LED Width
+
+// Color      : (Rainbow | Galaxy | Fire | <ColorName> | <0x(0..F)[6]>
+// Time       : <1..65535> (|m|milli)? (s|sec|secs|second|seconds)?
+{
+  "Patterns": {
+	  "0": { "1": [ "Off" ],
+             "2": [ "Off" ],
+	  "1": { "1": [ "NoteOnOff", "Rainbow", "1.2s", "Blue", "1", "500ms", "0.5", "123", "1s", "2s", "CC?"],
+             "2": [ "Knight Rider", "Green", "1500ms", "0xFF0000", "157 ms", "2.4s", "5", "3"] } 
+	  "2": { "1": [ "Knight Rider", "Green", "1500ms", "0xFF0000", "157 ms", "2.4s", "5", "3"] },
+             "2": [ "NoteOnOff", "Rainbow", "1.2s", "Blue", "1", "500ms", "0.5", "123", "1s", "2s", "CC?"] },
+  "Splits": {
+      "0": {"1":   [ "Red", "B4", "Green", "C6", "Blue"],
+            "2":   [ "Red", "B4", "Green", "C6", "Blue"] },
+    "127": {"1":   [ "Red", "B4", "Green", "C6", "Blue"],
+            "2":   [ "Red", "B4", "Green", "C6", "Blue"] } ] }
+}
+
+
+ITEMS
+=====
+
+Item                        Type    Size Values
+--------------------------- ------- ---- -------------------------------------------------------------------------------------
+Pattern                     Enum      1  e.g. Knight Rider, Off
+Background Color            Color     1  Hardcoded list of 256 items (including specials like fire, rainbow)
+Foreground Color            Color     "  "
+Background Color Time       Time      2  0-65535
+Foreground Color Time       Time      "  "
+Fade Time Note On           Time      "  "
+Fade Time Note Off          Time      "  "
+Direction Left Time         Time      "  "
+Direction Right Time        Time      "  "
+LED Time                    Time      "  "
+Note On Velocity Intensity  Int       1  -127..127 ?
+CC Groups?                  ???       1  New table?
+Number of LEDs              UInt      1  0-255
+LED Width                   UIint     1  0-255
+
+
+Translated into:
+
+Byte      Value            Description/Remarks
+--------- ---------------- ----------------------------------------------------------------------------
+  0~ 99      0             Reserved
+100-355    612, 614, ...   Reference to patterns 0..127 (2 bytes/reference), 0->612, 1->613, 2->625
+356-611    734, 0..0, 745  Reference to splits 0..127 (2 bytes/reference), 0->734, 127->745
+612         0              Pattern 0:
+                            MC1: Off Pattern (no parameters)
+613         0               MC2: Off Pattern (no parameters)
+614         1              Pattern 1:
+6MC2: Note On/Off Pattern
+615         240                   Background Color (Rainbow)
+616..617   12000                  Background Time (12s)
+...
+625                        Pattern 1:
+...
+
+734           5           Split 0, Number of MC1 Items
+735           2            Red
+736          110           Key B4
+737           4            Green
+738          134           Key C6
+739           7            Blue
+740           5           Split 0, Number of MC 2 Items
+...
+745                       Split 127
+...
+
+Length of file:
+
+Assuming 128 patterns

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ArrayUtils.h" />
+    <ClInclude Include="Configuration.h" />
     <ClInclude Include="LedColor.h" />
     <ClInclude Include="LedStrip.h" />
     <ClInclude Include="LedStrips.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="PatternOff.h" />
     <ClInclude Include="Patterns.h" />
     <ClInclude Include="SerialUtils.h" />
+    <ClInclude Include="SpiffsStub.h" />
     <ClInclude Include="SynthLedStrips.h" />
     <ClInclude Include="ArduinoStub.h" />
     <ClInclude Include="AssertUtils.h" />
@@ -173,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayUtils.cpp" />
+    <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="LedColor.cpp" />
     <ClCompile Include="LedStrip.cpp" />
     <ClCompile Include="LedStrips.cpp" />
@@ -188,6 +191,7 @@
     <ClCompile Include="PatternOff.cpp" />
     <ClCompile Include="Patterns.cpp" />
     <ClCompile Include="SerialUtils.cpp" />
+    <ClCompile Include="SpiffsStub.cpp" />
     <ClCompile Include="SynthLedStrips.cpp" />
     <ClCompile Include="ArduinoStub.cpp" />
     <ClCompile Include="AssertUtils.cpp" />
@@ -212,6 +216,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Colors.txt" />
+    <Text Include="Configuration.txt" />
+    <Text Include="Combi Splits to LEDs.txt" />
+    <Text Include="File Structure.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

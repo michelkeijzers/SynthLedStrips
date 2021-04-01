@@ -138,6 +138,12 @@
     <ClInclude Include="SerialUtils.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiffsStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -221,6 +227,12 @@
     <ClCompile Include="SerialUtils.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Configuration.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiffsStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SynthLedStrips.rc">
@@ -240,6 +252,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Colors.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="Configuration.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="Combi Splits to LEDs.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="File Structure.txt">
       <Filter>Documentation</Filter>
     </Text>
   </ItemGroup>

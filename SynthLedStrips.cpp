@@ -24,6 +24,7 @@
 #include "SynthLedStrips.h"
 #include "SynthLedStripsTypes.h"
 #include "MidiKeyboards.h"
+#include "Configuration.h"
 #include "Patterns.h"
 #include "MidiKeyboards.h"
 #include "ClassNames.h"
@@ -41,6 +42,7 @@
 
 #define USE_SERIAL
 
+/* static */ Configuration SynthLedStrips::_configuration;
 /* static */ LedStrips SynthLedStrips::_ledStrips;
 /* static */ Patterns SynthLedStrips::_patterns;
 /* static */ MidiKeyboards SynthLedStrips::_midiKeyboards;
@@ -142,45 +144,45 @@ SynthLedStrips::~SynthLedStrips()
 	ProcessMidi();
 	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	_midiKeyboards.Process();
-	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
-	_patterns.Process();
-	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
-	_ledStrips.Process();
-	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
+
+	if (_ledStrips.IsOn())
+	{
+		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
+		_patterns.Process();
+		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
+		_ledStrips.Process();
+		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
+	}
+
 	_midiKeyboards.ClearNewFlags();
 	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
-	FastLED.show();
-	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
-	delay(1);
+
+	if (_ledStrips.IsOn())
+	{
+		FastLED.show();
+		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
+	}
+
+	delay(1); //TODO Check if needed
+}
+
+
+/* static */ MidiKeyboard& SynthLedStrips::GetMidiKeyboards(uint8_t index)
+{
+	AssertUtils::MyAssert(index <= NR_OF_MIDI_KEYBOARDS);
+	return _midiKeyboards.GetMidiKeyboard(index);
 }
 
 
 /* static */ void SynthLedStrips::ProcessMidi()
 {
-	if (midiB.read())
+	while (midiB.read())
 	{
-		midi::MidiType midiType = midiB.getType();
-		midi::DataByte dataByte1 = midiB.getData1();
-		midi::DataByte dataByte2 = midiB.getData2();
-
-		uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
-		MidiKeyboard& midiKeyboard = _midiKeyboards.GetMidiKeyboard(midiChannel);
-
-		_midiProcessor.Process(midiKeyboard, midiType, dataByte1, dataByte2);
+		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns, midiB.getType(), midiB.getData1(), midiB.getData2());
 	}
 
-	if (midiC.read())
+	while (midiC.read())
 	{
-		midi::MidiType midiType = midiC.getType();
-		midi::DataByte dataByte1 = midiC.getData1();
-		midi::DataByte dataByte2 = midiC.getData2();
-
-		uint8_t midiChannel = (((uint8_t) midiType & 0x0F) == 0) ? 0 : 1;
-		MidiKeyboard& midiKeyboard = _midiKeyboards.GetMidiKeyboard(midiChannel);
-
-		_midiProcessor.Process(midiKeyboard, midiType, dataByte1, dataByte2);
+		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns, midiC.getType(), midiC.getData1(), midiC.getData2());
 	}
 }
-
-
-/* static void */
