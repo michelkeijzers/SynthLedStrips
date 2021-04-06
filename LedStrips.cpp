@@ -1,5 +1,8 @@
 #include "LedStrips.h"
+
+#include <cstdint>
 #include <limits.h>
+
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 #include "MidiKeyboards.h"
@@ -10,6 +13,7 @@
 /* static */ const uint16_t LedStrips::MAX_CURRENT_IN_MILLI_AMP = 9000; // mA
 
 LedStrips::LedStrips()
+  : _on(false)
 {
 	if ((NR_OF_KEYBOARD_1_KEYS + NR_OF_KEYBOARD_1_FRONT_LEDS + 
 		 NR_OF_KEYBOARD_2_KEYS + NR_OF_KEYBOARD_2_FRONT_LEDS) *

@@ -2,7 +2,7 @@
 
 // see configuration.txt
 
-#include "SynthLedStripsTypes.h"
+#include <cstdint>
 
 class Patterns;
 class LedStrips;

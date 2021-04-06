@@ -3,35 +3,23 @@
 
 #ifdef _WINDOWS
 
-#include "Resource.h"
-
-#include "Time.h"
-
-
-// DmxLightShow.cpp : Defines the entry point for the application.
-//
 
 #include <cmath>
 #include <string>
-#include "math.h"
-#include "framework.h"
+#include <math.h>
 
+#include "Resource.h"
+#include "Time.h"
+#include "framework.h"
 #include "ClassNames.h"
 #include HEADER_FILE(MIDI_CLASS)
-
 #include "MidiInjection.h"
 #include "SynthLedStrips.h"
-#include "SynthLedStripsTypes.h"
-
 #include "FastLedStub.h"
 
 using namespace std;
 
-
-#define MAX_LOADSTRING 100
-
-//#define SMART_BACKGROUND_PAINTING
-//#define SHOW_LEDS       
+constexpr auto MAX_LOADSTRING = 100;
 constexpr auto PAR_DISTANCE_X = 100;
 constexpr auto PAR_DISTANCE_Y = 180;
 #define PAR_DIAMETER	     (PAR_DISTANCE_X - 3)
@@ -49,12 +37,10 @@ constexpr auto WHITE_DISTANCE = 0.15;
 
 #define PI_F                   3.14159265358979f
 
-
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-
 
 int _refreshCounter;
 bool _backgroundPainted = false;
@@ -65,8 +51,6 @@ void ArduinoAppSetup();
 void ArduinoAppLoop(MSG& msg);
 
 void CalcCenter(int degrees, int centerX, int centerY, int distance, int* outputX, int* outputY);
-//void PrintFixtures();
-
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -78,7 +62,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-
 	_refreshCounter = 0;
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
@@ -115,7 +98,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	return int(msg.wParam);
 }
-
 
 
 //
@@ -235,7 +217,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int nrOfLedStrips = CFastLED::GetNrOfLedStrips();
 
-			//HBRUSH blackBrush  = CreateSolidBrush(RGB(0, 0, 0));
 			SetDCBrushColor(hdc, 0);
 			int ledHeight = 50;
 

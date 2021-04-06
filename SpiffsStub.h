@@ -1,8 +1,8 @@
 #ifdef _WINDOWS
 
-#include <stdio.h>
-
 #pragma once
+
+#include <stdio.h>
 
 class SpiffsStub
 {

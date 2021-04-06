@@ -1,7 +1,8 @@
 #pragma once
 
+#include <cstdint>
+
 #include "LedColor.h"
-#include "SynthLedStripsTypes.h"
 
 class MidiKeyboard;
 class LedStrip;

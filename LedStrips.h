@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdlib.h>
+
 #include "LedStrip.h"
 #include "SynthLedStrips.h"
 

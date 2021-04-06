@@ -22,7 +22,6 @@
 #include "SerialUtils.h"
 #include "MathUtils.h"
 #include "SynthLedStrips.h"
-#include "SynthLedStripsTypes.h"
 #include "MidiKeyboards.h"
 #include "Configuration.h"
 #include "Patterns.h"
@@ -32,13 +31,16 @@
 #include HEADER_FILE(MIDI_CLASS)
 #include HEADER_FILE(SERIAL_CLASS)
 #include HEADER_FILE(FAST_LED_CLASS)
+#include HEADER_FILE(WIFI_CLASS)
+#include HEADER_FILE(ASYNC_TCP_CLASS)
+#include HEADER_FILE(ESP_ASYNC_WEB_SERVER_CLASS)
+#include HEADER_FILE(ASYNC_ELEGANT_OTA_CLASS)
 #include "Patterns.h"
 #include "PatternOff.h"
 #include "PatternKnightRider.h"
 #include "PatternMidiNoteOnOff.h"
 #include "AssertUtils.h"
 #include "MidiProcessor.h"
-
 
 #define USE_SERIAL
 
@@ -47,6 +49,12 @@
 /* static */ Patterns SynthLedStrips::_patterns;
 /* static */ MidiKeyboards SynthLedStrips::_midiKeyboards;
 /* static */ MidiProcessor SynthLedStrips::_midiProcessor;
+
+
+char _ssid[] = "yourNetwork";      // your network SSID (name)
+char _password[] = "secretPassword";   // your network password
+
+AsyncWebServer server(80);
 
 
 #ifndef USE_SERIAL
@@ -74,6 +82,19 @@ SynthLedStrips::~SynthLedStrips()
 
 	// Generic GPIO.
 	pinMode(LED_BUILTIN, OUTPUT);
+
+	// WIFI / OTA, see https://randomnerdtutorials.com/esp32-ota-over-the-air-arduino/ or for PlatformIO.
+	WiFi.mode(WIFI_STA);
+	WiFi.begin(_ssid, _password);
+
+	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+		request->send(200, "text/plain", "Hi! I am ESP32.");
+		});
+
+	AsyncElegantOTA.begin(&server);
+	
+	server.begin();
+	AsyncElegantOTA.loop();
 
 	// Serial/MIDI.
 	Serial.begin(115200);

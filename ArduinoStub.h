@@ -2,10 +2,13 @@
 // Stub for Arduino function on Windows.
 // Only for Windows
 
+#ifdef _WINDOWS
+
 #pragma once
 
+#include <cstdint>
+
 #include "MathUtils.h"
-#include "SynthLedStripsTypes.h"
 #include "SerialStub.h"
 
 #define F
@@ -66,3 +69,5 @@ extern void randomSeed(uint16_t seed);
 // Communication
 
 // USB
+
+#endif // _WINDOWS

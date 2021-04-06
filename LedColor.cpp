@@ -1,8 +1,8 @@
 #include <stdlib.h>
+
 #include "SerialUtils.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
-#include "SynthLedStripsTypes.h"
 #include "LedColor.h"
 #include "MathUtils.h"
 #include "AssertUtils.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SynthLedStripsTypes.h"
+#include <stdlib.h>
 
 constexpr auto COLOR_GALAXY_SLOW_STAR_LENGTH = 11;
 constexpr auto COLOR_GALAXY_FAST_STAR_LENGTH = 6;

@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#include <cstdint>
+
 #include "SerialUtils.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)

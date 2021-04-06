@@ -1,3 +1,5 @@
+#include <cstdint>
+
 #include "Configuration.h"
 
 #include "ClassNames.h"

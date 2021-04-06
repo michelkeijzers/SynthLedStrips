@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SynthLedStripsTypes.h"
+#include <cstdint>
 
 #include "ClassNames.h"
 #include HEADER_FILE(FAST_LED_CLASS)

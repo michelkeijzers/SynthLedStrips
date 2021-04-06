@@ -61,7 +61,6 @@ Translated into:
 
 Byte      Value            Description/Remarks
 --------- ---------------- ----------------------------------------------------------------------------
-  0~ 99      0             Reserved
 100-355    612, 614, ...   Reference to patterns 0..127 (2 bytes/reference), 0->612, 1->613, 2->625
 356-611    734, 0..0, 745  Reference to splits 0..127 (2 bytes/reference), 0->734, 127->745
 612         0              Pattern 0:

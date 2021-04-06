@@ -1,3 +1,5 @@
+#include <cstdint>
+
 #include "MidiNote.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)

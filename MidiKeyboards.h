@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
-#include "SynthLedStripsTypes.h"
+
 #include "MidiKeyboard.h"
 
 constexpr auto NR_OF_MIDI_KEYBOARDS = 2;

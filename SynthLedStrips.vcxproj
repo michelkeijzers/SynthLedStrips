@@ -140,7 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ArrayUtils.h" />
+    <ClInclude Include="AsyncElegantOtaStub.h" />
+    <ClInclude Include="AsyncTcpStub.h" />
     <ClInclude Include="Configuration.h" />
+    <ClInclude Include="EspAsyncWebServerStub.h" />
     <ClInclude Include="LedColor.h" />
     <ClInclude Include="LedStrip.h" />
     <ClInclude Include="LedStrips.h" />
@@ -166,16 +169,19 @@
     <ClInclude Include="FastLedStub.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MathUtils.h" />
-    <ClInclude Include="SynthLedStripsTypes.h" />
     <ClInclude Include="MidiStub.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SerialStub.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WiFiStub.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayUtils.cpp" />
+    <ClCompile Include="AsyncElegantOtaStub.cpp" />
+    <ClCompile Include="AsyncTcpStub.cpp" />
     <ClCompile Include="Configuration.cpp" />
+    <ClCompile Include="EspAsyncWebServerStub.cpp" />
     <ClCompile Include="LedColor.cpp" />
     <ClCompile Include="LedStrip.cpp" />
     <ClCompile Include="LedStrips.cpp" />
@@ -202,6 +208,7 @@
     <ClCompile Include="MidiStub.cpp" />
     <ClCompile Include="SerialStub.cpp" />
     <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="WiFiStub.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +226,7 @@
     <Text Include="Configuration.txt" />
     <Text Include="Combi Splits to LEDs.txt" />
     <Text Include="File Structure.txt" />
+    <Text Include="OTA_Update.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

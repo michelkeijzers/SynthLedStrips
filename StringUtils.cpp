@@ -3,9 +3,11 @@
 
 #include <ctype.h>
 #include <string.h>
+
 #include "CharUtils.h"
 #include "StringUtils.h"
-
+#include "ClassNames.h"
+#include HEADER_FILE(ARDUINO_CLASS)
 
 StringUtils::StringUtils()
 {
@@ -88,7 +90,7 @@ StringUtils::StringUtils()
 /* static */ uint8_t StringUtils::GetWordLength(const char* stringToAnalyze, uint8_t startIndex)
 {
 	uint8_t count = 0;
-	uint8_t length = strlen(stringToAnalyze);
+	size_t length = strlen(stringToAnalyze);
 
 	while (startIndex < length)
 	{
@@ -101,4 +103,17 @@ StringUtils::StringUtils()
 	}
 
 	return count;
+}
+
+
+/* static */ void StringUtils::CopyString(char* destination, const char* source, size_t sourceLength)
+{
+	if (destination != nullptr)
+	{
+		delete[] destination;
+	}
+	
+	destination = new char[sourceLength + 1];
+	strcpy_s(destination, sourceLength + 1, source);
+
 }

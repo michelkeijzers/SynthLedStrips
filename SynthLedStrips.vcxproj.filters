@@ -81,9 +81,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SynthLedStripsTypes.h">
-      <Filter>Header Files\Stubs</Filter>
-    </ClInclude>
     <ClInclude Include="FastLedStub.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
@@ -142,6 +139,18 @@
       <Filter>Header Files\App</Filter>
     </ClInclude>
     <ClInclude Include="SpiffsStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="WiFiStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncElegantOtaStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncTcpStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="EspAsyncWebServerStub.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
   </ItemGroup>
@@ -233,6 +242,18 @@
     <ClCompile Include="SpiffsStub.cpp">
       <Filter>Source Files\Stubs</Filter>
     </ClCompile>
+    <ClCompile Include="WiFiStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncElegantOtaStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncTcpStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="EspAsyncWebServerStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SynthLedStrips.rc">
@@ -261,6 +282,9 @@
       <Filter>Documentation</Filter>
     </Text>
     <Text Include="File Structure.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="OTA_Update.txt">
       <Filter>Documentation</Filter>
     </Text>
   </ItemGroup>

@@ -32,12 +32,11 @@ File Structure
 ==============
    Bytes    Group                                     Description
 ----------- ----------------------------------------- ----------------------------------------------------------------------------------
-   0-  10   Reserved
-  10-  11   Pointer to Patterns                       Pointer to 500
-  12        Front LEDs: Setup 1, #splits              7~4: #splits keyboard 1, 3~0: #splits keyboard 2, last split has 0 splits
-  13                             split 0, Top key
-  14                                      Color       Colors are hardcoded
-  15                             split x...
+   0-   1   Pointer to Patterns                       Pointer to 500
+   2        Front LEDs: Setup 1, #splits              7~4: #splits keyboard 1, 3~0: #splits keyboard 2, last split has 0 splits
+   3                             split 0, Top key
+   4                                      Color       Colors are hardcoded
+   5                             split x...
  (60)                   Setup 2, #splits
   61 ...
  (500)      Patterns: Pattern 1, Pattern ID          if pattern ID == 0: last pattern, pattern of an ID has fixed length (to find next)

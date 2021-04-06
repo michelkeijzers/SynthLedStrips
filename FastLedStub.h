@@ -1,7 +1,8 @@
-#ifndef FAST_LED_STUB_H
-#define FAST_LED_STUB_H
+#ifdef _WINDOWS
 
-#include <stdint.h>
+#pragma once
+
+#include <cstdint>
 
 #include "LedStrip.h"
 
@@ -101,4 +102,4 @@ public:
 
 extern CFastLED FastLED;
 
-#endif // FAST_LED_STUB_H
+#endif // WINDOWS_H

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "SynthLedStripsTypes.h"
-
 class MidiNote
 {
 public:

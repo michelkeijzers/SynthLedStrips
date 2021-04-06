@@ -7,7 +7,6 @@
 #include <sys/timeb.h>
 #include <time.h>
 #include <stdlib.h>
-#include "SynthLedStripsTypes.h"
 #include "ArduinoStub.h"
 
 timeb* _startupTime = nullptr;
