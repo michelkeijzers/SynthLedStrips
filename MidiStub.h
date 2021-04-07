@@ -143,18 +143,16 @@ public:
 
     bool read();
     midi::MidiType getType();
+    uint8_t getChannel();
     midi::DataByte getData1();
     midi::DataByte getData2();
 
-    void AddToQueue(midi::MidiType type, midi::DataByte dataByte1);
-    void AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2);
+    void AddToQueue(uint8_t typeAndMidiChannel, midi::DataByte dataByte1);
+    void AddToQueue(uint8_t typeAndMidiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2);
 
     static uint8_t GetNrOfDataBytes(midi::MidiType midiType);
 
 private:
-    void Read1DataByte();
-    void Read2DataBytes();
-
     std::queue<uint8_t> _queue;
 
     midi::MidiType _midiType;

@@ -282,10 +282,12 @@ void ArduinoAppSetup()
 {
 	SynthLedStrips::Setup();
 
-	_midiInjection.Add(1000, midiB, midi::MidiType::NoteOn, 50, 127);
-	_midiInjection.Add(1000, midiB, midi::MidiType::NoteOn, 55, 127);
-	_midiInjection.Add(5000, midiB, midi::MidiType::NoteOff, 50, 127);
-	_midiInjection.Add(5000, midiB, midi::MidiType::NoteOff, 55, 127);
+	_midiInjection.AddControlChange(500, &midiB, 16, 0, 7); 
+	_midiInjection.AddControlChange(500, &midiB, 16, 32, 9);
+	_midiInjection.AddNoteOn(1000, &midiB, 1, 50, 127);
+	_midiInjection.AddNoteOn(1000, &midiB, 1, 55, 127);
+	_midiInjection.AddNoteOff(5000, &midiB, 1, 50, 127);
+	_midiInjection.AddNoteOff(5000, &midiB, 1, 55, 127);
 }
 
 

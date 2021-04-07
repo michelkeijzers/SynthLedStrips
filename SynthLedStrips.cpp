@@ -163,25 +163,19 @@ SynthLedStrips::~SynthLedStrips()
 {
 	SerialUtils::PrintUint("Millis", millis());
 	ProcessMidi();
-	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	_midiKeyboards.Process();
 
 	if (_ledStrips.IsOn())
 	{
-		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 		_patterns.Process();
-		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 		_ledStrips.Process();
-		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	}
 
 	_midiKeyboards.ClearNewFlags();
-	AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 
 	if (_ledStrips.IsOn())
 	{
 		FastLED.show();
-		AssertUtils::MyAssert(_ledStrips.GetLedStrip(0).GetNrOfLeds() == 61);
 	}
 
 	delay(1); //TODO Check if needed
@@ -199,11 +193,13 @@ SynthLedStrips::~SynthLedStrips()
 {
 	while (midiB.read())
 	{
-		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns, midiB.getType(), midiB.getData1(), midiB.getData2());
+		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns,
+			midiB.getType(), midiB.getChannel(), midiB.getData1(), midiB.getData2());
 	}
 
 	while (midiC.read())
 	{
-		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns, midiC.getType(), midiC.getData1(), midiC.getData2());
+		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns,
+			midiC.getType(), midiC.getChannel(), midiC.getData1(), midiC.getData2());
 	}
 }

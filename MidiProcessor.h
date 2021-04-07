@@ -15,7 +15,7 @@ public:
 	MidiProcessor();
 
 	void Process(Configuration* configuration, MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns* patterns, 
-		midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataByte2);
+		midi::MidiType midiType, uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2);
 	
 	void ProcessControlChange(Configuration* configuration, MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns* patterns, 
 		uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2);
