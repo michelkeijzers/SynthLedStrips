@@ -1,15 +1,11 @@
 #pragma once
 
-#include "SynthLedStripsTypes.h"
-
 #include "ClassNames.h"
 #include HEADER_FILE(MIDI_CLASS)
-
 
 #define NR_OF_CCS 8
 
 class MidiNote;
-
 
 class MidiKeyboard
 {

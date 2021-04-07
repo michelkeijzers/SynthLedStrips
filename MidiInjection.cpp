@@ -12,24 +12,24 @@ MidiInjection::MidiInjection()
 }
 
 
-MidiInjection::~MidiInjection()
+void MidiInjection::AddControlChange(
+	uint32_t time, MidiInterface* midiInterface, uint8_t midiChannel, uint8_t controlChangeNumber, uint8_t value)
 {
+	Push(time, midiInterface, midiChannel, (uint8_t) midi::MidiType::ControlChange, controlChangeNumber, value);
 }
 
 
-void MidiInjection::Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1)
+void MidiInjection::AddNoteOn(
+	uint32_t time, MidiInterface* midiInterface, uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
-	_data.push_back(time);
-	_data.push_back((int) &midi);
-	_data.push_back((uint8_t) type);
-	_data.push_back(dataByte1);
+	Push(time, midiInterface, midiChannel, (uint8_t) midi::MidiType::NoteOn, dataByte1, dataByte2);
 }
 
 
-void MidiInjection::Add(uint32_t time, MidiInterface& midi, midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2)
+void MidiInjection::AddNoteOff(
+	uint32_t time, MidiInterface* midiInterface,uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
-	Add(time, midi, type, dataByte1);
-	_data.push_back(dataByte2);
+	Push(time, midiInterface, midiChannel, (uint8_t) midi::MidiType::NoteOff, dataByte1, dataByte2);
 }
 
 
@@ -37,25 +37,38 @@ void MidiInjection::Inject(uint32_t timeStamp)
 {
 	while ((_dataBytesSent < _data.size()) && (_data[_dataBytesSent] <= timeStamp))
 	{
-		MidiInterface*& midi = (MidiInterface*&) _data[_dataBytesSent + 1];
-		midi::MidiType type = (midi::MidiType) (_data[_dataBytesSent + 2] & 0xF0);
+		MidiInterface*& midiInterface = (MidiInterface*&) _data[_dataBytesSent + 1];
+		uint8_t midiChannel = _data[_dataBytesSent + 2] - 1;
+		midi::MidiType type = (midi::MidiType) (_data[_dataBytesSent + 3]);
 		uint8_t nrOfDataBytes = MidiInterface::GetNrOfDataBytes(type);
 		switch(nrOfDataBytes)
 		{
 		case 1:
-			midi->AddToQueue(type, _data[_dataBytesSent + 3]);
+			midiInterface->AddToQueue((uint8_t) type | midiChannel, _data[_dataBytesSent + 4]);
 			break;
 
 		case 2:
-			midi->AddToQueue(type, _data[_dataBytesSent + 3], _data[_dataBytesSent + 4]);
+			midiInterface->AddToQueue((uint8_t) type | midiChannel, _data[_dataBytesSent + 4], _data[_dataBytesSent + 5]);
 			break;
 
 		default:
 			AssertUtils::MyAssert(false);
 		}
 
-		_dataBytesSent += 3 + nrOfDataBytes;
+		_dataBytesSent += 4 + nrOfDataBytes;
 	}
+}
+
+
+void MidiInjection::Push(
+	uint32_t time, MidiInterface* midiInterface, uint8_t midiChannel, uint8_t type, uint8_t dataByte1, uint8_t dataByte2)
+{
+	_data.push_back(time);
+	_data.push_back((uint32_t) midiInterface);
+	_data.push_back(midiChannel);
+	_data.push_back((uint8_t) type);
+	_data.push_back(dataByte1);
+	_data.push_back(dataByte2);
 }
 
 #endif // _WINDOWS

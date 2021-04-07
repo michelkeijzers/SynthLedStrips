@@ -3,58 +3,44 @@
 
 #ifdef _WINDOWS
 
-#include "Resource.h"
-
-#include "Time.h"
-
-
-// DmxLightShow.cpp : Defines the entry point for the application.
-//
 
 #include <cmath>
 #include <string>
-#include "math.h"
-#include "framework.h"
+#include <math.h>
 
+#include "Resource.h"
+#include "Time.h"
+#include "framework.h"
 #include "ClassNames.h"
 #include HEADER_FILE(MIDI_CLASS)
-
 #include "MidiInjection.h"
 #include "SynthLedStrips.h"
-#include "SynthLedStripsTypes.h"
-
 #include "FastLedStub.h"
 
 using namespace std;
 
-
-#define MAX_LOADSTRING 100
-
-//#define SMART_BACKGROUND_PAINTING
-//#define SHOW_LEDS       
-#define PAR_DISTANCE_X		 100
-#define PAR_DISTANCE_Y		 180
+constexpr auto MAX_LOADSTRING = 100;
+constexpr auto PAR_DISTANCE_X = 100;
+constexpr auto PAR_DISTANCE_Y = 180;
 #define PAR_DIAMETER	     (PAR_DISTANCE_X - 3)
 #define PAR_RADIUS			 (PAR_DIAMETER / 2)
 #define LED_DIAMETER		 (PAR_DIAMETER / 4 - 12)
 #define LED_RADIUS			 (LED_DIAMETER / 2)
-#define TEXT_OFFSET_X        -30
-#define TEXT_OFFSET_Y		-100
-#define FIXTURE_OFFSET_X	 -10
-#define FIXTURE_OFFSET_Y	 -80
-#define RGB_DISTANCE 0.4
-#define WHITE_DISTANCE	       0.15
+constexpr auto TEXT_OFFSET_X = -30;
+constexpr auto TEXT_OFFSET_Y = -100;
+constexpr auto FIXTURE_OFFSET_X = -10;
+constexpr auto FIXTURE_OFFSET_Y = -80;
+constexpr auto RGB_DISTANCE = 0.4;
+constexpr auto WHITE_DISTANCE = 0.15;
 
 #define FONT_SIZE             11
 
 #define PI_F                   3.14159265358979f
 
-
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-
 
 int _refreshCounter;
 bool _backgroundPainted = false;
@@ -65,8 +51,6 @@ void ArduinoAppSetup();
 void ArduinoAppLoop(MSG& msg);
 
 void CalcCenter(int degrees, int centerX, int centerY, int distance, int* outputX, int* outputY);
-//void PrintFixtures();
-
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -78,7 +62,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-
 	_refreshCounter = 0;
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
@@ -115,7 +98,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	return int(msg.wParam);
 }
-
 
 
 //
@@ -235,7 +217,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int nrOfLedStrips = CFastLED::GetNrOfLedStrips();
 
-			//HBRUSH blackBrush  = CreateSolidBrush(RGB(0, 0, 0));
 			SetDCBrushColor(hdc, 0);
 			int ledHeight = 50;
 
@@ -282,7 +263,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
-		break;
 	}
 	return 0;
 }
@@ -302,10 +282,12 @@ void ArduinoAppSetup()
 {
 	SynthLedStrips::Setup();
 
-	_midiInjection.Add(1000, midiB, midi::MidiType::NoteOn, 50, 127);
-	_midiInjection.Add(1000, midiB, midi::MidiType::NoteOn, 55, 127);
-	_midiInjection.Add(5000, midiB, midi::MidiType::NoteOff, 50, 127);
-	_midiInjection.Add(5000, midiB, midi::MidiType::NoteOff, 55, 127);
+	_midiInjection.AddControlChange(500, &midiB, 16, 0, 7); 
+	_midiInjection.AddControlChange(500, &midiB, 16, 32, 9);
+	_midiInjection.AddNoteOn(1000, &midiB, 1, 50, 127);
+	_midiInjection.AddNoteOn(1000, &midiB, 1, 55, 127);
+	_midiInjection.AddNoteOff(5000, &midiB, 1, 50, 127);
+	_midiInjection.AddNoteOff(5000, &midiB, 1, 55, 127);
 }
 
 

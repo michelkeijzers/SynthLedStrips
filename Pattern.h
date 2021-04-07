@@ -1,20 +1,18 @@
 #pragma once
 
-#include "LedColor.h"
-#include "SynthLedStripsTypes.h"
+#include <cstdint>
 
+#include "LedColor.h"
 
 class MidiKeyboard;
 class LedStrip;
-
 
 class Pattern
 {
 public:
 	Pattern();
-	~Pattern();
 
-	void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
+	virtual void Initialize(MidiKeyboard* midiKeyboard, LedStrip* ledStrip);
 
 	virtual void Start() = 0;
 

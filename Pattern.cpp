@@ -7,14 +7,9 @@
 
 Pattern::Pattern()
 :
-	_ledStrip(NULL),
-	_midiKeyboard(NULL),
+	_ledStrip(nullptr),
+	_midiKeyboard(nullptr),
 	_timeLastProcessed(millis())
-{
-}
-
-
-Pattern::~Pattern()
 {
 }
 

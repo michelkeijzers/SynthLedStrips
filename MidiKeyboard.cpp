@@ -9,17 +9,17 @@ MidiKeyboard::MidiKeyboard()
 : 
 	_nrOfKeys(0),
 	_keyOffset(0),
-	_midiNotes(NULL),
-	_ccGroup{}
+	_midiNotes(nullptr),
+	_ccGroup {}
 {
 }
 
 
 MidiKeyboard::~MidiKeyboard()
 {
-	if (_midiNotes != NULL)
+	if (_midiNotes != nullptr)
 	{
-		// delete _midiNotes; // Results in exception
+		delete _midiNotes; // Results in exception
 	}
 }
 

@@ -1,7 +1,8 @@
-#ifndef FAST_LED_STUB_H
-#define FAST_LED_STUB_H
+#ifdef _WINDOWS
 
-#include <stdint.h>
+#pragma once
+
+#include <cstdint>
 
 #include "LedStrip.h"
 
@@ -38,8 +39,6 @@ private:
 public:
 	CFastLED();
 
-	~CFastLED();
-
 	static struct FastLedCRGB* GetData(int ledStrip);
 	static int GetPinNumber(int ledStrip);
 	static int GetNrOfUsedLeds(int ledStrip);
@@ -53,7 +52,7 @@ public:
 		struct FastLedCRGB* data, int nLedsOrOffset)
 	{
 		_pinNumbers[_nrOfLedStrips] = DATA_PIN;
-		addLeds(NULL, data, nLedsOrOffset);
+		addLeds(nullptr, data, nLedsOrOffset);
 
 		return *new CLEDController();
 	}
@@ -103,4 +102,4 @@ public:
 
 extern CFastLED FastLED;
 
-#endif // FAST_LED_STUB_H
+#endif // WINDOWS_H

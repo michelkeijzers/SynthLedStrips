@@ -20,11 +20,6 @@ MathUtils::MathUtils()
 }
 
 
-MathUtils::~MathUtils()
-{
-}
-
-
 /* static */ int MathUtils::Abs(int a)
 {
 	return a < 0 ? -a : a;

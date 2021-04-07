@@ -10,24 +10,18 @@
 
 
 PatternMidiNoteOnOff::PatternMidiNoteOnOff()
-:	Pattern(),
+	:	Pattern(),
 	_foregroundColor(LedColor::EColor::Black),
-	_foregroundColorSpeed(0),
+	_foregroundColorTime(0),
 	_backgroundColor(LedColor::EColor::Black),
-	_backgroundColorSpeed(0),
-	_moveRightSpeed(0),
-	_moveLeftSpeed(0),
+	_backgroundColorTime(0),
+	_moveRightTime(0),
+	_moveLeftTime(0),
 	_fadeTimeNoteOff(0),
 	_fadeTimeNoteOn(0),
-	_noteOnVelocityIntensity(0)
-	//TODO _foregroundValues(NULL)
+	_noteOnVelocityIntensity(0),
+	_foregroundValues {}
 {
-}
-
-
-PatternMidiNoteOnOff::~PatternMidiNoteOnOff()
-{
-	//TODO delete[] _foregroundValues;
 }
 
 
@@ -37,9 +31,9 @@ void PatternMidiNoteOnOff::SetBackgroundColor(LedColor::EColor color)
 }
 
 
-void PatternMidiNoteOnOff::SetBackgroundColorSpeed(uint32_t backgroundColorSpeed)
+void PatternMidiNoteOnOff::SetBackgroundColorTime(uint32_t backgroundColorTime)
 {
-	_backgroundColorSpeed = backgroundColorSpeed;
+	_backgroundColorTime = backgroundColorTime;
 }
 
 
@@ -49,9 +43,9 @@ void PatternMidiNoteOnOff::SetForegroundColor(LedColor::EColor color)
 }
 
 
-void PatternMidiNoteOnOff::SetForegroundColorSpeed(uint32_t foregroundColorSpeed)
+void PatternMidiNoteOnOff::SetForegroundColorTime(uint32_t foregroundColorTime)
 {
-	_foregroundColorSpeed = foregroundColorSpeed;
+	_foregroundColorTime = foregroundColorTime;
 }
 
 
@@ -67,15 +61,15 @@ void PatternMidiNoteOnOff::SetFadeTimeNoteOff(uint32_t fadeTimeNoteOff)
 }
 
 
-void PatternMidiNoteOnOff::SetMoveRightSpeed(uint32_t moveRightSpeed)
+void PatternMidiNoteOnOff::SetMoveRightTime(uint32_t moveRightTime)
 {
-	_moveRightSpeed = moveRightSpeed;
+	_moveRightTime = moveRightTime;
 }
 
 
-void PatternMidiNoteOnOff::SetMoveLeftSpeed(uint32_t moveLeftSpeed)
+void PatternMidiNoteOnOff::SetMoveLeftTime(uint32_t moveLeftTime)
 {
-	_moveLeftSpeed = moveLeftSpeed;
+	_moveLeftTime = moveLeftTime;
 }
 
 
@@ -88,13 +82,6 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 /* override */ void PatternMidiNoteOnOff::Start()
 {
 	_ledStrip->SetAllLeds(_backgroundColor, 0);
-	/* TODO
-	if (_foregroundValues == NULL)
-	{
-		_foregroundValues = new uint8_t[_ledStrip->GetNrOfLeds()];
-		memset(_foregroundValues, 0xaa, _ledStrip->GetNrOfLeds());
-	}
-	*/
 }
 
 
@@ -104,13 +91,13 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 	{
 		_foregroundValues[led] = 0x0;
 	}
-		
+
 	for (uint8_t key = 0; key < _midiKeyboard->GetNrOfKeys(); key++)
 	{
 		AdjustForegroundLevels(key);
 	}
 
-	for (uint16_t led = 0; led < _ledStrip->GetNrOfLeds(); led++)
+	for (uint8_t led = 0; led < _ledStrip->GetNrOfLeds(); led++)
 	{
 		SetLedColors();	
 	}
@@ -120,88 +107,70 @@ void PatternMidiNoteOnOff::SetNoteOnVelocityIntensity(uint8_t noteOnVelocityInte
 void PatternMidiNoteOnOff::AdjustForegroundLevels(uint8_t key)
 {
 	uint32_t now = millis();
-
 	uint8_t level = 0;
-
 	MidiNote& midiNote = _midiKeyboard->GetMidiNote(key);
+
 	if (midiNote.GetTimePressed() != 0)
 	{
+		//Serial.println("--");
 		uint32_t timeAgoPressed = now - midiNote.GetTimePressed();
+		
+		level = _fadeTimeNoteOff == 0 ? 255 : 255 - MathUtils::Max(
+			0, (((now - (!midiNote.IsPressed() * midiNote.GetTimeReleased())) * 255) / _fadeTimeNoteOff));
+	
+		uint8_t leftKey = 0;
+		uint8_t leftKeyInRange = ProcessSidewaysMovement(false, midiNote, key, timeAgoPressed, _moveLeftTime, now, &leftKey);
 
-		if (midiNote.IsPressed())
-		{
-			level = _fadeTimeNoteOn == 0 ? 255 : 255 - MathUtils::Max(0, ((timeAgoPressed * 255) / _fadeTimeNoteOn));
-			SerialUtils::PrintInt("Key", key);
-			SerialUtils::PrintInt("TimeAgoPressed", timeAgoPressed);
-			SerialUtils::PrintInt("Level", level);
-		}
-		else
-		{
-			level = _fadeTimeNoteOff == 0 ? 255 : 255 - MathUtils::Max(0, (((now - midiNote.GetTimeReleased()) * 255) / _fadeTimeNoteOff));
-		}
-
-		bool leftKeyInRange = false;
-		int16_t leftKey = 0;
-		if ((key >= 0) && (key < _ledStrip->GetNrOfLeds()))
-		{
-			if (_moveLeftSpeed == 0)
-			{
-				leftKeyInRange = true;
-				leftKey = key;
-			}
-			else
-			{
-				if (timeAgoPressed < _moveLeftSpeed)
-				{
-					leftKeyInRange = true;
-					leftKey = key - ((now - midiNote.GetTimePressed()) * _midiKeyboard->GetNrOfKeys()) / _moveLeftSpeed; 
-					SerialUtils::PrintInt("Left Key", leftKey);
-				}
-			}
-		}
-
-		bool rightKeyInRange = false;
-		int16_t rightKey = 0;
-		if ((key >= 0) && (key < _ledStrip->GetNrOfLeds()))
-		{
-			if (_moveRightSpeed = 0)
-			{
-				rightKeyInRange = _moveLeftSpeed != 0;
-				rightKey = key;
-			}
-			else
-			{
-				if (timeAgoPressed < _moveRightSpeed)
-				{
-					rightKeyInRange = true;
-					rightKey = key - (now - midiNote.GetTimePressed() * _midiKeyboard->GetNrOfKeys()) / _moveRightSpeed; 
-					SerialUtils::PrintInt("Right Key", rightKey);
-				}
-			}
-		}
+		uint8_t rightKey = 0;
+		uint8_t rightKeyInRange = ProcessSidewaysMovement(true, midiNote, key, timeAgoPressed, _moveRightTime, now, &rightKey);
 
 		if (level > 0)
 		{
-			level = (level * (midiNote.GetVelocity() * 2 - 1)) / 255;
-			// _noteOnVelocityIntensity
-			SerialUtils::PrintInt("Level end", level);
-			Serial.println("");
+			level = (level * (midiNote.GetVelocity() * 2 + 1)) / 255;
 		}
-
+		
 		if (leftKeyInRange)
 		{
-			AssertUtils::MyAssert(leftKey >= 0);
-			AssertUtils::MyAssert(leftKey < _ledStrip->GetNrOfLeds());
-			_foregroundValues[leftKey] = MathUtils::Max(127, _foregroundValues[leftKey] + level);
+			_foregroundValues[leftKey] = MathUtils::Min(255, _foregroundValues[leftKey] + level);
 		}
 
 		if (rightKeyInRange)
 		{
-			AssertUtils::MyAssert(rightKey >= 0);
-			AssertUtils::MyAssert(rightKey < _ledStrip->GetNrOfLeds());
-			_foregroundValues[rightKey] = MathUtils::Max(127, _foregroundValues[rightKey] + level);
+			_foregroundValues[rightKey] = MathUtils::Min(255, _foregroundValues[rightKey] + level);
 		}
 	}	
+}
+
+
+bool PatternMidiNoteOnOff::ProcessSidewaysMovement(
+	bool directionRight, MidiNote midiNote, uint8_t key, uint32_t timeAgoPressed, uint32_t moveTime, uint32_t now, uint8_t* newKey)
+{
+	uint32_t newKeyUnconstrained;
+	bool inRange = false;
+
+	if ((key >= 0) && (key < _ledStrip->GetNrOfLeds()))
+	{
+		if ((moveTime == 0) || (timeAgoPressed == 0))
+		{
+			*newKey = key;
+			inRange = true;
+		}
+		else
+		{
+			if (timeAgoPressed < moveTime)
+			{
+				newKeyUnconstrained =
+					key + (directionRight ? 1 : -1) * (((now - midiNote.GetTimePressed())  * _midiKeyboard->GetNrOfKeys()) / moveTime);
+				inRange = ((newKeyUnconstrained >= 0) && (newKeyUnconstrained < _midiKeyboard->GetNrOfKeys()));
+				if (inRange)
+				{
+					*newKey = newKeyUnconstrained;
+				}
+			}
+		}
+	}
+
+	return inRange;
 }
 
 
@@ -213,14 +182,15 @@ void PatternMidiNoteOnOff::SetLedColors()
 
 		if (_foregroundValues[key] == 0)
 		{
-			LedColor::SetRgb(&(rgb->red), &(rgb->green), &(rgb->blue), _backgroundColor, millis() * 360 / _backgroundColorSpeed);
+			LedColor::SetRgb(&(rgb->red), &(rgb->green), &(rgb->blue), _backgroundColor, millis() * 360 / _backgroundColorTime);
 		}
 		else
 		{
-			LedColor::SetRgb(&(rgb->red), &(rgb->green), &(rgb->blue), _foregroundColor, millis() * 360 / _backgroundColorSpeed);
-			rgb->red   = (rgb->red   * 255) / _foregroundValues[key];
-			rgb->green = (rgb->green * 255) / _foregroundValues[key];
-			rgb->blue  = (rgb->blue  * 255) / _foregroundValues[key];
+			LedColor::SetRgb(&(rgb->red), &(rgb->green), &(rgb->blue), _foregroundColor, millis() * 360 / _backgroundColorTime);
+			rgb->red   = (rgb->red   * _foregroundValues[key]) / 255;
+			rgb->green = (rgb->green * _foregroundValues[key]) / 255;
+			rgb->blue  = (rgb->blue  * _foregroundValues[key]) / 255;
 		}
 	}
+	AssertUtils::MyAssert(_midiKeyboard->GetNrOfKeys() == 61);
 }

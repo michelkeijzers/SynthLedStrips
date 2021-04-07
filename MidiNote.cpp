@@ -1,3 +1,5 @@
+#include <cstdint>
+
 #include "MidiNote.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
@@ -11,11 +13,6 @@ MidiNote::MidiNote()
 	_releaseVelocity(0),
 	_timePressed(0),
 	_timeReleased(0)
-{
-}
-
-
-MidiNote::~MidiNote()
 {
 }
 

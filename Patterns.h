@@ -1,11 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 #include "Pattern.h"
 #include "LedStrips.h"
 
-
-#define NR_OF_PATTERNS 4
-
+constexpr auto NR_OF_PATTERNS = 4;
 
 class Patterns
 {
@@ -24,5 +24,5 @@ public:
 private:
 	Pattern* _patterns[NR_OF_LED_STRIPS];
 	uint8_t* _patternData;
-	uint8_t _patternDataSize;
+	uint16_t _patternDataSize;
 };

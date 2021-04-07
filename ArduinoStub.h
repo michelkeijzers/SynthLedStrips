@@ -2,21 +2,21 @@
 // Stub for Arduino function on Windows.
 // Only for Windows
 
+#ifdef _WINDOWS
+
 #pragma once
 
+#include <cstdint>
+
 #include "MathUtils.h"
-
-#include "SynthLedStripsTypes.h"
-
 #include "SerialStub.h"
-
 
 #define F
 #define PROGMEM
 
-#define LED_BUILTIN 10
+constexpr auto LED_BUILTIN = 10;
 //#define INPUT        0 // Existing type in Windows
-#define OUTPUT       1
+constexpr auto OUTPUT = 1;
 
 // Digital I/O
 
@@ -69,3 +69,5 @@ extern void randomSeed(uint16_t seed);
 // Communication
 
 // USB
+
+#endif // _WINDOWS

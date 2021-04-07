@@ -1,17 +1,12 @@
 #ifdef _WINDOWS
 
-
 #include "SerialStub.h"
 #include "Windows.h"
 #include "stdio.h"
 
-
 SerialClass Serial;
-
-
 SerialPort SoftwareSerial;
 SerialPort HardwareSerial;
-
 
 void SerialClass::begin(int baudrate)
 {

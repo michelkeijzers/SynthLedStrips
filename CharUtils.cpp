@@ -9,11 +9,6 @@ CharUtils::CharUtils()
 }
 
 
-CharUtils::~CharUtils()
-{
-}
-
-
 /* static */ char CharUtils::ToUpper(char ch)
 {
 	return ch >= 'a' && ch <= 'z' ? ch - ('a' - 'A') : ch;

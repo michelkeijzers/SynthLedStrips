@@ -18,11 +18,6 @@ MidiInterface::MidiInterface()
 }
 
 
-MidiInterface::~MidiInterface()
-{
-}
-
-
 void MidiInterface::begin()
 {
 }
@@ -36,7 +31,7 @@ bool MidiInterface::read()
 	}
 	
 	_midiType = (midi::MidiType) (_queue.front() & 0xF0);
-	_midiChannel = _queue.front() & 0x0F;
+	_midiChannel = _queue.front() & 0x0F + 1;
 	_queue.pop();
 	_data1 = _queue.front();
 	_queue.pop();
@@ -49,7 +44,13 @@ bool MidiInterface::read()
 
 midi::MidiType MidiInterface::getType()
 {
-	return _midiType;;
+	return _midiType;
+}
+
+
+uint8_t MidiInterface::getChannel()
+{
+	return _midiChannel;
 }
 
 
@@ -65,16 +66,16 @@ midi::DataByte MidiInterface::getData2()
 }
 
 
-void MidiInterface::AddToQueue(midi::MidiType type, midi::DataByte dataByte1)
+void MidiInterface::AddToQueue(uint8_t typeAndMidiChannel, midi::DataByte dataByte1)
 {
-	_queue.push((uint8_t) type);
+	_queue.push(typeAndMidiChannel);
 	_queue.push(dataByte1);
 }
 
 
-void MidiInterface::AddToQueue(midi::MidiType type, midi::DataByte dataByte1, midi::DataByte dataByte2)
+void MidiInterface::AddToQueue(uint8_t typeAndMidiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
-	AddToQueue(type, dataByte1);
+	AddToQueue(typeAndMidiChannel, dataByte1);
 	_queue.push(dataByte2);
 }
 

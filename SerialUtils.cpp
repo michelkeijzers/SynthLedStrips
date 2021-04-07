@@ -1,9 +1,9 @@
-#include "SerialUtils.h"
+#include <cstdint>
 
+#include "SerialUtils.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
 
-\
 /* static */ void SerialUtils::PrintUint(const char* item, uint32_t value)
 {
 	Serial.print(item);

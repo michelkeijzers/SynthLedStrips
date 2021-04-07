@@ -2,11 +2,12 @@
 
 #include "LedStrips.h"
 
+class Configuration;
+class MidiKeyboard;
 class MidiKeyboards;
 class Patterns;
 class LedStrips;
 class MidiProcessor;
-
 
 class SynthLedStrips
 {
@@ -17,11 +18,14 @@ public:
 	static void Setup();
 	static void Loop();
 
+	static MidiKeyboard& GetMidiKeyboards(uint8_t index);
+
 private:
 	static void ProcessMidi();
-	static void ProcessMidiEvents(midi::MidiType midiType, midi::DataByte dataByte1, midi::DataByte dataBatye2);
 
 	static void SetPatterns();
+
+	static Configuration _configuration;
 
 	static MidiProcessor _midiProcessor;
 

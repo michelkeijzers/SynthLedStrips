@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#include <cstdint>
+
 #include "SerialUtils.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
@@ -9,7 +10,7 @@
 
 
 Patterns::Patterns()
-	: _patternData(NULL),
+	: _patternData(nullptr),
 	  _patterns(),
 	  _patternDataSize(0)
 {
@@ -18,16 +19,18 @@ Patterns::Patterns()
 
 Patterns::~Patterns()
 {
-	if (_patternData != NULL)
+	if (_patternData != nullptr)
 	{
-		//delete _patternData;
+		delete _patternData;
 	}
 }
 
 
 void Patterns::Initialize()
 {
-	_patternDataSize = MAX(sizeof(PatternOff), sizeof(PatternKnightRider));
+	_patternDataSize = sizeof(PatternOff);
+	_patternDataSize = MAX(_patternDataSize, sizeof(PatternKnightRider));
+	_patternDataSize = MAX(_patternDataSize, sizeof(PatternMidiNoteOnOff));
 	_patternData = new uint8_t[_patternDataSize * 4];
 }
 
@@ -49,7 +52,7 @@ void Patterns::Process()
 {
 	for (uint8_t index = 0; index < NR_OF_PATTERNS; index++)
 	{
-		if (_patterns[index] != NULL)
+		if (_patterns[index] != nullptr)
 		{
 			_patterns[index]->Process();
 		}

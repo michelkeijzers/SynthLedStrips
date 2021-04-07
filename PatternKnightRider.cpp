@@ -10,19 +10,14 @@
 
 PatternKnightRider::PatternKnightRider()
 :	_ledWidth(0),
-	_ledSpeed(0),
+	_ledTime(0),
 	_foregroundColor(LedColor::EColor::Black),
-	_foregroundColorSpeed(0),
+	_foregroundColorTime(0),
 	_backgroundColor(LedColor::EColor::Black),
-	_backgroundColorSpeed(0),
+	_backgroundColorTime(0),
 	_direction(false),
 	_currentLed(0),
 	_timeRemainder(0)
-{
-}
-
-
-PatternKnightRider::~PatternKnightRider()
 {
 }
 
@@ -33,9 +28,9 @@ void PatternKnightRider::SetBackgroundColor(LedColor::EColor color)
 }
 
 
-void PatternKnightRider::SetBackgroundColorSpeed(uint32_t backgroundColorSpeed)
+void PatternKnightRider::SetBackgroundColorTime(uint32_t backgroundColorTime)
 {
-	_backgroundColorSpeed = backgroundColorSpeed;
+	_backgroundColorTime = backgroundColorTime;
 }
 
 
@@ -45,9 +40,9 @@ void PatternKnightRider::SetForegroundColor(LedColor::EColor color)
 }
 
 
-void PatternKnightRider::SetForegroundColorSpeed(uint32_t foregroundColorSpeed)
+void PatternKnightRider::SetForegroundColorTime(uint32_t foregroundColorTime)
 {
-	_foregroundColorSpeed = foregroundColorSpeed;
+	_foregroundColorTime = foregroundColorTime;
 }
 
 
@@ -57,9 +52,9 @@ void PatternKnightRider::SetDirection(bool direction)
 }
 
 
-void PatternKnightRider::SetLedSpeed(uint32_t ledSpeed)
+void PatternKnightRider::SetLedTime(uint32_t ledTime)
 {
-	_ledSpeed = ledSpeed;
+	_ledTime = ledTime;
 }
 
 void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
@@ -80,22 +75,22 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 	uint32_t timeStamp = millis();
 	ProcessCurrentLed(timeStamp);
 
-	for (uint16_t led = 0; led < _ledStrip->GetNrOfLeds(); led++)
+	for (uint8_t led = 0; led < _ledStrip->GetNrOfLeds(); led++)
 	{
 		struct FastLedCRGB *rgb = _ledStrip->GetLed(led);
 		uint8_t ratio = MAX(0, _ledWidth - ABS(led - _currentLed));
 
 		if (ratio == 0)
 		{
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, timeStamp * 360 / _backgroundColorSpeed);
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _backgroundColor, timeStamp * 360 / _backgroundColorTime);
 		}
 		else
 		{
 			struct FastLedCRGB backgroundColor{};
 			LedColor::SetRgb(&backgroundColor.red, &backgroundColor.green, &backgroundColor.blue, 
-				_backgroundColor, timeStamp * 360 / _backgroundColorSpeed);
+				_backgroundColor, timeStamp * 360 / _backgroundColorTime);
 
-			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, timeStamp * 360 / _foregroundColorSpeed);
+			LedColor::SetRgb(&rgb->red, &rgb->green, &rgb->blue, _foregroundColor, timeStamp * 360 / _foregroundColorTime);
 			rgb->red = backgroundColor.red + ((rgb->red - backgroundColor.red) * ratio) / _ledWidth;
 			rgb->green = backgroundColor.green + ((rgb->green - backgroundColor.green) * ratio) / _ledWidth;
 			rgb->blue = backgroundColor.blue + ((rgb->blue - backgroundColor.blue) * ratio) / _ledWidth;
@@ -106,17 +101,17 @@ void PatternKnightRider::SetLedWidth(uint8_t ledWidth)
 
 void PatternKnightRider::ProcessCurrentLed(uint32_t timeStamp)
 {
-	uint8_t currentLedShiftAmount = ((timeStamp - _timeLastProcessed) * _ledStrip->GetNrOfLeds()) / _ledSpeed;
+	uint8_t currentLedShiftAmount = ((timeStamp - _timeLastProcessed) * _ledStrip->GetNrOfLeds()) / _ledTime;
 
-	while(_timeRemainder >= _ledSpeed)
+	while(_timeRemainder >= _ledTime)
 	{
-		_timeRemainder -= _ledSpeed;
+		_timeRemainder -= _ledTime;
 		currentLedShiftAmount++;
 	}
 
 	if (currentLedShiftAmount > 0)
 	{
-		_timeRemainder += ((timeStamp - _timeLastProcessed) * _ledStrip->GetNrOfLeds()) % _ledSpeed;
+		_timeRemainder += ((timeStamp - _timeLastProcessed) * _ledStrip->GetNrOfLeds()) % _ledTime;
 		GotoNextCurrentLed(currentLedShiftAmount);
 		_timeLastProcessed = timeStamp;
 	}
@@ -125,7 +120,7 @@ void PatternKnightRider::ProcessCurrentLed(uint32_t timeStamp)
 
 void PatternKnightRider::GotoNextCurrentLed(uint8_t currentLedShiftAmount)
 {
-	for (uint16_t index = 0; index < currentLedShiftAmount; index++)
+	for (uint8_t index = 0; index < currentLedShiftAmount; index++)
 	{
 		_currentLed = (_direction) ? _currentLed + 1 : _currentLed - 1;
 		_direction = ((_currentLed == 0) || (_currentLed == _ledStrip->GetNrOfLeds())) ? !_direction : _direction;

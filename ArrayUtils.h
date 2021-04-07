@@ -1,7 +1,6 @@
 #pragma once
 
-#include "SynthLedStripsTypes.h"
-
+#include <cstdint>
 
 class ArrayUtils
 {
@@ -11,5 +10,4 @@ public:
 
 private:
 	ArrayUtils();
-	~ArrayUtils();
 };

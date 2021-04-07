@@ -1,8 +1,8 @@
 #include <stdlib.h>
+
 #include "SerialUtils.h"
 #include "ClassNames.h"
 #include HEADER_FILE(ARDUINO_CLASS)
-#include "SynthLedStripsTypes.h"
 #include "LedColor.h"
 #include "MathUtils.h"
 #include "AssertUtils.h"
@@ -136,7 +136,6 @@
 	*green = MIN(*red * 3/4, random(255));
 	*blue  = 0;
 }
-
 
 
 /* static */ void LedColor::SetGalaxy(uint8_t* red, uint8_t* green, uint8_t* blue, uint32_t step)

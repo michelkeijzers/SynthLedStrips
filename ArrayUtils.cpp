@@ -6,11 +6,6 @@ ArrayUtils::ArrayUtils()
 }
 
 
-ArrayUtils::~ArrayUtils()
-{
-}
-
-
 /* static */ uint8_t ArrayUtils::FindNearestIndexOfValue(const uint8_t array[], uint8_t arrayLength, uint8_t value)
 {
 	for (uint8_t index = 0; index < arrayLength; index++)

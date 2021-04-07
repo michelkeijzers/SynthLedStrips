@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "SynthLedStripsTypes.h"
+#include <cstdint>
 
 class StringUtils
 {
@@ -17,9 +17,8 @@ public:
 
 	static uint8_t GetWordLength(const char* stringToAnalyze, uint8_t startIndex);
 
+	static void CopyString(char* destination, const char* source, size_t sourceLength);
 
 private:
 	StringUtils();
-
-	~StringUtils();
 };
