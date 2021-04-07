@@ -2,6 +2,7 @@
 
 #include "MidiStub.h"
 #include "AssertUtils.h"
+#include "SerialUtils.h"
 
 
 MidiInterface midiB;
@@ -31,7 +32,7 @@ bool MidiInterface::read()
 	}
 	
 	_midiType = (midi::MidiType) (_queue.front() & 0xF0);
-	_midiChannel = _queue.front() & 0x0F + 1;
+	_midiChannel = (_queue.front() & 0x0F) + 1;
 	_queue.pop();
 	_data1 = _queue.front();
 	_queue.pop();
@@ -76,6 +77,10 @@ void MidiInterface::AddToQueue(uint8_t typeAndMidiChannel, midi::DataByte dataBy
 void MidiInterface::AddToQueue(uint8_t typeAndMidiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	AddToQueue(typeAndMidiChannel, dataByte1);
+	Serial.print("\n");
+	SerialUtils::PrintInt("AddToQueue TM", typeAndMidiChannel);
+	SerialUtils::PrintInt("byte 1", dataByte1);
+	SerialUtils::PrintlnInt("byte 2", dataByte2);
 	_queue.push(dataByte2);
 }
 

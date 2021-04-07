@@ -115,5 +115,4 @@ StringUtils::StringUtils()
 	
 	destination = new char[sourceLength + 1];
 	strcpy_s(destination, sourceLength + 1, source);
-
 }
