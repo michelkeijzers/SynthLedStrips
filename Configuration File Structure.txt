@@ -61,28 +61,28 @@ Translated into:
 
 Byte      Value            Description/Remarks
 --------- ---------------- ----------------------------------------------------------------------------
-100-355    612, 614, ...   Reference to patterns 0..127 (2 bytes/reference), 0->612, 1->613, 2->625
-356-611    734, 0..0, 745  Reference to splits 0..127 (2 bytes/reference), 0->734, 127->745
-612         0              Pattern 0:
+000-255    612, 614, ...   Reference to patterns 0..127 (2 bytes/reference), 0->612, 1->613, 2->625
+256-511    734, 0..0, 745  Reference to splits 0..127 (2 bytes/reference), 0->734, 127->745
+512         0              Pattern 0:
                             MC1: Off Pattern (no parameters)
-613         0               MC2: Off Pattern (no parameters)
-614         1              Pattern 1:
-6MC2: Note On/Off Pattern
-615         240                   Background Color (Rainbow)
-616..617   12000                  Background Time (12s)
+513         0               MC2: Off Pattern (no parameters)
+514         1              Pattern 1:
+5MC2: Note On/Off Pattern
+515         240                   Background Color (Rainbow)
+516..517   12000                  Background Time (12s)
 ...
-625                        Pattern 1:
+525                        Pattern 1:
 ...
 
-734           5           Split 0, Number of MC1 Items
-735           2            Red
-736          110           Key B4
-737           4            Green
-738          134           Key C6
-739           7            Blue
-740           5           Split 0, Number of MC 2 Items
+634           5           Split 0, Number of MC1 Items
+635           2            Red
+636          110           Key B4
+637           4            Green
+638          134           Key C6
+639           7            Blue
+640           5           Split 0, Number of MC 2 Items
 ...
-745                       Split 127
+645                       Split 127
 ...
 
 Length of file:

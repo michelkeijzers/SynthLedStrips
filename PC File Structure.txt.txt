@@ -1,0 +1,73 @@
+PC FILE STRUCTURE
+=================
+
+General rules:
+- All white spaces/new lines are removed
+- dashes and underscores are removed
+- All text is case insensitive
+
+config_file         = <patterns> <splits>
+patterns            = <pattern>*
+
+pattern             = 'p' <id> ': <pattern_type> '(' <pattern_properties> '),(' <pattern_type> '(' <pattern_properties> ').'     # for MC 1 and 2
+id                  = 0..127
+pattern_type        = 'off' | 'knightrider' | 'kr' | 'noteonoff' | 'noo'
+pattern_properties  = <pattern_property> (',' <pattern_property>)*
+pattern_property    = see properties
+
+                                               //   abbr          pattern type: off kr mnoo   #bytes
+properties          =  'background_color'           bgc                          -   x   x      1
+                       'background_color_time'      bgct                         -   x   x      2
+                       'foreground_color'           fgc                          -   x   x      1
+                       'foreground_color_time'      fgct                         -   x   x      2
+                       'fade_time_note_on'          ftnon                        -   -   x      2
+                       'fade_time_note_off'         ftnoff                       -   -   x      2
+                       'note_on_velocity_intensity  novi                         -   -   x      1
+                       'direction_left_time'        dlt                          -   x   x      2
+                       'direction_right_time'       drt                          -   x   x      2
+                       'cc_groups'                  cc ?        
+                       'number_of_leds'             #l                           -   x   -      1
+                       'led_width'                  lw                           -   x   -      1
+
+splits              = 's' <id> ':' ('(' <split_element> (',' <split_element>)* ')')[2] '.' // FOR MC 1 and 2
+
+split_element       = '{' <color> (',' <midi_note> ',' <color>)* '}'
+color               = <predefined_color_name>
+midi_note           = ([CDEFGAB]b?#?)((?:-[1-2])|[0-8])
+time                = (1..9999 'ms'?) | ((1..65) ('.' (0..999))? 's')   (max 65.535 ms)
+
+See input-config.txt
+
+
+
+Translated into:
+
+Byte      Value            Description/Remarks
+--------- ---------------- ----------------------------------------------------------------------------
+000-255    612, 614, ...   Reference to patterns 0..127 (2 bytes/reference), 0->612, 1->613, 2->625
+256-511    734, 0..0, 745  Reference to splits 0..127 (2 bytes/reference), 0->734, 127->745
+512         0              Pattern 0:
+                            MC1: Off Pattern (no parameters)
+513         0               MC2: Off Pattern (no parameters)
+514         1              Pattern 1:
+5MC2: Note On/Off Pattern
+515         240                   Background Color (Rainbow)
+516..517   12000                  Background Time (12s)
+...
+525                        Pattern 1:
+...
+
+634           5           Split 0, Number of MC1 Items
+635           2            Red
+636          110           Key B4
+637           4            Green
+638          134           Key C6
+639           7            Blue
+640           5           Split 0, Number of MC 2 Items
+...
+645                       Split 127
+...
+
+Length of file:
+
+Assuming 128 patterns

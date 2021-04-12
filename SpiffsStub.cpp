@@ -3,8 +3,7 @@
 #include <windows.h>
 #include "SpiffsStub.h"
 
-FILE* single_file = nullptr;
-
+SpiffsStub SPIFFS;
 
 bool SpiffsStub::begin(bool mount /* = true */)
 {
@@ -18,14 +17,20 @@ bool SpiffsStub::format()
 }
 
 
-FILE* SpiffsStub::open(char* fileName, char* mode)
+FILE* SpiffsStub::open(const char* fileName, const char* mode)
 {
 	char fullFileName[255] = {0};
 	strcat_s(fullFileName, SPIFFS_DIR);
 	strcat_s(fullFileName, "//");
 	strcat_s(fullFileName, fileName);
-	fopen_s(&single_file, fullFileName, mode);
-	return single_file;
+	FILE* file = new FILE();
+	fopen_s(&file, fullFileName, mode);
+	return file;
+}
+
+
+void SpiffsStub::close(FILE* file)
+{
 }
 
 #endif // _WINDOWS

@@ -8,7 +8,7 @@ constexpr auto COLOR_GALAXY_FAST_STAR_LENGTH = 6;
 class LedColor
 {
 public:
-	enum class EColor 
+	enum class EColor: uint8_t
 	{
 		Black, White, Red, Lime, Blue, Yellow, Cyan, Magenta, Silver, Gray,
 		Random = 240, Rainbow, Fire, Galaxy

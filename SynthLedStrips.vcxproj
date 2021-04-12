@@ -223,10 +223,12 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Colors.txt" />
+    <Text Include="input-config.txt" />
     <Text Include="Configuration.txt" />
     <Text Include="Combi Splits to LEDs.txt" />
-    <Text Include="File Structure.txt" />
+    <Text Include="Configuration File Structure.txt" />
     <Text Include="OTA_Update.txt" />
+    <Text Include="PC File Structure.txt.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

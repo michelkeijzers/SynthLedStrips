@@ -96,6 +96,9 @@ SynthLedStrips::~SynthLedStrips()
 	server.begin();
 	AsyncElegantOTA.loop();
 
+	// Configuration
+	_configuration.OpenFile();
+
 	// Serial/MIDI.
 	Serial.begin(115200);
 	Serial.println("LED Strip Synth 0.1");

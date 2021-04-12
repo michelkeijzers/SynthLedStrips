@@ -53,5 +53,4 @@
 #define ESP_ASYNC_WEB_SERVER_CLASS	ESPAsyncWebServer
 #define ASYNC_ELEGANT_OTA_CLASS		AsyncElegantOTA
 
-
 #endif // _WINDOWS

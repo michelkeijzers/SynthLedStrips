@@ -81,9 +81,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SynthLedStripsTypes.h">
-      <Filter>Header Files\Stubs</Filter>
-    </ClInclude>
     <ClInclude Include="FastLedStub.h">
       <Filter>Header Files\Stubs</Filter>
     </ClInclude>
@@ -97,9 +94,6 @@
       <Filter>Header Files\App</Filter>
     </ClInclude>
     <ClInclude Include="MidiKeyboard.h">
-      <Filter>Header Files\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
     <ClInclude Include="LedColor.h">
@@ -140,6 +134,24 @@
     </ClInclude>
     <ClInclude Include="SerialUtils.h">
       <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncElegantOtaStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncTcpStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="EspAsyncWebServerStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="SpiffsStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="WiFiStub.h">
+      <Filter>Header Files\Stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Header Files\App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +236,24 @@
     <ClCompile Include="SerialUtils.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="AsyncElegantOtaStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncTcpStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="EspAsyncWebServerStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiffsStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="WiFiStub.cpp">
+      <Filter>Source Files\Stubs</Filter>
+    </ClCompile>
+    <ClCompile Include="Configuration.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SynthLedStrips.rc">
@@ -243,6 +273,24 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Colors.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="Combi Splits to LEDs.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="Configuration.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="Configuration File Structure.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="OTA_Update.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="PC File Structure.txt.txt">
+      <Filter>Documentation</Filter>
+    </Text>
+    <Text Include="input-config.txt">
       <Filter>Documentation</Filter>
     </Text>
   </ItemGroup>

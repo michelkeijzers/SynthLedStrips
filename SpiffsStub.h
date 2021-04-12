@@ -11,11 +11,14 @@ public:
 
 	bool format();
 
-	FILE* open(char* path, char* option);
+	FILE* open(const char* path, const char* option);
+
+	void close(FILE* file);
 
 private:
 	const char* SPIFFS_DIR = "E:\\ESP32_SPIFFS";
-	SpiffsStub() {}
 };
+
+extern SpiffsStub SPIFFS;
 
 #endif // _WINDOWS

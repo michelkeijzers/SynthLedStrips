@@ -1,0 +1,5 @@
+P  0: off(), off().
+P  1: noo(fgc: rainbow, fgct: 1.2s, bgc: blue , bgct: 1s, ftnon: 1s, ftnoff: 500ms, novi: 0.5, dlt: 1s, drt: 2s),
+      kr (fgc: green  , fgct: 1.5s, bgc: green, bgct: 157 ms, dlt: 0.5s, drt: 1s, #l: 5, lw: 3).
+S  0: (red, B4, green, C6, blue), (blue).
+S  1: (red, B4, green, C6, blue), (blue, a-1, purple, c#3, red, cb5, orange).
