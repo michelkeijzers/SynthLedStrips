@@ -153,6 +153,9 @@
     <ClInclude Include="Configuration.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
+    <ClInclude Include="PatternSplits.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssertUtils.cpp">
@@ -254,6 +257,9 @@
     <ClCompile Include="Configuration.cpp">
       <Filter>Source Files\App</Filter>
     </ClCompile>
+    <ClCompile Include="PatternSplits.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SynthLedStrips.rc">
@@ -270,6 +276,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SynthLedStrips.ino" />
+    <None Include="output-config.cfg">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Colors.txt">

@@ -158,6 +158,7 @@
     <ClInclude Include="PatternMidiNoteOnOff.h" />
     <ClInclude Include="PatternOff.h" />
     <ClInclude Include="Patterns.h" />
+    <ClInclude Include="PatternSplits.h" />
     <ClInclude Include="SerialUtils.h" />
     <ClInclude Include="SpiffsStub.h" />
     <ClInclude Include="SynthLedStrips.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="PatternMidiNoteOnOff.cpp" />
     <ClCompile Include="PatternOff.cpp" />
     <ClCompile Include="Patterns.cpp" />
+    <ClCompile Include="PatternSplits.cpp" />
     <ClCompile Include="SerialUtils.cpp" />
     <ClCompile Include="SpiffsStub.cpp" />
     <ClCompile Include="SynthLedStrips.cpp" />
@@ -219,6 +221,7 @@
     <Image Include="SynthLedStrips.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="output-config.cfg" />
     <None Include="SynthLedStrips.ino" />
   </ItemGroup>
   <ItemGroup>

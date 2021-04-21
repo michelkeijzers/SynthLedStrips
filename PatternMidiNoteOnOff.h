@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-
 #include "Pattern.h"
 #include "LedStrip.h"
 #include "Time.h"

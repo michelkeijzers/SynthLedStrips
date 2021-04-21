@@ -10,7 +10,7 @@ MidiProcessor::MidiProcessor()
 }
 
 
-void MidiProcessor::Process(Configuration* configuration, MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns* patterns,
+void MidiProcessor::Process(Configuration* configuration, MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns& patterns,
 	midi::MidiType midiType, uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	switch (midiType)
@@ -33,7 +33,7 @@ void MidiProcessor::Process(Configuration* configuration, MidiKeyboards* midiKey
 }
 
 
-void MidiProcessor::ProcessControlChange(Configuration* configuration, MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns* patterns,
+void MidiProcessor::ProcessControlChange(Configuration* configuration, MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns& patterns,
 	uint8_t midiChannel, midi::DataByte dataByte1, midi::DataByte dataByte2)
 {
 	switch (midiChannel)
@@ -49,11 +49,13 @@ void MidiProcessor::ProcessControlChange(Configuration* configuration, MidiKeybo
 	{
 		if (dataByte1 == (uint8_t) midi::MidiControlChangeNumber::BankSelect) // MSB
 		{
-			configuration->SetPatterns(patterns, dataByte2);
+			configuration->SetPatterns(&(midiKeyboards->GetMidiKeyboard(0)), &(ledStrips->GetLedStrip(0)), &(ledStrips->GetLedStrip(1)), 
+				patterns, dataByte2);
 		}
 		else if (dataByte1 == (uint8_t) midi::MidiControlChangeNumber::BankSelect + 32) // LSB
 		{
-			configuration->SetSplits(ledStrips, dataByte2);
+			configuration->SetPatterns(&(midiKeyboards->GetMidiKeyboard(1)), &(ledStrips->GetLedStrip(2)), &(ledStrips->GetLedStrip(3)),
+				patterns, dataByte2 + 128);
 		}
 		break;
 	}

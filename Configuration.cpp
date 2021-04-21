@@ -4,13 +4,16 @@
 #include "Configuration.h"
 #include "LedStrips.h"
 #include "Patterns.h"
+#include "PatternMidiNoteOnOff.h"
+#include "PatternKnightRider.h"
+#include "PatternOff.h"
+#include "PatternSplits.h"
+#include "LedColor.h"
 
-enum EPatternType: uint8_t
-{
-	EOff,
-	EKnightRider,
-	EMidiNoteOnOff
-};
+
+const uint16_t PATTERN_OFFSET_TABLE_START = 0;
+const uint16_t SPLITS_OFFSET_TABLE_START = 256;
+const uint16_t DATA_START = 512; // First 512 bytes for 2 bytes offset for 128 patterns, 2 bytes offset for 128 splits
 
 const uint8_t OFF__PARAMETER_LENGTH                         = 0;
 
@@ -34,6 +37,7 @@ const uint8_t MIDI_NOTE_ON_OFF__PARAMETER_LENGTH			= MIDI_NOTE_ON_OFF__NOTE_ON_V
 
 
 Configuration::Configuration()
+	: _file(nullptr)
 {
 }
 
@@ -41,32 +45,133 @@ Configuration::Configuration()
 void Configuration::OpenFile()
 {
 	SPIFFS.begin(true);
-	_file = SPIFFS.open("config.bin", "r");
+	_file = SPIFFS.open("output-config.cfg", "r");
 }
 
 
-void Configuration::SetPatterns(Patterns* patterns, uint8_t configurationIndex)
+void Configuration::SetPatterns(
+	MidiKeyboard* midiKeyboard, LedStrip* ledStripBack, LedStrip* ledStripFront, Patterns& patterns, uint8_t configurationIndex)
 {
-	// First pattern
-	if (fseek(_file, 2 * configurationIndex, SEEK_SET) != 0)
+	uint16_t fileOffset = configurationIndex < 128 ? 0 : 256;
+	fileOffset = ReadNext2Bytes(&fileOffset);
+    EPatternType patternType = (EPatternType) (ReadNextByte(&fileOffset));
+	SetPattern(midiKeyboard, ledStripBack, patterns, configurationIndex < 128 ? 0 : 2, &fileOffset, patternType);
+	patternType = (EPatternType) (ReadNextByte(&fileOffset));
+	SetPattern(midiKeyboard, ledStripFront, patterns, configurationIndex < 128 ? 1 : 3, &fileOffset, patternType);
+}
+
+
+void Configuration::SetPattern(
+	MidiKeyboard* midiKeyboard, LedStrip* ledStrip, Patterns& patterns, uint8_t patternIndex, uint16_t* fileOffset, EPatternType patternType)
+{
+	Pattern* pattern = nullptr;
+	uint8_t* properties = nullptr;
+
+	switch (patternType)
 	{
-		throw 20;
+	case EPatternType::Off:
+	{
+		pattern = new (patterns.GetPatternData(patternIndex)) PatternMidiNoteOnOff();
+		pattern->Initialize(midiKeyboard, ledStrip);
+		break;
 	}
 
-	uint16_t patternOffset;
-	if (fread(&patternOffset, 2, 1, _file) != 2)
-	{
-		throw 21;
+	case EPatternType::KnightRider:
+		pattern = new (patterns.GetPatternData(patternIndex)) PatternKnightRider();
+		pattern->Initialize(midiKeyboard, ledStrip);
+		ReadKnightRiderProperties((PatternKnightRider*) pattern, fileOffset);
+		break;
+
+	case EPatternType::MidiNoteOnOff:
+		pattern = new (patterns.GetPatternData(patternIndex)) PatternOff();
+		pattern->Initialize(midiKeyboard, ledStrip);
+		ReadMidiNoteOnOffProperties((PatternMidiNoteOnOff*) pattern, fileOffset);
+		break;
+
+	case EPatternType::Splits:
+		pattern = new (patterns.GetPatternData(patternIndex)) PatternSplits();
+		pattern->Initialize(midiKeyboard, ledStrip);
+		ReadSplitsProperties((PatternSplits*) pattern, fileOffset);
+		break;
+
+	default:
+		throw 24;
 	}
 
-	if (fseek_file, _patternOffset)
+	if (properties != nullptr)
+	{
+		delete properties;
+	}
 
-
-
+	pattern->Start();
 }
 
 
-void Configuration::SetSplits(LedStrips* ledStrips, uint8_t configurationIndex)
+void Configuration::ReadKnightRiderProperties(PatternKnightRider* pattern, uint16_t* fileOffset)
 {
-	/*TODO*/
+	pattern->SetForegroundColor((LedColor::EColor) ReadNextByte(fileOffset));
+	pattern->SetForegroundColorTime(ReadNext2Bytes(fileOffset));
+	pattern->SetBackgroundColor((LedColor::EColor) ReadNextByte(fileOffset));
+	pattern->SetBackgroundColorTime(ReadNext2Bytes(fileOffset));
+	pattern->SetLedTime(ReadNextByte(fileOffset));
+	pattern->SetLedTime(ReadNextByte(fileOffset)); // TODO: left/right time
+	pattern->SetLedWidth(ReadNextByte(fileOffset));
+
 }
+
+
+void Configuration::ReadMidiNoteOnOffProperties(PatternMidiNoteOnOff* pattern, uint16_t* fileOffset)
+{
+
+}
+
+
+void Configuration::ReadSplitsProperties(PatternSplits* pattern, uint16_t* fileOffset)
+{
+	uint8_t index = 0;
+	uint8_t note = 0;
+
+	do
+	{
+		uint8_t color = ReadNextByte(fileOffset);
+		note = ReadNextByte(fileOffset);
+		pattern->SetColorAndNote(index, (LedColor::EColor) color, note);
+	} while (note != 255);
+}
+
+
+uint8_t Configuration::ReadNextByte(uint16_t* fileOffset)
+{
+	if (fseek(_file, *fileOffset, SEEK_SET) != 0)
+	{
+		throw 28;
+	}
+
+	uint8_t data;
+	if (fread(&data, 1, 1, _file) != 1)
+	{
+		throw 29;
+	}
+	
+	(*fileOffset)++;
+	return data;
+}
+
+
+uint16_t Configuration::ReadNext2Bytes(uint16_t* fileOffset)
+{
+	if (fseek(_file, *fileOffset, SEEK_SET) != 0)
+	{
+		throw 28;
+	}
+
+	uint16_t data;
+	if (fread(&data, 1, 2, _file) != 2)
+	{
+		throw 29;
+	}
+
+	*fileOffset = *fileOffset + 2;
+	return (data >> 8) + (data << 8);
+}
+

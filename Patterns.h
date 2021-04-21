@@ -6,6 +6,8 @@
 #include "LedStrips.h"
 
 constexpr auto NR_OF_PATTERNS = 4;
+constexpr auto MAX_PROPERTY_BYTES = 256;
+
 
 class Patterns
 {

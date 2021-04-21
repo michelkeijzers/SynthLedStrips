@@ -196,13 +196,13 @@ SynthLedStrips::~SynthLedStrips()
 {
 	while (midiB.read())
 	{
-		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns,
+		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, _patterns,
 			midiB.getType(), midiB.getChannel(), midiB.getData1(), midiB.getData2());
 	}
 
 	while (midiC.read())
 	{
-		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, &_patterns,
+		_midiProcessor.Process(&_configuration, &_midiKeyboards, &_ledStrips, _patterns,
 			midiC.getType(), midiC.getChannel(), midiC.getData1(), midiC.getData2());
 	}
 }

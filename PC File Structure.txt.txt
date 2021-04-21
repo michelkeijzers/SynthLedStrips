@@ -11,7 +11,7 @@ patterns            = <pattern>*
 
 pattern             = 'p' <id> ': <pattern_type> '(' <pattern_properties> '),(' <pattern_type> '(' <pattern_properties> ').'     # for MC 1 and 2
 id                  = 0..127
-pattern_type        = 'off' | 'knightrider' | 'kr' | 'noteonoff' | 'noo'
+pattern_type        = 'off' | 'knightrider' | 'kr' | 'noteonoff' | 'noo'   # off: 0, knight rider: 1, note on off: 2
 pattern_properties  = <pattern_property> (',' <pattern_property>)*
 pattern_property    = see properties
 
@@ -29,7 +29,7 @@ properties          =  'background_color'           bgc                         
                        'number_of_leds'             #l                           -   x   -      1
                        'led_width'                  lw                           -   x   -      1
 
-splits              = 's' <id> ':' ('(' <split_element> (',' <split_element>)* ')')[2] '.' // FOR MC 1 and 2
+splits              = 's' <id> ':' ('(' <split_element> (',' <split_element>)* ')')[2] ';' // FOR MC 1 and 2
 
 split_element       = '{' <color> (',' <midi_note> ',' <color>)* '}'
 color               = <predefined_color_name>

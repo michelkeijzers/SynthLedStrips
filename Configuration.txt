@@ -10,6 +10,10 @@ Byte		Name						Description
  1000- EFFF	Pattern Data                See patterns below (average 0), average 16 bytes/pattern
  F000- FFFF CC Groups (?)
 
+Off Pattern
+===========
+No properties
+
 Note On/Off Pattern
 ===================
 Bytes are with offset related to `Pattern Data` above.
@@ -37,9 +41,29 @@ Bytes    	Name						Description/Values
   8         Number of LEDs
   9         LED Width
 
-Off Pattern
-===========
-No data needed
+  Splits Pattern
+  ==============
+  0         Color 0
+  1         Key Note 0                  MIDI note, 0-127, 127 is last
+  2         Color 1
+  3         Key Note 1                  MIDI note, 0-127, 127 is last
+  4         Color 2                 
+  ... repeat until max key note 15
+            Key Note x                  127 is last
+
+  Color convention:
+  
+  Instrument        Color Name
+  ----------------- -----------------
+  Organ             Orange
+  Piano             Purple
+  Synth             Silver (whitish)
+  Violin/String     Violet
+  Brass             Blue
+  Effect            (Y)ellow
+
+
+
 
 SYSEX Messages
 ==============
