@@ -7,6 +7,7 @@
 #include HEADER_FILE(SPIFFS_CLASS)
 
 class MidiKeyboard;
+class MidiKeyboards;
 class LedStrip;
 class LedStrips;
 class Patterns;
@@ -21,7 +22,7 @@ public:
 
 	void OpenFile();
 
-	void SetPatterns(MidiKeyboard* midiKeyboard, LedStrip* ledStripBack, LedStrip* ledStripFront, Patterns& patterns, uint8_t configurationIndex);
+	void SetPatterns(MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns& patterns, uint8_t configurationIndex);
 
 private:
 	enum class EPatternType: uint8_t

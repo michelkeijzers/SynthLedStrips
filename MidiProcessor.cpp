@@ -49,13 +49,11 @@ void MidiProcessor::ProcessControlChange(Configuration* configuration, MidiKeybo
 	{
 		if (dataByte1 == (uint8_t) midi::MidiControlChangeNumber::BankSelect) // MSB
 		{
-			configuration->SetPatterns(&(midiKeyboards->GetMidiKeyboard(0)), &(ledStrips->GetLedStrip(0)), &(ledStrips->GetLedStrip(1)), 
-				patterns, dataByte2);
+			configuration->SetPatterns(midiKeyboards, ledStrips, patterns, dataByte2);
 		}
 		else if (dataByte1 == (uint8_t) midi::MidiControlChangeNumber::BankSelect + 32) // LSB
 		{
-			configuration->SetPatterns(&(midiKeyboards->GetMidiKeyboard(1)), &(ledStrips->GetLedStrip(2)), &(ledStrips->GetLedStrip(3)),
-				patterns, dataByte2 + 128);
+			configuration->SetPatterns(midiKeyboards, ledStrips, patterns, dataByte2 + 128);
 		}
 		break;
 	}

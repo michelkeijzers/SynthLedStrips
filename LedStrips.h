@@ -7,7 +7,10 @@
 
 constexpr auto NR_OF_LED_STRIPS = 4;
 constexpr auto NR_OF_KEYBOARD_1_FRONT_LEDS = 98;
-constexpr auto NR_OF_KEYBOARD_2_FRONT_LEDS = 178 ;
+constexpr auto NR_OF_KEYBOARD_1_BACK_LEDS = 125; //TODO
+constexpr auto NR_OF_KEYBOARD_2_FRONT_LEDS = 178;
+constexpr auto NR_OF_KEYBOARD_2_BACK_LEDS = 188; //TODO
+
 
 class LedStrips
 {

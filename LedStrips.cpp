@@ -15,8 +15,8 @@
 LedStrips::LedStrips()
   : _on(false)
 {
-	if ((NR_OF_KEYBOARD_1_KEYS + NR_OF_KEYBOARD_1_FRONT_LEDS + 
-		 NR_OF_KEYBOARD_2_KEYS + NR_OF_KEYBOARD_2_FRONT_LEDS) *
+	if ((NR_OF_KEYBOARD_1_FRONT_LEDS + NR_OF_KEYBOARD_1_FRONT_LEDS + 
+	     NR_OF_KEYBOARD_2_FRONT_LEDS + NR_OF_KEYBOARD_2_FRONT_LEDS) *
 		LedStrip::MAX_CURRENT_IN_MILLI_AMP_PER_SUB_LED * LedStrip::SUB_LEDS_PER_LED > UINT16_MAX)
 	{
 		AssertUtils::MyAssert(false);
@@ -26,10 +26,10 @@ LedStrips::LedStrips()
 
 void LedStrips::Initialize()
 {
-	_ledStrips[Keyboard1Front].Initialize(NR_OF_KEYBOARD_1_KEYS);
-	_ledStrips[Keyboard1Back ].Initialize(NR_OF_KEYBOARD_1_FRONT_LEDS);
-	_ledStrips[Keyboard2Front].Initialize(NR_OF_KEYBOARD_2_KEYS);
-	_ledStrips[Keyboard2Back ].Initialize(NR_OF_KEYBOARD_2_FRONT_LEDS);
+	_ledStrips[Keyboard1Front].Initialize(NR_OF_KEYBOARD_1_FRONT_LEDS);
+	_ledStrips[Keyboard1Back ].Initialize(NR_OF_KEYBOARD_1_BACK_LEDS);
+	_ledStrips[Keyboard2Front].Initialize(NR_OF_KEYBOARD_2_FRONT_LEDS);
+	_ledStrips[Keyboard2Back ].Initialize(NR_OF_KEYBOARD_2_BACK_LEDS);
 
 	FastLED.addLeds<WS2812, 2, RGB>(_ledStrips[0].GetLeds(), _ledStrips[0].GetNrOfLeds());
 	FastLED.addLeds<WS2812, 3, RGB>(_ledStrips[1].GetLeds(), _ledStrips[1].GetNrOfLeds());
@@ -70,10 +70,6 @@ void LedStrips::Process()
 void LedStrips::On()
 {
 	_on = true;
-	for (uint8_t ledStrip = 0; ledStrip < NR_OF_LED_STRIPS; ledStrip++)
-	{
-		_ledStrips[ledStrip].SetAllLeds(0); 
-	}
 }
 
 

@@ -12,7 +12,7 @@ class PatternSplits : public Pattern
 public:
 	PatternSplits();
 
-	void SetColorAndNote(uint8_t index, LedColor::EColor color, uint8_t note);
+	void AddColorAndNote(LedColor::EColor color, uint8_t note);
 
 	/* override */ void Start();
 	/* override */ void Process();

@@ -11,9 +11,9 @@
 
 PatternMidiNoteOnOff::PatternMidiNoteOnOff()
 	:	Pattern(),
-	_foregroundColor(LedColor::EColor::Black),
+	_foregroundColor(LedColor::EColor::BLACK),
 	_foregroundColorTime(0),
-	_backgroundColor(LedColor::EColor::Black),
+	_backgroundColor(LedColor::EColor::BLACK),
 	_backgroundColorTime(0),
 	_moveRightTime(0),
 	_moveLeftTime(0),

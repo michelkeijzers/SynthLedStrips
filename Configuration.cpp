@@ -9,6 +9,8 @@
 #include "PatternOff.h"
 #include "PatternSplits.h"
 #include "LedColor.h"
+#include "MidiKeyboards.h"
+#include "LedStrips.h"
 
 
 const uint16_t PATTERN_OFFSET_TABLE_START = 0;
@@ -49,15 +51,31 @@ void Configuration::OpenFile()
 }
 
 
-void Configuration::SetPatterns(
-	MidiKeyboard* midiKeyboard, LedStrip* ledStripBack, LedStrip* ledStripFront, Patterns& patterns, uint8_t configurationIndex)
+void Configuration::SetPatterns(MidiKeyboards* midiKeyboards, LedStrips* ledStrips, Patterns& patterns, uint8_t configurationIndex)
 {
-	uint16_t fileOffset = configurationIndex < 128 ? 0 : 256;
+	uint16_t fileOffset = configurationIndex * 2;
 	fileOffset = ReadNext2Bytes(&fileOffset);
     EPatternType patternType = (EPatternType) (ReadNextByte(&fileOffset));
-	SetPattern(midiKeyboard, ledStripBack, patterns, configurationIndex < 128 ? 0 : 2, &fileOffset, patternType);
+	if (configurationIndex < 128)
+	{
+		SetPattern(&midiKeyboards->GetMidiKeyboard(0), &ledStrips->GetLedStrip(0), patterns, 0, &fileOffset, patternType);
+	}
+	else
+	{
+		SetPattern(&midiKeyboards->GetMidiKeyboard(0), &ledStrips->GetLedStrip(1), patterns, 1, &fileOffset, patternType);
+	}
+
 	patternType = (EPatternType) (ReadNextByte(&fileOffset));
-	SetPattern(midiKeyboard, ledStripFront, patterns, configurationIndex < 128 ? 1 : 3, &fileOffset, patternType);
+	if (configurationIndex < 128)
+	{
+		SetPattern(&midiKeyboards->GetMidiKeyboard(1), &ledStrips->GetLedStrip(2), patterns, 2, &fileOffset, patternType);
+	}
+	else
+	{
+		SetPattern(&midiKeyboards->GetMidiKeyboard(1), &ledStrips->GetLedStrip(3), patterns, 3, &fileOffset, patternType);
+	}
+
+	ledStrips->On();
 }
 
 
@@ -65,7 +83,6 @@ void Configuration::SetPattern(
 	MidiKeyboard* midiKeyboard, LedStrip* ledStrip, Patterns& patterns, uint8_t patternIndex, uint16_t* fileOffset, EPatternType patternType)
 {
 	Pattern* pattern = nullptr;
-	uint8_t* properties = nullptr;
 
 	switch (patternType)
 	{
@@ -83,7 +100,7 @@ void Configuration::SetPattern(
 		break;
 
 	case EPatternType::MidiNoteOnOff:
-		pattern = new (patterns.GetPatternData(patternIndex)) PatternOff();
+		pattern = new (patterns.GetPatternData(patternIndex)) PatternMidiNoteOnOff();
 		pattern->Initialize(midiKeyboard, ledStrip);
 		ReadMidiNoteOnOffProperties((PatternMidiNoteOnOff*) pattern, fileOffset);
 		break;
@@ -98,23 +115,19 @@ void Configuration::SetPattern(
 		throw 24;
 	}
 
-	if (properties != nullptr)
-	{
-		delete properties;
-	}
-
+	patterns.SetPattern(patternIndex, pattern, midiKeyboard, ledStrip);
 	pattern->Start();
 }
 
 
 void Configuration::ReadKnightRiderProperties(PatternKnightRider* pattern, uint16_t* fileOffset)
 {
-	pattern->SetForegroundColor((LedColor::EColor) ReadNextByte(fileOffset));
-	pattern->SetForegroundColorTime(ReadNext2Bytes(fileOffset));
 	pattern->SetBackgroundColor((LedColor::EColor) ReadNextByte(fileOffset));
 	pattern->SetBackgroundColorTime(ReadNext2Bytes(fileOffset));
-	pattern->SetLedTime(ReadNextByte(fileOffset));
-	pattern->SetLedTime(ReadNextByte(fileOffset)); // TODO: left/right time
+	pattern->SetForegroundColor((LedColor::EColor) ReadNextByte(fileOffset));
+	pattern->SetForegroundColorTime(ReadNext2Bytes(fileOffset));
+	pattern->SetLedTime(ReadNext2Bytes(fileOffset));
+	pattern->SetLedTime(ReadNext2Bytes(fileOffset)); // TODO: left/right time
 	pattern->SetLedWidth(ReadNextByte(fileOffset));
 
 }
@@ -122,20 +135,27 @@ void Configuration::ReadKnightRiderProperties(PatternKnightRider* pattern, uint1
 
 void Configuration::ReadMidiNoteOnOffProperties(PatternMidiNoteOnOff* pattern, uint16_t* fileOffset)
 {
-
+	pattern->SetBackgroundColor((LedColor::EColor) ReadNextByte(fileOffset));
+	pattern->SetBackgroundColorTime(ReadNext2Bytes(fileOffset));
+	pattern->SetForegroundColor((LedColor::EColor) ReadNextByte(fileOffset));
+	pattern->SetForegroundColorTime(ReadNext2Bytes(fileOffset));
+	pattern->SetMoveLeftTime(ReadNext2Bytes(fileOffset));
+	pattern->SetMoveRightTime(ReadNext2Bytes(fileOffset));
+	pattern->SetFadeTimeNoteOn(ReadNext2Bytes(fileOffset));
+	pattern->SetFadeTimeNoteOff(ReadNext2Bytes(fileOffset));
+	pattern->SetNoteOnVelocityIntensity(ReadNextByte(fileOffset));
 }
 
 
 void Configuration::ReadSplitsProperties(PatternSplits* pattern, uint16_t* fileOffset)
 {
-	uint8_t index = 0;
 	uint8_t note = 0;
 
 	do
 	{
 		uint8_t color = ReadNextByte(fileOffset);
 		note = ReadNextByte(fileOffset);
-		pattern->SetColorAndNote(index, (LedColor::EColor) color, note);
+		pattern->AddColorAndNote((LedColor::EColor) color, note);
 	} while (note != 255);
 }
 
