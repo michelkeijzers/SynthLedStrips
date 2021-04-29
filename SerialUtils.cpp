@@ -8,7 +8,7 @@
 {
 	Serial.print(item);
 	Serial.print(":");
-	Serial.print(value);
+	Serial.print((int) value);
 	Serial.print(", ");
 }
 
@@ -17,7 +17,7 @@
 {
 	Serial.print(item);
 	Serial.print(":");
-	Serial.println(value);
+	Serial.println((int) value);
 }
 
 

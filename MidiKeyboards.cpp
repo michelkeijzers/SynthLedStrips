@@ -1,7 +1,8 @@
 #include "MidiKeyboards.h"
+#include "SerialUtils.h"
 
 
-/* static */ MidiKeyboard MidiKeyboards::_midiKeyboards[NR_OF_MIDI_KEYBOARDS];
+/* static */ MidiKeyboard MidiKeyboards::_keyboards[NR_OF_MIDI_KEYBOARDS];
 
 
 MidiKeyboards::MidiKeyboards()
@@ -11,14 +12,14 @@ MidiKeyboards::MidiKeyboards()
 
 void MidiKeyboards::Initialize()
 {
-	_midiKeyboards[0].SetNrOfKeys(NR_OF_KEYBOARD_1_KEYS);
-	_midiKeyboards[1].SetNrOfKeys(NR_OF_KEYBOARD_2_KEYS);
+	_keyboards[0].SetNrOfKeys(NR_OF_KEYBOARD_1_KEYS);
+	_keyboards[1].SetNrOfKeys(NR_OF_KEYBOARD_2_KEYS);
 }
 
 
 MidiKeyboard& MidiKeyboards::GetMidiKeyboard(uint8_t index)
 {
-	return _midiKeyboards[index];
+	return _keyboards[index];
 }
 
 
@@ -26,7 +27,7 @@ void MidiKeyboards::Process()
 {
 	for (uint8_t midiKeyboard = 0; midiKeyboard < NR_OF_MIDI_KEYBOARDS; midiKeyboard++)
 	{
-		_midiKeyboards[midiKeyboard].Process();
+		_keyboards[midiKeyboard].Process();
 	}
 }
 
@@ -35,6 +36,18 @@ void MidiKeyboards::ClearNewFlags()
 {
 	for (uint8_t midiKeyboard = 0; midiKeyboard < NR_OF_MIDI_KEYBOARDS; midiKeyboard++)
 	{
-		_midiKeyboards[midiKeyboard].ClearNewFlags();
+		_keyboards[midiKeyboard].ClearNewFlags();
 	}
+}
+
+
+void MidiKeyboards::DebugPrint()
+{
+	/*
+	for (uint8_t midiKeyboard = 0; midiKeyboard < NR_OF_MIDI_KEYBOARDS; midiKeyboard++)
+	{
+		SerialUtils::PrintInt("Keyboard ", midiKeyboard);
+		_keyboards[midiKeyboard].DebugPrint();
+	}
+	*/
 }

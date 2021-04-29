@@ -12,7 +12,7 @@ void AssertUtils::MyAssert(bool expression)
 {
 	if (!expression)
 	{
-		exit(0); //TODO call MyAssert with fileName/line
+		abort;
 	}
 }
 

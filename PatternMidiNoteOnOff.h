@@ -34,7 +34,7 @@ public:
 private:
 	void AdjustForegroundLevels(uint8_t key);
 	bool ProcessSidewaysMovement(
-		bool DdirectionRight, MidiNote midiNote, uint8_t key, uint32_t timeAgoPressed, uint32_t moveTime, uint32_t now, uint8_t* newKey);
+		bool directionRight, MidiNote midiNote, uint8_t key, uint32_t timeAgoPressed, uint32_t moveTime, uint32_t now, uint8_t* newLed);
 
 	void SetLedColors();
 

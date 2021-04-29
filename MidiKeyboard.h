@@ -26,6 +26,8 @@ public:
 
 	MidiNote& GetMidiNote(uint8_t key);
 
+	void DebugPrint();
+
 private:
 	MidiNote* _midiNotes;
 

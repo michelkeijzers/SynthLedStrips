@@ -23,8 +23,6 @@ public:
 private:
 	static void ProcessMidi();
 
-	static void SetPatterns();
-
 	static Configuration _configuration;
 
 	static MidiProcessor _midiProcessor;

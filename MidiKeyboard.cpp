@@ -81,3 +81,16 @@ uint8_t MidiKeyboard::GetKeyOffset()
 {
 	return _keyOffset;
 }
+
+
+void MidiKeyboard::DebugPrint()
+{
+	/*
+	for (int key = 0; key < _nrOfKeys; key++)
+	{
+		Serial.print((_midiNotes[key].GetTimePressed() != 0 ? (char) 'X' : (char) '_'));
+	}
+	
+	Serial.println();
+	*/
+}

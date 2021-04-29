@@ -20,11 +20,11 @@ void MidiProcessor::Process(Configuration* configuration, MidiKeyboards* midiKey
 		break;
 
 	case midi::MidiType::NoteOn:
-		midiKeyboards->GetMidiKeyboard(midiChannel).ProcessMidiNoteOn(dataByte1, dataByte2);
+		midiKeyboards->GetMidiKeyboard(midiChannel - 1).ProcessMidiNoteOn(dataByte1, dataByte2);
 		break;
 
 	case midi::MidiType::NoteOff:
-		midiKeyboards->GetMidiKeyboard(midiChannel).ProcessMidiNoteOff(dataByte1, dataByte2);
+		midiKeyboards->GetMidiKeyboard(midiChannel - 1).ProcessMidiNoteOff(dataByte1, dataByte2);
 		break;
 
 	default:

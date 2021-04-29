@@ -14,11 +14,24 @@ void SerialClass::begin(int baudrate)
 }
 
 
+void SerialClass::println()
+{
+	OutputDebugString(L"\n");
+}
+
+
 void SerialClass::println(const char* str)
 {
 	size_t sizet;
 	mbstowcs_s(&sizet, _string, str, strlen(str) + 1);
 	swprintf_s(_message, L"%s\n", _string);
+	OutputDebugString(_message);
+}
+
+
+void SerialClass::println(char value)
+{
+	swprintf_s(_message, L"%c\n", value);
 	OutputDebugString(_message);
 }
 
@@ -53,6 +66,13 @@ void SerialClass::print(int value, int mode)
 	(void)mode;
 
 	swprintf_s(_message, L"%d", value);
+	OutputDebugString(_message);
+}
+
+
+void SerialClass::print(char value)
+{
+	swprintf_s(_message, L"%c", value);
 	OutputDebugString(_message);
 }
 

@@ -11,11 +11,14 @@ class SerialClass
 public:
 	void begin(int baudrate);
 
+	void println();
 	void println(const char* str);
+	void println(char value);
 	void println(int value);
 	void println(int value, int mode);
 
 	void print(const char* str);
+	void print(char value);
 	void print(int value);
 	void print(int value, int mode);
 
