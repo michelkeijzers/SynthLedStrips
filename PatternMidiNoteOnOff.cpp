@@ -115,14 +115,41 @@ void PatternMidiNoteOnOff::AdjustForegroundLevels(uint8_t key)
 		//Serial.println("--");
 		uint32_t timeAgoPressed = now - midiNote.GetTimePressed();
 	
-		2 bugs:
-		- Fade level is moving up/down instead of gradually going down
-	    - LEDs stop before end of right side of led strip
+		// 2 bugs:
+	    // - LEDs stop before end of right side of led strip
 
-		level = _fadeTimeNoteOff == 0 ? 255 : 255 - MathUtils::Max(
-			0, (((now - (!midiNote.IsPressed() * midiNote.GetTimeReleased())) * 255) / _fadeTimeNoteOff));
+
+		uint32_t timeDiff = 0;
+		if (midiNote.IsPressed())
+		{
+			Serial.print("+");
+			timeDiff = now - midiNote.GetTimePressed();
+			if (timeDiff < _fadeTimeNoteOn)
+			{
+				level = timeDiff * 255 / _fadeTimeNoteOn * 255;
+			}
+		}
+		else 
+		{
+			Serial.print("-");
+			uint8_t remainingLevel = 0;
+			timeDiff = now - midiNote.GetTimePressed();
+			if (timeDiff < _fadeTimeNoteOn)
+			{
+				remainingLevel = timeDiff * 255 / _fadeTimeNoteOn * 255;
+			}
+
+			timeDiff = now - midiNote.GetTimeReleased();
+			if (timeDiff < _fadeTimeNoteOff)
+			{
+				level = remainingLevel - timeDiff * remainingLevel / _fadeTimeNoteOff;
+			}
+		}
+		//uint32_t timeDiff = now - MathUtils::Max(0, now - !midiNote.IsPressed() * midiNote.GetTimeReleased());
+		//level = MathUtils::Min(_fadeTimeNoteOff == 0 ? 255 : (255 - (_fadeTimeNoteOff * 255 / timeDiff));
+		SerialUtils::PrintUint("TimeDiff", timeDiff);
 		SerialUtils::PrintUint("Key", key);
-		SerialUtils::PrintUint("Level", level);
+		SerialUtils::PrintlnUint("Level", level);
 			
 		uint8_t leftLed = 0;
 		uint8_t leftLedInRange = ProcessSidewaysMovement(false, midiNote, key, timeAgoPressed, _moveLeftTime, now, &leftLed);
