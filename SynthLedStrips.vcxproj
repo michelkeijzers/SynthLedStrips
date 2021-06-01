@@ -217,6 +217,7 @@
     <ResourceCompile Include="SynthLedStrips.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Pictures\Led Strip Connections.tif" />
     <Image Include="small.ico" />
     <Image Include="SynthLedStrips.ico" />
   </ItemGroup>

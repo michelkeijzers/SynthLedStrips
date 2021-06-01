@@ -171,6 +171,10 @@ void PatternMidiNoteOnOff::AdjustForegroundLevels(uint8_t key)
 		{
 			_foregroundValues[rightLed] = MathUtils::Min(255, _foregroundValues[rightLed] + level);
 		}
+		else
+		{
+			Serial.print("-");
+		}
 	}	
 }
 
@@ -192,7 +196,7 @@ bool PatternMidiNoteOnOff::ProcessSidewaysMovement(
 			if (timeAgoPressed < moveTime)
 			{
 				uint32_t newLedUnconstrained =
-					led + (directionRight ? 1 : -1) * (((now - midiNote.GetTimePressed()) * _midiKeyboard->GetNrOfKeys()) / moveTime);
+					led + (directionRight ? 1 : -1) * (((now - midiNote.GetTimePressed()) * _ledStrip->GetNrOfLeds()) / moveTime);
 				inRange = ((newLedUnconstrained >= 0) && (newLedUnconstrained < _ledStrip->GetNrOfLeds())); // _midiKeyboard->GetNrOfKeys()));
 				if (inRange)
 				{
@@ -202,6 +206,10 @@ bool PatternMidiNoteOnOff::ProcessSidewaysMovement(
 		}
 	}
 
+	if (!inRange)
+	{
+		Serial.print("-");
+	}
 	return inRange;
 }
 

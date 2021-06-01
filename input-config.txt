@@ -1,5 +1,5 @@
 F0: off() off();
-F1: noo(fgc = white, fgct = 1.2s, bgc = blue , bgct =   1  s, ftnon = 5 s, ftnoff = 2 s, novi = -10, dlt = 1 s, drt = 10 s)
+F1: noo(fgc = white, fgct = 1.2s, bgc = blue , bgct =   1  s, ftnon = 50 s, ftnoff = 20 s, novi = -10, dlt = 60 s, drt = 20 s)
     kr (fgc = white  , fgct = 1.5s, bgc = green, bgct = 157 ms, dlt =  0.5 s, drt = 1 s, lw = 3);
 B0: splits(red, B4, green, C6, blue) 
     splits(blue);
