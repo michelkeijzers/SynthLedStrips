@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name esp32)(type KiCad)(uri C:/Users/miche/source/repos/SynthLedStrips/KiCad/ESP32-DEVKITC-32D)(options "")(descr ""))
+)
